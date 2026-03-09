@@ -1,0 +1,1851 @@
+<?xml version='1.0' encoding='utf-8'?>
+<rdf:RDF xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns="https://www.omg.org/spec/SysML#" xml:base="https://www.omg.org/spec/SysML-Light-Ownership">
+    <owl:Ontology rdf:about="https://www.omg.org/spec/SysML-Light-Ownership">
+        <rdfs:label>SysML2 Light Ontology - Ownership</rdfs:label>
+        <rdfs:comment>A lightweight version of the SysML2 ontology focused on querying ownership and containment relationships.</rdfs:comment>
+        <owl:versionInfo>1.0</owl:versionInfo>
+    </owl:Ontology>
+    <!-- Generated: 2026-02-24T14:56:36.131635 -->
+    <!-- Classes: 68 | Properties: 86 -->
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#ActionUsage">
+        <rdfs:label>ActionUsage</rdfs:label>
+        <rdfs:comment>An ActionUsage is a Usage that is also a Step, and, so, is typed by a Behavior. Nominally, if the type is an ActionDefinition, an ActionUsage is a Usage of that ActionDefinition within a system. However, other kinds of kernel Behaviors are also allowed, to permit use of Behaviors from the Kernel Model Libraries.
+	
+	isSubactionUsage() implies
+	specializesFromLibrary('Actions::Action::subactions')
+	specializesFromLibrary('Actions::actions')
+	isComposite and owningType &lt;&gt; null and
+	(owningType.oclIsKindOf(PartDefinition) or
+	owningType.oclIsKindOf(PartUsage)) implies
+	specializesFromLibrary('Parts::Part::ownedActions')
+	owningFeatureMembership &lt;&gt; null and
+	owningFeatureMembership.oclIsKindOf(StateSubactionMembership) implies
+	let kind : StateSubactionKind =
+	owningFeatureMembership.oclAsType(StateSubactionMembership).kind in
+	if kind = StateSubactionKind::entry then
+	redefinesFromLibrary('States::StateAction::entryAction')
+	else if kind = StateSubactionKind::do then
+	redefinesFromLibrary('States::StateAction::doAction')
+	else
+	redefinesFromLibrary('States::StateAction::exitAction')
+	endif endif</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#OccurrenceUsage" />
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Step" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#ActorMembership">
+        <rdfs:label>ActorMembership</rdfs:label>
+        <rdfs:comment>An ActorMembership is a ParameterMembership that identifies a PartUsage as an actor parameter, which specifies a role played by an external entity in interaction with the owningType of the ActorMembership.
+	owningType.oclIsKindOf(RequirementUsage) or
+	owningType.oclIsKindOf(RequirementDefinition) or
+	owningType.oclIsKindOf(CaseDefinition) or
+	owningType.oclIsKindOf(CaseUsage)</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#ParameterMembership" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#AllocationUsage">
+        <rdfs:label>AllocationUsage</rdfs:label>
+        <rdfs:comment>An AllocationUsage is a usage of an AllocationDefinition asserting the allocation of the source feature to the target feature.
+	specializesFromLibrary('Allocations::allocations')</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#ConnectionUsage" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#AnalysisCaseUsage">
+        <rdfs:label>AnalysisCaseUsage</rdfs:label>
+        <rdfs:comment>An AnalysisCaseUsage is a Usage of an AnalysisCaseDefinition.
+	resultExpression =
+	let results : OrderedSet(ResultExpressionMembership) =
+	featureMembersip-&gt;
+	selectByKind(ResultExpressionMembership) in
+	if results-&gt;isEmpty() then null
+	else results-&gt;first().ownedResultExpression
+	endif
+	specializesFromLibrary('AnalysisCases::analysisCases')
+	isComposite and owningType &lt;&gt; null and
+	(owningType.oclIsKindOf(AnalysisCaseDefinition) or
+	owningType.oclIsKindOf(AnalysisCaseUsage)) implies
+	specializesFromLibrary('AnalysisCases::AnalysisCase::subAnalysisCases')</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#CaseUsage" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#AnnotatingElement">
+        <rdfs:label>AnnotatingElement</rdfs:label>
+        <rdfs:comment>An AnnotatingElement is an Element that provides additional description of or metadata on some other Element. An AnnotatingElement is either attached to its annotatedElements by Annotation Relationships, or it implicitly annotates its owningNamespace.
+	
+	annotatedElement =
+	if annotation-&gt;notEmpty() then annotation.annotatedElement
+	else Sequence{owningNamespace} endif
+	ownedAnnotatingRelationship = ownedRelationship-&gt;
+	selectByKind(Annotation)-&gt;
+	select(a | a.annotatingElement = self)</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Element" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#Annotation">
+        <rdfs:label>Annotation</rdfs:label>
+        <rdfs:comment>An Annotation is a Relationship between an AnnotatingElement and the Element that is annotated by that AnnotatingElement.</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Relationship" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#AttributeUsage">
+        <rdfs:label>AttributeUsage</rdfs:label>
+        <rdfs:comment>An AttributeUsage is a Usage whose type is a DataType. Nominally, if the type is an AttributeDefinition, an AttributeUsage is a usage of a AttributeDefinition to represent the value of some system quality or characteristic. However, other kinds of kernel DataTypes are also allowed, to permit use of DataTypes from the Kernel Model Libraries. An AttributeUsage itself as well as all its nested features must be referential (non-composite).
+	
+	An AttributeUsage must specialize, directly or indirectly, the base Feature Base::dataValues from the Kernel Semantic Library.
+	isReference
+	feature-&gt;forAll(not isComposite)
+	specializesFromLibrary('Base::dataValues')</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Usage" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#CalculationUsage">
+        <rdfs:label>CalculationUsage</rdfs:label>
+        <rdfs:comment>A CalculationUsage is an ActionUsage that is also an Expression, and, so, is typed by a Function. Nominally, if the type is a CalculationDefinition, a CalculationUsage is a Usage of that CalculationDefinition within a system. However, other kinds of kernel Functions are also allowed, to permit use of Functions from the Kernel Model Libraries.
+	specializesFromLibrary('Calculations::calculations')
+	owningType &lt;&gt; null and
+	(owningType.oclIsKindOf(CalculationDefinition) or
+	owningType.oclIsKindOf(CalculationUsage)) implies
+	specializesFromLibrary('Calculations::Calculation::subcalculations')</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#ActionUsage" />
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Expression" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#CaseUsage">
+        <rdfs:label>CaseUsage</rdfs:label>
+        <rdfs:comment>A CaseUsage is a Usage of a CaseDefinition.
+	objectiveRequirement =
+	let objectives: OrderedSet(RequirementUsage) =
+	featureMembership-&gt;
+	selectByKind(ObjectiveMembership).
+	ownedRequirement in
+	if objectives-&gt;isEmpty() then null
+	else objectives-&gt;first().ownedObjectiveRequirement
+	endif
+	featureMembership-&gt;
+	selectByKind(ObjectiveMembership)-&gt;
+	size() 
+	selectByKind(SubjectMembership)-&gt;
+	size() 
+	selectByKind(ActorMembership).
+	ownedActorParameter
+	subjectParameter =
+	let subjects : OrderedSet(SubjectMembership) =
+	featureMembership-&gt;selectByKind(SubjectMembership) in
+	if subjects-&gt;isEmpty() then null
+	else subjects-&gt;first().ownedSubjectParameter
+	endif
+	input-&gt;notEmpty() and input-&gt;first() = subjectParameter
+	specializesFromLibrary('Cases::cases')
+	isComposite and owningType &lt;&gt; null and
+	(owningType.oclIsKindOf(CaseDefinition) or
+	owningType.oclIsKindOf(CaseUsage)) implies
+	specializesFromLibrary('Cases::Case::subcases')</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#CalculationUsage" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#Classifier">
+        <rdfs:label>Classifier</rdfs:label>
+        <rdfs:comment>A Classifier is a Type that classifies:
+	
+	
+	Things (in the universe) regardless of how Features relate them. (These are interpreted semantically as sequences of exactly one thing.)
+	How the above things are related by Features. (These are interpreted semantically as sequences of multiple things, such that the last thing in the sequence is also classified by the Classifier. Note that this means that a Classifier modeled as specializing a Feature cannot classify anything.)
+	
+	
+	
+	ownedSubclassification =
+	ownedSpecialization-&gt;selectByKind(Subclassification)
+	multiplicity &lt;&gt; null implies multiplicity.featuringType-&gt;isEmpty()</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Type" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#ConcernUsage">
+        <rdfs:label>ConcernUsage</rdfs:label>
+        <rdfs:comment>A ConcernUsage is a Usage of a ConcernDefinition.
+	
+	The ownedStakeholder features of the ConcernUsage shall all subset the ConcernCheck::concernedStakeholders feature. If the ConcernUsage is an ownedFeature of a StakeholderDefinition or StakeholderUsage, then the ConcernUsage shall have an ownedStakeholder feature that is bound to the self feature of its owner.
+	
+	specializesFromLibrary('Requirements::concernChecks')
+	owningFeatureMembership &lt;&gt; null and
+	owningFeatureMembership.oclIsKindOf(FramedConcernMembership) implies
+	specializesFromLibrary('Requirements::RequirementCheck::concerns')</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#RequirementUsage" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#ConjugatedPortDefinition">
+        <rdfs:label>ConjugatedPortDefinition</rdfs:label>
+        <rdfs:comment>A ConjugatedPortDefinition is a PortDefinition that is a PortDefinition of its original PortDefinition. That is, a ConjugatedPortDefinition inherits all the features of the original PortDefinition, but input flows of the original PortDefinition become outputs on the ConjugatedPortDefinition and output flows of the original PortDefinition become inputs on the ConjugatedPortDefinition. Every PortDefinition (that is not itself a ConjugatedPortDefinition) has exactly one corresponding ConjugatedPortDefinition, whose effective name is the name of the originalPortDefinition, with the character ~ prepended.
+	ownedPortConjugator.originalPortDefinition = originalPortDefinition
+	conjugatedPortDefinition = null</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#PortDefinition" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#Conjugation">
+        <rdfs:label>Conjugation</rdfs:label>
+        <rdfs:comment>Conjugation is a Relationship between two types in which the conjugatedType inherits all the Features of the originalType, but with all input and output Features reversed. That is, any Features with a direction in relative to the originalType are considered to have an effective direction of out relative to the conjugatedType and, similarly, Features with direction out in the originalType are considered to have an effective direction of in in the conjugatedType. Features with direction inout, or with no direction, in the originalType, are inherited without change.
+	
+	A Type may participate as a conjugatedType in at most one Conjugation relationship, and such a Type may not also be the specific Type in any Specialization relationship.</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Relationship" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#ConnectorAsUsage">
+        <rdfs:label>ConnectorAsUsage</rdfs:label>
+        <rdfs:comment>A ConnectorAsUsage is both a Connector and a Usage. ConnectorAsUsage cannot itself be instantiated in a SysML model, but it is the base class for the concrete classes BindingConnectorAsUsage, SuccessionAsUsage and ConnectionUsage.</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Connector" />
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Usage" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#ConstraintUsage">
+        <rdfs:label>ConstraintUsage</rdfs:label>
+        <rdfs:comment>A ConstraintUsage is an OccurrenceUsage that is also a BooleanExpression, and, so, is typed by a Predicate. Nominally, if the type is a ConstraintDefinition, a ConstraintUsage is a Usage of that ConstraintDefinition. However, other kinds of kernel Predicates are also allowed, to permit use of Predicates from the Kernel Model Libraries.
+	owningFeatureMembership &lt;&gt; null and
+	owningFeatureMembership.oclIsKindOf(RequirementConstraintMembership) implies
+	if owningFeatureMembership.oclAsType(RequirementConstraintMembership).kind =
+	RequirementConstraintKind::assumption then
+	specializesFromLibrary('Requirements::RequirementCheck::assumptions')
+	else
+	specializesFromLibrary('Requirements::RequirementCheck::constraints')
+	endif
+	specializesFromLibrary('Constraints::constraintChecks')
+	owningType &lt;&gt; null and
+	(owningType.oclIsKindOf(ItemDefinition) or
+	owningType.oclIsKindOf(ItemUsage)) implies
+	specializesFromLibrary('Items::Item::checkedConstraints')</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#BooleanExpression" />
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#OccurrenceUsage" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#Definition">
+        <rdfs:label>Definition</rdfs:label>
+        <rdfs:comment>A Definition is a Classifier of Usages. The actual kinds of Definition that may appear in a model are given by the subclasses of Definition (possibly as extended with user-defined SemanticMetadata).
+	
+	Normally, a Definition has owned Usages that model features of the thing being defined. A Definition may also have other Definitions nested in it, but this has no semantic significance, other than the nested scoping resulting from the Definition being considered as a Namespace for any nested Definitions.
+	
+	However, if a Definition has isVariation = true, then it represents a variation point Definition. In this case, all of its members must be variant Usages, related to the Definition by VariantMembership Relationships. Rather than being features of the Definition, variant Usages model different concrete alternatives that can be chosen to fill in for an abstract Usage of the variation point Definition.
+	
+	isVariation implies ownedFeatureMembership-&gt;isEmpty()
+	variant = variantMembership.ownedVariantUsage
+	variantMembership = ownedMembership-&gt;selectByKind(VariantMembership)
+	isVariation implies
+	not ownedSpecialization.specific-&gt;exists(
+	oclIsKindOf(Definition) and
+	oclAsType(Definition).isVariation)
+	usage = feature-&gt;selectByKind(Usage)
+	directedUsage = directedFeature-&gt;selectByKind(Usage)
+	ownedUsage = ownedFeature-&gt;selectByKind(Usage)
+	ownedAttribute = ownedUsage-&gt;selectByKind(AttributeUsage)
+	ownedReference = ownedUsage-&gt;selectByKind(ReferenceUsage)
+	ownedEnumeration = ownedUsage-&gt;selectByKind(EnumerationUsage)
+	ownedOccurrence = ownedUsage-&gt;selectByKind(OccurrenceUsage)
+	ownedItem = ownedUsage-&gt;selectByKind(ItemUsage)
+	ownedPart = ownedUsage-&gt;selectByKind(PartUsage)
+	ownedPort = ownedUsage-&gt;selectByKind(PortUsage)
+	ownedConnection = ownedUsage-&gt;selectByKind(ConnectorAsUsage)
+	ownedFlow = ownedUsage-&gt;selectByKind(FlowConnectionUsage)
+	ownedInterface = ownedUsage-&gt;selectByKind(ReferenceUsage)
+	ownedAllocation = ownedUsage-&gt;selectByKind(AllocationUsage)
+	ownedAction = ownedUsage-&gt;selectByKind(ActionUsage)
+	ownedState = ownedUsage-&gt;selectByKind(StateUsage)
+	ownedTransition = ownedUsage-&gt;selectByKind(TransitionUsage)
+	ownedCalculation = ownedUsage-&gt;selectByKind(CalculationUsage)
+	ownedConstraint = ownedUsage-&gt;selectByKind(ConstraintUsage)
+	ownedRequirement = ownedUsage-&gt;selectByKind(RequirementUsage)
+	ownedConcern = ownedUsage-&gt;selectByKind(ConcernUsage)
+	ownedCase = ownedUsage-&gt;selectByKind(CaseUsage)
+	ownedAnalysisCase = ownedUsage-&gt;selectByKind(AnalysisCaseUsage)
+	ownedVerificationCase = ownedUsage-&gt;selectByKind(VerificationCaseUsage)
+	ownedUseCase = ownedUsage-&gt;selectByKind(UseCaseUsage)
+	ownedView = ownedUsage-&gt;selectByKind(ViewUsage)
+	ownedViewpoint = ownedUsage-&gt;selectByKind(ViewpointUsage)
+	ownedRendering = ownedUsage-&gt;selectByKind(RenderingUsage)
+	ownedMetadata = ownedUsage-&gt;selectByKind(MetadataUsage)
+	isVariation implies isAbstract</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Classifier" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#Differencing">
+        <rdfs:label>Differencing</rdfs:label>
+        <rdfs:comment>Differencing is a Relationship that makes its differencingType one of the differencingTypes of its typeDifferenced.</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Relationship" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#Disjoining">
+        <rdfs:label>Disjoining</rdfs:label>
+        <rdfs:comment>A Disjoining is a Relationship between Types asserted to have interpretations that are not shared (disjoint) between them, identified as typeDisjoined and disjoiningType. For example, a Classifier for mammals is disjoint from a Classifier for minerals, and a Feature for people&amp;#39;s parents is disjoint from a Feature for their children.</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Relationship" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#Element">
+        <rdfs:label>Element</rdfs:label>
+        <rdfs:comment>An Element is a constituent of a model that is uniquely identified relative to all other Elements. It can have Relationships with other Elements. Some of these Relationships might imply ownership of other Elements, which means that if an Element is deleted from a model, then so are all the Elements that it owns.
+	
+	ownedElement = ownedRelationship.ownedRelatedElement
+	owner = owningRelationship.owningRelatedElement
+	qualifiedName =
+	if owningNamespace = null then null
+	else if owningNamespace.owner = null then escapedName()
+	else if owningNamespace.qualifiedName = null or
+	escapedName() = null then null
+	else owningNamespace.qualifiedName + '::' + escapedName()
+	endif endif endif
+	documentation = ownedElement-&gt;selectByKind(Documentation)
+	ownedAnnotation = ownedRelationship-&gt;
+	selectByKind(Annotation)-&gt;
+	select(a | a.annotatedElement = self)
+	name = effectiveName()
+	ownedRelationship-&gt;exists(isImplied) implies isImpliedIncluded
+	isLibraryElement = libraryNamespace() &lt;&gt; null
+	
+	shortName = effectiveShortName()
+	owningNamespace =
+	if owningMembership = null then null
+	else owningMembership.membershipOwningNamespace
+	endif
+	textualRepresentation = ownedElement-&gt;selectByKind(TextualRepresentation)</rdfs:comment>
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#EnumerationUsage">
+        <rdfs:label>EnumerationUsage</rdfs:label>
+        <rdfs:comment>An EnumerationUsage is an AttributeUsage whose attributeDefinition is an EnumerationDefinition.</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#AttributeUsage" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#Expression">
+        <rdfs:label>Expression</rdfs:label>
+        <rdfs:comment>An Expression is a Step that is typed by a Function. An Expression that also has a Function as its featuringType is a computational step within that Function. An Expression always has a single result parameter, which redefines the result parameter of its defining function. This allows Expressions to be interconnected in tree structures, in which inputs to each Expression in the tree are determined as the results of other Expression in the tree.
+	
+	isModelLevelEvaluable = modelLevelEvaluable(Set(Element){})
+	specializesFromLibrary('Performances::evaluations')
+	owningMembership &lt;&gt; null and
+	owningMembership.oclIsKindOf(FeatureValue) implies
+	let featureWithValue : Feature =
+	owningMembership.oclAsType(FeatureValue).featureWithValue in
+	featuringType = featureWithValue.featuringType
+	ownedMembership.selectByKind(ResultExpressionMembership)-&gt;
+	forAll(mem | ownedFeature.selectByKind(BindingConnector)-&gt;
+	exists(binding |
+	binding.relatedFeature-&gt;includes(result) and
+	binding.relatedFeature-&gt;includes(mem.ownedResultExpression.result)))
+	result =
+	let resultParams : Sequence(Feature) =
+	ownedFeatureMemberships-&gt;
+	selectByKind(ReturnParameterMembership).
+	ownedParameterMember in
+	if resultParams-&gt;notEmpty() then resultParams-&gt;first()
+	else if function &lt;&gt; null then function.result
+	else null
+	endif endif
+	ownedFeatureMembership-&gt;
+	selectByKind(ReturnParameterMembership)-&gt;
+	size() selectByKind(ResultExpressionMembership)-&gt;size() &lt;= 1</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Step" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#Feature">
+        <rdfs:label>Feature</rdfs:label>
+        <rdfs:comment>A Feature is a Type that classifies relations between multiple things (in the universe). The domain of the relation is the intersection of the featuringTypes of the Feature. (The domain of a Feature with no featuringTyps is implicitly the most general Type Base::Anything from the Kernel Semantic Library.) The co-domain of the relation is the intersection of the types of the Feature.
+	
+	In the simplest cases, the featuringTypes and types are Classifiers and the Feature relates two things, one from the domain and one from the range. Examples include cars paired with wheels, people paired with other people, and cars paired with numbers representing the car length.
+	
+	Since Features are Types, their featuringTypes and types can be Features. In this case, the Feature effectively classifies relations between relations, which can be interpreted as the sequence of things related by the domain Feature concatenated with the sequence of things related by the co-domain Feature.
+	
+	The values of a Feature for a given instance of its domain are all the instances of its co-domain that are related to that domain instance by the Feature. The values of a Feature with chainingFeatures are the same as values of the last Feature in the chain, which can be found by starting with values of the first Feature, then using those values as domain instances to obtain valus of the second Feature, and so on, to values of the last Feature.
+	
+	ownedRedefinition = ownedSubsetting-&gt;selectByKind(Redefinition)
+	ownedTypeFeaturing = ownedRelationship-&gt;selectByKind(TypeFeaturing)-&gt;
+	select(tf | tf.featureOfType = self)
+	ownedSubsetting = ownedSpecialization-&gt;selectByKind(Subsetting)
+	ownedTyping = ownedGeneralization-&gt;selectByKind(FeatureTyping)
+	type =
+	let types : OrderedSet(Types) = OrderedSet{self}-&gt;
+	-- Note: The closure operation automatically handles circular relationships.
+	closure(typingFeatures()).typing.type-&gt;asOrderedSet() in
+	types-&gt;reject(t1 | types-&gt;exist(t2 | t2 &lt;&gt; t1 and t2.specializes(t1)))
+	multiplicity &lt;&gt; null implies multiplicity.featuringType = featuringType
+	specializesFromLibrary('Base::things')
+	chainingFeature-&gt;excludes(self)
+	ownedFeatureChaining = ownedRelationship-&gt;selectByKind(FeatureChaining)
+	chainingFeature = ownedFeatureChaining.chainingFeature
+	chainingFeature-&gt;size() &lt;&gt; 1
+	isEnd and owningType &lt;&gt; null implies
+	let i : Integer =
+	owningType.ownedEndFeature-&gt;indexOf(self) in
+	owningType.ownedSpecialization.general-&gt;
+	forAll(supertype |
+	supertype.endFeature-&gt;size() &gt;= i implies
+	redefines(supertype.endFeature-&gt;at(i))
+	direction = null and
+	ownedSpecializations-&gt;forAll(isImplied) implies
+	ownedMembership-&gt;
+	selectByKind(FeatureValue)-&gt;
+	forAll(fv | specializes(fv.value.result))
+	isEnd and owningType &lt;&gt; null and
+	(owningType.oclIsKindOf(Association) or
+	owningType.oclIsKindOf(Connector)) implies
+	specializesFromLibrary('Links::Link::participant')
+	isComposite and
+	ownedTyping.type-&gt;includes(oclIsKindOf(Structure)) and
+	owningType &lt;&gt; null and
+	(owningType.oclIsKindOf(Structure) or
+	owningType.type-&gt;includes(oclIsKindOf(Structure))) implies
+	specializesFromLibrary('Occurrence::Occurrence::suboccurrences')
+	owningType &lt;&gt; null and
+	owningType.oclIsKindOf(FeatureReferenceExpression) and
+	self = owningType.oclAsType(FeatureReferenceExpression).result implies
+	specializes(owningType.oclAsType(FeatureReferenceExpression).referent)
+	
+	ownedTyping.type-&gt;exists(selectByKind(Class)) implies
+	specializesFromLibrary('Occurrences::occurrences')
+	isComposite and
+	ownedTyping.type-&gt;includes(oclIsKindOf(Class)) and
+	owningType &lt;&gt; null and
+	(owningType.oclIsKindOf(Class) or
+	owningType.oclIsKindOf(Feature) and
+	owningType.oclAsType(Feature).type-&gt;
+	exists(oclIsKindOf(Class))) implies
+	specializesFromLibrary('Occurrence::Occurrence::suboccurrences')
+	ownedTyping.type-&gt;exists(selectByKind(DataType)) implies
+	specializesFromLibrary('Base::dataValues')
+	owningType &lt;&gt; null and
+	owningType.oclIsKindOf(ItemFlowEnd) and
+	owningType.ownedFeature-&gt;at(1) = self implies
+	let flowType : Type = owningType.owningType in
+	flowType &lt;&gt; null implies
+	let i : Integer =
+	flowType.ownedFeature.indexOf(owningType) in
+	(i = 1 implies
+	redefinesFromLibrary('Transfers::Transfer::source::sourceOutput')) and
+	(i = 2 implies
+	redefinesFromLibrary('Transfers::Transfer::source::targetInput'))
+	
+	owningType &lt;&gt; null and
+	(owningType.oclIsKindOf(Behavior) or
+	owningType.oclIsKindOf(Step)) implies
+	let i : Integer =
+	owningType.ownedFeature-&gt;select(direction &lt;&gt; null) in
+	owningType.ownedSpecialization.general-&gt;
+	forAll(supertype |
+	let ownedParameters : Sequence(Feature) =
+	supertype.ownedFeature-&gt;select(direction &lt;&gt; null) in
+	ownedParameters-&gt;size() &gt;= i implies
+	redefines(ownedParameters-&gt;at(i))
+	ownedTyping.type-&gt;exists(selectByKind(Structure)) implies
+	specializesFromLibary('Objects::objects')
+	owningType &lt;&gt; null and
+	(owningType.oclIsKindOf(Function) and
+	self = owningType.oclAsType(Function).result or
+	owningType.oclIsKindOf(Expression) and
+	self = owningType.oclAsType(Expression).result) implies
+	owningType.ownedSpecialization.general-&gt;
+	select(oclIsKindOf(Function) or oclIsKindOf(Expression))-&gt;
+	forAll(supertype |
+	redefines(
+	if superType.oclIsKindOf(Function) then
+	superType.oclAsType(Function).result
+	else
+	superType.oclAsType(Expression).result
+	endif)
+	ownedFeatureInverting = ownedRelationship-&gt;selectByKind(FeatureInverting)-&gt;
+	select(fi | fi.featureInverted = self)
+	featuringType =
+	let featuringTypes : OrderedSet(Type) =
+	featuring.type-&gt;asOrderedSet() in
+	if chainingFeature-&gt;isEmpty() then featuringTypes
+	else
+	featuringTypes-&gt;
+	union(chainingFeature-&gt;first().featuringType)-&gt;
+	asOrderedSet()
+	endif
+	ownedReferenceSubsetting =
+	let referenceSubsettings : OrderedSet(ReferenceSubsetting) =
+	ownedSubsetting-&gt;selectByKind(ReferenceSubsetting) in
+	if referenceSubsettings-&gt;isEmpty() then null
+	else referenceSubsettings-&gt;first() endif
+	ownedSubsetting-&gt;selectByKind(ReferenceSubsetting)-&gt;size() size() - 1}-&gt;forAll(i |
+	chainingFeature-&gt;at(i + 1).featuringType-&gt;forAll(t |
+	chainingFeature-&gt;at(i).specializes(t)))
+	
+	isPortion and
+	ownedTyping.type-&gt;includes(oclIsKindOf(Class)) and
+	owningType &lt;&gt; null and
+	(owningType.oclIsKindOf(Class) or
+	owningType.oclIsKindOf(Feature) and
+	owningType.oclAsType(Feature).type-&gt;
+	exists(oclIsKindOf(Class))) implies
+	specializesFromLibrary('Occurrence::Occurrence::portions')
+	featureTarget = if chainingFeature-&gt;isEmpty() then self else chainingFeature-&gt;last() endif
+	owningType &lt;&gt; null and
+	owningType.oclIsKindOf(InvocationExpression) and
+	let owningInvocation: InvocationExpression = owningType.oclAsType(InvocationExpression) in
+	self = owningInvocation.result and
+	not owningInvocation.ownedTyping-&gt;exists(oclIsKindOf(Function)) and
+	not owningInvocation.ownedSubsetting-&gt;reject(isImplied).subsettedFeature.type-&gt;exists(oclIsKindOf(Function)) implies
+	owningInvocation.ownedTyping-&gt;forAll(type | self.specializes(type))</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Type" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#FeatureChaining">
+        <rdfs:label>FeatureChaining</rdfs:label>
+        <rdfs:comment>FeatureChaining is a Relationship that makes its target Feature one of the chainingFeatures of its owning Feature.</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Relationship" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#FeatureInverting">
+        <rdfs:label>FeatureInverting</rdfs:label>
+        <rdfs:comment>A FeatureInverting is a Relationship between Features asserting that their interpretations (sequences) are the reverse of each other, identified as featureInverted and invertingFeature. For example, a Feature identifying each person&amp;#39;s parents is the inverse of a Feature identifying each person&amp;#39;s children. A person identified as a parent of another will identify that other as one of their children.</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Relationship" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#FeatureMembership">
+        <rdfs:label>FeatureMembership</rdfs:label>
+        <rdfs:comment>A FeatureMembership is an OwningMembership between a Feature in an owningType that is also a Featuring Relationship between the Feature and the Type, in which the featuringType is the source and the featureOfType is the target. A FeatureMembership is always owned by its owningType, which is the featuringType for the FeatureMembership considered as a Featuring.</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Featuring" />
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#OwningMembership" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#FeatureTyping">
+        <rdfs:label>FeatureTyping</rdfs:label>
+        <rdfs:comment>FeatureTyping is Specialization in which the specific Type is a Feature. This means the set of instances of the (specific) typedFeature is a subset of the set of instances of the (general) type. In the simplest case, the type is a Classifier, whereupon the typedFeature has values that are instances of the Classifier.</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Specialization" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#FlowConnectionUsage">
+        <rdfs:label>FlowConnectionUsage</rdfs:label>
+        <rdfs:comment>A FlowConnectionUsage is a ConnectionUsage that is also an ItemFlow.
+	if ownedEndFeatures-&gt;isEmpty() then
+	specializesFromLibrary('Connections::messageConnections')
+	else
+	specializesFromLibrary('Connections::flowConnections')
+	endif</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#ActionUsage" />
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#ConnectionUsage" />
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#ItemFlow" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#FramedConcernMembership">
+        <rdfs:label>FramedConcernMembership</rdfs:label>
+        <rdfs:comment>A FramedConcernMembership is a RequirementConstraintMembership for a framed ConcernUsage of a RequirementDefinition or RequirementUsage.
+	kind = RequirementConstraintKind::requirement</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#RequirementConstraintMembership" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#Import">
+        <rdfs:label>Import</rdfs:label>
+        <rdfs:comment>An Import is an Relationship between its importOwningNamespace and either a Membership (for a MembershipImport) or another Namespace (for a NamespaceImport), which determines a set of Memberships that become importedMemberships of the importOwningNamespace. If isImportAll = false (the default), then only public Memberships are considered &amp;quot;visible&amp;quot;. If isImportAll = true, then all Memberships are considered &amp;quot;visible&amp;quot;, regardless of their declared visibility. If isRecursive = true, then visible Memberships are also recursively imported from owned sub-Namespaces.
+	
+	
+	importOwningNamespace.owningNamespace = null implies
+	visibility = VisibilityKind::private</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Relationship" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#InterfaceUsage">
+        <rdfs:label>InterfaceUsage</rdfs:label>
+        <rdfs:comment>An InterfaceUsage is a Usage of an InterfaceDefinition to represent an interface connecting parts of a system through specific ports.
+	ownedEndFeature-&gt;size() = 2 implies
+	specializesFromLibrary('Interfaces::binaryInterfaces')
+	specializesFromLibrary('Interfaces::interfaces')</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#ConnectionUsage" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#Intersecting">
+        <rdfs:label>Intersecting</rdfs:label>
+        <rdfs:comment>Intersecting is a Relationship that makes its intersectingType one of the intersectingTypes of its typeIntersected.</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Relationship" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#ItemUsage">
+        <rdfs:label>ItemUsage</rdfs:label>
+        <rdfs:comment>An ItemUsage is a ItemUsage whose definition is a Structure. Nominally, if the definition is an ItemDefinition, an ItemUsage is a ItemUsage of that ItemDefinition within a system. However, other kinds of Kernel Structures are also allowed, to permit use of Structures from the Kernel Model Libraries.
+	itemDefinition = occurrenceDefinition-&gt;selectByKind(ItemDefinition)
+	specializesFromLibrary('Items::items')
+	isComposite and owningType &lt;&gt; null and
+	(owningType.oclIsKindOf(ItemDefinition) or
+	owningType.oclIsKindOf(ItemUsage)) implies
+	specializesFromLibrary('Items::Item::subitem')</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#OccurrenceUsage" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#Membership">
+        <rdfs:label>Membership</rdfs:label>
+        <rdfs:comment>A Membership is a Relationship between a Namespace and an Element that indicates the Element is a member of (i.e., is contained in) the Namespace. Any memberNames specify how the memberElement is identified in the Namespace and the visibility specifies whether or not the memberElement is publicly visible from outside the Namespace.
+	
+	If a Membership is an OwningMembership, then it owns its memberElement, which becomes an ownedMember of the membershipOwningNamespace. Otherwise, the memberNames of a Membership are effectively aliases within the membershipOwningNamespace for an Element with a separate OwningMembership in the same or a different Namespace.
+	
+	&amp;nbsp;
+	
+	memberElementId = memberElement.elementId</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Relationship" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#MetadataUsage">
+        <rdfs:label>MetadataUsage</rdfs:label>
+        <rdfs:comment>A  MetadataUsage is a Usage and a MetadataFeature, used to annotate other Elements in a system model with metadata. As a MetadataFeature, its type must be a Metaclass, which will nominally be a MetadataDefinition. However, any kernel Metaclass is also allowed, to permit use of Metaclasses from the Kernel Model Libraries.
+	specializesFromLibrary('Metadata::metadataItems')</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#ItemUsage" />
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#MetadataFeature" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#Namespace">
+        <rdfs:label>Namespace</rdfs:label>
+        <rdfs:comment>A Namespace is an Element that contains other Elements, known as its members, via Membership Relationships with those Elements. The members of a Namespace may be owned by the Namespace, aliased in the Namespace, or imported into the Namespace via Import Relationships.
+	
+	A Namespace can provide names for its members via the memberNames and memberShortNames specified by the Memberships in the Namespace. If a Membership specifies a memberName and/or memberShortName, then those are names of the corresponding memberElement relative to the Namespace. For an OwningMembership, the owningMemberName and owningMemberShortName are given by the Element name and shortName. Note that the same Element may be the memberElement of multiple Memberships in a Namespace (though it may be owned at most once), each of which may define a separate alias for the Element relative to the Namespace.
+	
+	membership-&gt;forAll(m1 |
+	membership-&gt;forAll(m2 |
+	m1 &lt;&gt; m2 implies m1.isDistinguishableFrom(m2)))
+	member = membership.memberElement
+	ownedMember = ownedMembership-&gt;selectByKind(OwningMembership).ownedMemberElement
+	importedMembership = importedMemberships(Set{})
+	ownedImport = ownedRelationship-&gt;selectByKind(Import)
+	ownedMembership = ownedRelationship-&gt;selectByKind(Membership)</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Element" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#ObjectiveMembership">
+        <rdfs:label>ObjectiveMembership</rdfs:label>
+        <rdfs:comment>An ObjectiveMembership is a FeatureMembership that indicates that its ownedObjectiveRequirement is the objective RequirementUsage for its owningType, which must be a CaseDefinition or CaseUsage.
+	owningType.oclIsType(CaseDefinition) or
+	owningType.oclIsType(CaseUsage)
+	
+	ownedObjectiveRequirement.isComposite</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#FeatureMembership" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#OccurrenceUsage">
+        <rdfs:label>OccurrenceUsage</rdfs:label>
+        <rdfs:comment>An OccurrenceUsage is a Usage whose types are all Classes. Nominally, if a type is an OccurrenceDefinition, an OccurrenceUsage is a Usage of that OccurrenceDefinition within a system. However, other types of Kernel Classes are also allowed, to permit use of Classes from the Kernel Model Libraries.
+	
+	individualDefinition =
+	let individualDefinitions : OrderedSet(OccurrenceDefinition) =
+	occurrenceDefinition-&gt;
+	selectByKind(OccurrenceDefinition)-&gt;
+	select(isIndividual) in
+	if individualDefinitions-&gt;isEmpty() then null
+	else individualDefinitions-&gt;first() endif
+	isIndividual implies individualDefinition &lt;&gt; null
+	specializesFromLibrary('Occurrences::occurrences')
+	isComposite and
+	owningType &lt;&gt; null and
+	(owningType.oclIsKindOf(Class) or
+	owningType.oclIsKindOf(OccurrenceUsage) or
+	owningType.oclIsKindOf(Feature) and
+	owningType.oclAsType(Feature).type-&gt;
+	exists(oclIsKind(Class))) implies
+	specializesFromLibrary('Occurrences::Occurrence::suboccurrences')
+	occurrenceDefinition-&gt;
+	selectByKind(OccurrenceDefinition)-&gt;
+	select(isIndividual).size()  null implies
+	occurrenceDefinition-&gt;forAll(occ |
+	featuringType-&gt;exists(specializes(occ)))</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Usage" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#OwningMembership">
+        <rdfs:label>OwningMembership</rdfs:label>
+        <rdfs:comment>An OwningMembership is a Membership that owns its memberElement as a ownedRelatedElement. The ownedMemberElement becomes an ownedMember of the membershipOwningNamespace.
+	
+	ownedMemberName = ownedMemberElement.name
+	ownedMemberShortName = ownedMemberElement.shortName</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Membership" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#ParameterMembership">
+        <rdfs:label>ParameterMembership</rdfs:label>
+        <rdfs:comment>A ParameterMembership is a FeatureMembership that identifies its memberFeature as a parameter, which is always owned, and must have a direction. A ParameterMembership must be owned by a Behavior or a Step.
+	ownedMemberParameter.direction = parameterDirection()
+	owningType.oclIsKindOf(Behavior) or owningType.oclIsKindOf(Step)</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#FeatureMembership" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#PartUsage">
+        <rdfs:label>PartUsage</rdfs:label>
+        <rdfs:comment>A PartUsage is a usage of a PartDefinition to represent a system or a part of a system. At least one of the itemDefinitions of the PartUsage must be a PartDefinition.
+	
+	A PartUsage must subset, directly or indirectly, the base PartUsage parts from the Systems Model Library.
+	itemDefinition-&gt;selectByKind(PartDefinition)
+	partDefinition-&gt;notEmpty()
+	specializesFromLibrary('Parts::parts')
+	isComposite and owningType &lt;&gt; null and
+	(owningType.oclIsKindOf(ItemDefinition) or
+	owningType.oclIsKindOf(ItemUsage)) implies
+	specializesFromLibrary('Items::Item::subparts')
+	owningFeatureMembership &lt;&gt; null and
+	owningFeatureMembership.oclIsKindOf(ActorMembership) implies
+	if owningType.oclIsKindOf(RequirementDefinition) or
+	owningType.oclIsKindOf(RequirementUsage)
+	then specializesFromLibrary('Requirements::RequirementCheck::actors')
+	else specializesFromLibrary('Cases::Case::actors')
+	owningFeatureMembership &lt;&gt; null and
+	owningFeatureMembership.oclIsKindOf(StakeholderMembership) implies
+	specializesFromLibrary('Requirements::RequirementCheck::stakeholders')</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#ItemUsage" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#PortConjugation">
+        <rdfs:label>PortConjugation</rdfs:label>
+        <rdfs:comment>A PortConjugation is a Conjugation Relationship between a PortDefinition and its corresponding ConjugatedPortDefinition. As a result of this Relationship, the ConjugatedPortDefinition inherits all the features of the original PortDefinition, but input flows of the original PortDefinition become outputs on the ConjugatedPortDefinition and output flows of the original PortDefinition become inputs on the ConjugatedPortDefinition.</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Conjugation" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#PortUsage">
+        <rdfs:label>PortUsage</rdfs:label>
+        <rdfs:comment>A PortUsage is a usage of a PortDefinition. A PortUsage itself as well as all its nestedUsages must be referential (non-composite).
+	nestedUsage-&gt;
+	reject(oclIsKindOf(PortUsage))-&gt;
+	forAll(not isComposite)
+	specializesFromLibrary('Ports::ports')
+	isComposite and owningType &lt;&gt; null and
+	(owningType.oclIsKindOf(PortDefinition) or
+	owningType.oclIsKindOf(PortUsage)) implies
+	specializesFromLibrary('Ports::Port::subports')
+	owningType = null or
+	not owningType.oclIsKindOf(PortDefinition) and
+	not owningType.oclIsKindOf(PortUsage) implies
+	isReference</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#OccurrenceUsage" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#Redefinition">
+        <rdfs:label>Redefinition</rdfs:label>
+        <rdfs:comment>Redefinition is a kind of Subsetting that requires the redefinedFeature and the redefiningFeature to have the same values (on each instance of the domain of the redefiningFeature). This means any restrictions on the redefiningFeature, such as type or multiplicity, also apply to the redefinedFeature (on each instance of the domain of the redefiningFeature), and vice versa. The redefinedFeature might have values for instances of the domain of the redefiningFeature, but only as instances of the domain of the redefinedFeature that happen to also be instances of the domain of the redefiningFeature. This is supported by the constraints inherited from Subsetting on the domains of the redefiningFeature and redefinedFeature. However, these constraints are narrowed for Redefinition to require the owningTypes of the redefiningFeature and redefinedFeature to be different and the redefinedFeature to not be inherited into the owningNamespace of the redefiningFeature.This enables the redefiningFeature to have the same name as the redefinedFeature, if desired.
+	
+	let anythingType: Type =
+	redefiningFeature.resolveGlobal('Base::Anything').modelElement.oclAsType(Type) in
+	-- Including "Anything" accounts for implicit featuringType of Features
+	-- with no explicit featuringType.
+	let redefiningFeaturingTypes: Set(Type) =
+	redefiningFeature.featuringTypes-&gt;asSet()-&gt;including(anythingType) in
+	let redefinedFeaturingTypes: Set(Type) =
+	redefinedFeature.featuringTypes-&gt;asSet()-&gt;including(anythingType) in
+	redefiningFeaturingTypes &lt;&gt; redefinedFeaturingType
+	featuringType-&gt;forAll(t |
+	let direction : FeatureDirectionKind = t.directionOf(redefinedFeature) in
+	((direction = FeatureDirectionKind::_'in' or
+	direction = FeatureDirectionKind::out) implies
+	redefiningFeature.direction = direction)
+	and
+	(direction = FeatureDirectionKind::inout implies
+	redefiningFeature.direction &lt;&gt; null))</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Subsetting" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#ReferenceSubsetting">
+        <rdfs:label>ReferenceSubsetting</rdfs:label>
+        <rdfs:comment>ReferenceSubsetting is a kind of Subsetting in which the referencedFeature is syntactically distinguished from other Features subsetted by the referencingFeature. ReferenceSubsetting has the same semantics as Subsetting, but the referenceFeature may have a special purpose relative to the referencingFeature. For instance, ReferenceSubsetting is used to identify the relatedFeatures of a Connector.
+	
+	ReferenceSubsetting is always an ownedRelationship of its referencingFeature. A Feature can have at most one ownedReferenceSubsetting.</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Subsetting" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#ReferenceUsage">
+        <rdfs:label>ReferenceUsage</rdfs:label>
+        <rdfs:comment>A ReferenceUsage is a Usage that specifies a non-compositional (isComposite = false) reference to something. The definition of a ReferenceUsage can be any kind of Classifier, with the default being the top-level Classifier Base::Anything from the Kernel Semantic Library. This allows the specification of a generic reference without distinguishing if the thing referenced is an attribute value, item, action, etc.
+	isReference</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Usage" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#Relationship">
+        <rdfs:label>Relationship</rdfs:label>
+        <rdfs:comment>A Relationship is an Element that relates other Element. Some of its relatedElements may be owned, in which case those ownedRelatedElements will be deleted from a model if their owningRelationship is. A Relationship may also be owned by another Element, in which case the ownedRelatedElements of the Relationship are also considered to be transitively owned by the owningRelatedElement of the Relationship.
+	
+	The relatedElements of a Relationship are divided into source and target Elements. The Relationship is considered to be directed from the source to the target Elements. An undirected Relationship may have either all source or all target Elements.
+	
+	A &amp;quot;relationship Element&amp;quot; in the abstract syntax is generically any Element that is an instance of either Relationship or a direct or indirect specialization of Relationship. Any other kind of Element is a &amp;quot;non-relationship Element&amp;quot;. It is a convention of that non-relationship Elements are only related via reified relationship Elements. Any meta-associations directly between non-relationship Elements must be derived from underlying reified Relationship.
+	
+	relatedElement = source-&gt;union(target)</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Element" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#RenderingUsage">
+        <rdfs:label>RenderingUsage</rdfs:label>
+        <rdfs:comment>A RenderingUsage is the usage of a RenderingDefinition to specify the rendering of a specific model view to produce a physical view artifact.
+	
+	
+	specializesFromLibrary('Views::renderings')
+	owningType &lt;&gt; null and
+	(owningType.oclIsKindOf(RenderingDefinition) or
+	owningType.oclIsKindOf(RenderingUsage)) implies
+	specializesFromLibrary('Views::Rendering::subrenderings')
+	owningFeatureMembership &lt;&gt; null and
+	owningFeatureMembership.oclIsKindOf(ViewRenderingMembership) implies
+	redefinesFromLibrary('Views::View::viewRendering')</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#PartUsage" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#RequirementConstraintMembership">
+        <rdfs:label>RequirementConstraintMembership</rdfs:label>
+        <rdfs:comment>A RequirementConstraintMembership is a FeatureMembership for an assumed or required ConstraintUsage of a RequirementDefinition or RequirementUsage.
+	referencedConstraint =
+	let reference : ReferenceSubsetting =
+	ownedConstraint.ownedReferenceSubsetting in
+	if reference = null then ownedConstraint
+	else if not reference.referencedFeature.oclIsKindOf(ConstraintUsage) then null
+	else reference.referencedFeature.oclAsType(ConstraintUsage)
+	endif endif
+	owningType.oclIsKindOf(RequirementDefinition) or
+	owningType.oclIsKindOf(RequirementUsage)
+	ownedConstraint.isComposite</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#FeatureMembership" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#RequirementUsage">
+        <rdfs:label>RequirementUsage</rdfs:label>
+        <rdfs:comment>A RequirementUsage is a Usage of a RequirementDefinition.
+	actorParameter = featureMembership-&gt;
+	selectByKind(ActorMembership).
+	ownedActorParameter
+	assumedConstraint = ownedFeatureMembership-&gt;
+	selectByKind(RequirementConstraintMembership)-&gt;
+	select(kind = RequirementConstraintKind::assumption).
+	ownedConstraint
+	framedConcern = featureMembership-&gt;
+	selectByKind(FramedConcernMembership).
+	ownedConcern
+	requiredConstraint = ownedFeatureMembership-&gt;
+	selectByKind(RequirementConstraintMembership)-&gt;
+	select(kind = RequirementConstraintKind::requirement).
+	ownedConstraint
+	stakeholderParameter = featureMembership-&gt;
+	selectByKind(AStakholderMembership).
+	ownedStakeholderParameter
+	subjectParameter =
+	let subjects : OrderedSet(SubjectMembership) =
+	featureMembership-&gt;selectByKind(SubjectMembership) in
+	if subjects-&gt;isEmpty() then null
+	else subjects-&gt;first().ownedSubjectParameter
+	endif
+	text = documentation.body
+	featureMembership-&gt;
+	selectByKind(SubjectMembership)-&gt;
+	size() notEmpty() and input-&gt;first() = subjectParameter
+	specializesFromLibrary('Requirements::requirementChecks')
+	isComposite and owningType &lt;&gt; null and
+	(owningType.oclIsKindOf(RequirementDefinition) or
+	owningType.oclIsKindOf(RequirementUsage)) implies
+	specializesFromLibrary('Requirements::RequirementCheck::subrequirements')
+	owningfeatureMembership &lt;&gt; null and
+	owningfeatureMembership.oclIsKindOf(ObjectiveMembership) implies
+	owningType.ownedSpecialization.general-&gt;forAll(gen |
+	(gen.oclIsKindOf(CaseDefinition) implies
+	redefines(gen.oclAsType(CaseDefinition).objectiveRequirement)) and
+	(gen.oclIsKindOf(CaseUsage) implies
+	redefines(gen.oclAsType(CaseUsage).objectiveRequirement))
+	owningFeatureMembership &lt;&gt; null and
+	owningFeatureMembership.oclIsKindOf(RequirementVerificationMembership) implies
+	specializesFromLibrary('VerificationCases::VerificationCase::obj::requirementVerifications')</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#ConstraintUsage" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#RequirementVerificationMembership">
+        <rdfs:label>RequirementVerificationMembership</rdfs:label>
+        <rdfs:comment>A RequirementVerificationMembership is a RequirementConstraintMembership  used in the objective of a VerificationCase to identify a RequirementUsage that is verified by the VerificationCase.
+	kind = RequirementConstraintKind::requirement
+	owningType.oclIsKindOf(RequirementUsage) and
+	owningType.owningFeatureMembership &lt;&gt; null and
+	owningType.owningFeatureMembership.oclIsKindOf(ObjectiveMembership)</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#RequirementConstraintMembership" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#ResultExpressionMembership">
+        <rdfs:label>ResultExpressionMembership</rdfs:label>
+        <rdfs:comment>A ResultExpressionMembership is a FeatureMembership that indicates that the ownedResultExpression provides the result values for the Function or Expression that owns it. The owning Function or Expression must contain a BindingConnector between the result parameter of the ownedResultExpression and the result parameter of the owning Function or Expression.
+	
+	owningType.oclIsKindOf(Function) or owningType.oclIsKindOf(Expression)</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#FeatureMembership" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#Specialization">
+        <rdfs:label>Specialization</rdfs:label>
+        <rdfs:comment>Specialization is a Relationship between two Types that requires all instances of the specific type to also be instances of the general Type (i.e., the set of instances of the specific Type is a subset of those of the general Type, which might be the same set).
+	
+	not specific.isConjugated</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Relationship" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#StakeholderMembership">
+        <rdfs:label>StakeholderMembership</rdfs:label>
+        <rdfs:comment>A StakeholderMembership is a ParameterMembership that identifies a PartUsage as a stakeholderParameter of a RequirementDefinition or RequirementUsage, which specifies a role played by an entity with concerns framed by the owningType.
+	owningType.oclIsKindOf(RequirementUsage) or
+	owningType.oclIsKindOf(RequirementDefinition)</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#ParameterMembership" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#StateUsage">
+        <rdfs:label>StateUsage</rdfs:label>
+        <rdfs:comment>A StateUsage is an ActionUsage that is nominally the Usage of a StateDefinition. However, other kinds of kernel Behaviors are also allowed as types, to permit use of Behaviors
+	
+	A StateUsage may be related to up to three of its ownedFeatures by StateSubactionMembership Relationships, all of different kinds, corresponding to the entry, do and exit actions of the StateUsage.
+	
+	doAction =
+	let doMemberships : Sequence(StateSubactionMembership) =
+	ownedMembership-&gt;
+	selectByKind(StateSubactionMembership)-&gt;
+	select(kind = StateSubactionKind::do) in
+	if doMemberships-&gt;isEmpty() then null
+	else doMemberships-&gt;at(1)
+	endif
+	entryAction =
+	let entryMemberships : Sequence(StateSubactionMembership) =
+	ownedMembership-&gt;
+	selectByKind(StateSubactionMembership)-&gt;
+	select(kind = StateSubactionKind::entry) in
+	if entryMemberships-&gt;isEmpty() then null
+	else entryMemberships-&gt;at(1)
+	endif
+	isParallel implies
+	nestedAction.incomingTransition-&gt;isEmpty() and
+	nestedAction.outgoingTransition-&gt;isEmpty()
+	isSubstateUsage(false) implies
+	specializesFromLibrary('States::StateAction::exclusiveStates')
+	exitAction =
+	let exitMemberships : Sequence(StateSubactionMembership) =
+	ownedMembership-&gt;
+	selectByKind(StateSubactionMembership)-&gt;
+	select(kind = StateSubactionKind::exit) in
+	if exitMemberships-&gt;isEmpty() then null
+	else exitMemberships-&gt;at(1)
+	endif
+	specializesFromLibrary('States::stateActions')
+	ownedMembership-&gt;
+	selectByKind(StateSubactionMembership)-&gt;
+	isUnique(kind)
+	isSubstateUsage(true) implies
+	specializesFromLibrary('States::StateAction::substates')</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#ActionUsage" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#Subclassification">
+        <rdfs:label>Subclassification</rdfs:label>
+        <rdfs:comment>Subclassification is Specialization in which both the specific and general Types are Classifier. This means all instances of the specific Classifier are also instances of the general Classifier.</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Specialization" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#SubjectMembership">
+        <rdfs:label>SubjectMembership</rdfs:label>
+        <rdfs:comment>A SubjectMembership is a ParameterMembership that indicates that its ownedSubjectParameter is the subject of its owningType. The owningType of a SubjectMembership must be a RequirementDefinition, RequirementUsage, CaseDefinition, or CaseUsage.
+	owningType.oclIsType(RequirementDefinition) or
+	owningType.oclIsType(RequiremenCaseRequirementDefinition) or
+	owningType.oclIsType(CaseDefinition) or
+	owningType.oclIsType(CaseUsage)</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#ParameterMembership" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#Subsetting">
+        <rdfs:label>Subsetting</rdfs:label>
+        <rdfs:comment>Subsetting is Specialization in which the specific and general Types are Features. This means all values of the subsettingFeature (on instances of its domain, i.e., the intersection of its featuringTypes) are values of the subsettedFeature on instances of its domain. To support this the domain of the subsettingFeature must be the same or specialize (at least indirectly) the domain of the subsettedFeature (via Specialization), and the co-domain (intersection of the types) of the subsettingFeature must specialize the co-domain of the subsettedFeature.
+	
+	let subsettingFeaturingTypes: OrderedSet(Type) =
+	subsettingFeature.featuringTypes in
+	let subsettedFeaturingTypes: OrderedSet(Type) =
+	subsettedFeature.featuringTypes in
+	let anythingType: Element =
+	subsettingFeature.resolveGlobal('Base::Anything').memberElement in
+	subsettedFeaturingTypes-&gt;forAll(t |
+	subsettingFeaturingTypes-&gt;isEmpty() and t = anythingType or
+	subsettingFeaturingTypes-&gt;exists(specializes(t))
+	subsettedFeature.isUnique implies subsettingFeature.isUnique</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Specialization" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#TransitionUsage">
+        <rdfs:label>TransitionUsage</rdfs:label>
+        <rdfs:comment>A TransitionUsage is an ActionUsage representing a triggered transition between ActionUsages or StateUsages. When triggered by a triggerAction, when its guardExpression is true, the TransitionUsage asserts that its source is exited, then its effectAction (if any) is performed, and then its target is entered.
+	
+	A TransitionUsage can be related to some of its ownedFeatures using TransitionFeatureMembership Relationships, corresponding to the triggerAction, guardExpression and effectAction of the TransitionUsage.
+	isComposite and owningType &lt;&gt; null and
+	(owningType.oclIsKindOf(ActionDefinition) or
+	owningType.oclIsKindOf(ActionUsage)) and
+	not (owningType.oclIsKindOf(StateDefinition) or
+	owningType.oclIsKindOf(StateUsage)) implies
+	specializesFromLibrary('Actions::Action::decisionTransitions')
+	isComposite and owningType &lt;&gt; null and
+	(owningType.oclIsKindOf(StateDefinition) or
+	owningType.oclIsKindOf(StateUsage)) implies
+	specializesFromLibrary('States::State::stateTransitions')
+	specializesFromLibrary('Actions::transitionActions')
+	source =
+	if ownedMembership-&gt;isEmpty() then null
+	else
+	let member : Element =
+	ownedMembership-&gt;at(1).memberElement in
+	if not member.oclIsKindOf(ActionUsage) then null
+	else member.oclAsKindOf(ActionUsage)
+	endif
+	endif
+	target =
+	if succession.targetFeature-&gt;isEmpty() then null
+	else
+	let targetFeature : Feature =
+	succession.targetFeature-&gt;at(1) in
+	if not targetFeature.oclIsKindOf(ActionUsage) then null
+	else targetFeature.oclAsType(ActionUsage)
+	endif
+	endif
+	triggerAction = ownedFeatureMembership-&gt;
+	selectByKind(TransitionFeatureMembership)-&gt;
+	select(kind = TransitionFeatureKind::trigger).transitionFeature-&gt;
+	selectByKind(AcceptActionUsage)
+	let successions : Sequence(Successions) =
+	ownedMember-&gt;selectByKind(Succession) in
+	successions-&gt;notEmpty() and
+	successions-&gt;at(1).targetFeature-&gt;
+	forAll(oclIsKindOf(ActionUsage))
+	guardExpression = ownedFeatureMembership-&gt;
+	selectByKind(TransitionFeatureMembership)-&gt;
+	select(kind = TransitionFeatureKind::trigger).transitionFeature-&gt;
+	selectByKind(Expression)
+	triggerAction-&gt;forAll(specializesFromLibrary('Actions::TransitionAction::accepter') and
+	guardExpression-&gt;forAll(specializesFromLibrary('Actions::TransitionAction::guard') and
+	effectAction-&gt;forAll(specializesFromLibrary('Actions::TransitionAction::effect'))
+	triggerAction = ownedFeatureMembership-&gt;
+	selectByKind(TransitionFeatureMembership)-&gt;
+	select(kind = TransitionFeatureKind::trigger).transitionFeatures-&gt;
+	selectByKind(AcceptActionUsage)
+	succession.sourceFeature = source
+	ownedMember-&gt;selectByKind(BindingConnector)-&gt;exists(b |
+	b.relatedFeatures-&gt;includes(source) and
+	b.relatedFeatures-&gt;includes(inputParameter(1)))
+	triggerAction-&gt;notEmpty() implies
+	let payloadParameter : Feature = inputParameter(2) in
+	payloadParameter &lt;&gt; null and
+	payloadParameter.subsetsChain(triggerAction-&gt;at(1), triggerPayloadParameter())
+	ownedMember-&gt;selectByKind(BindingConnector)-&gt;exists(b |
+	b.relatedFeatures-&gt;includes(succession) and
+	b.relatedFeatures-&gt;includes(resolveGlobal(
+	'TransitionPerformances::TransitionPerformance::transitionLink')))
+	if triggerAction-&gt;isEmpty() then
+	inputParameters()-&gt;size() &gt;= 1
+	else
+	inputParameters()-&gt;size() &gt;= 2
+	endif
+	
+	succession = ownedMember-&gt;selectByKind(Succession)-&gt;at(1)</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#ActionUsage" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#Type">
+        <rdfs:label>Type</rdfs:label>
+        <rdfs:comment>A Type is a Namespace that is the most general kind of Element supporting the semantics of classification. A Type may be a Classifier or a Feature, defining conditions on what is classified by the Type (see also the description of isSufficient).
+	
+	ownedSpecialization = ownedRelationship-&gt;selectByKind(Specialization)-&gt;
+	select(s | s.special = self)
+	
+	multiplicity =
+	let ownedMultiplicities: Sequence(Multiplicity) =
+	ownedMember-&gt;selectByKind(Multiplicity) in
+	if ownedMultiplicities-&gt;isEmpty() then null
+	else ownedMultiplicities-&gt;first()
+	endif
+	ownedFeatureMembership = ownedRelationship-&gt;selectByKind(FeatureMembership)
+	ownedConjugator =
+	let ownedConjugators: Sequence(Conjugator) =
+	ownedRelationship-&gt;selectByKind(Conjugation) in
+	if ownedConjugators-&gt;isEmpty() then null
+	else ownedConjugators-&gt;at(1) endif
+	output = feature-&gt;select(f |
+	let direction: FeatureDirectionKind = directionOf(f) in
+	direction = FeatureDirectionKind::out or
+	direction = FeatureDirectionKind::inout)
+	input = feature-&gt;select(f |
+	let direction: FeatureDirectionKind = directionOf(f) in
+	direction = FeatureDirectionKind::_'in' or
+	direction = FeatureDirectionKind::inout)
+	inheritedMembership = inheritedMemberships(Set{}, false)
+	specializesFromLibrary('Base::Anything')
+	directedFeature = feature-&gt;select(f | directionOf(f) &lt;&gt; null)
+	feature = featureMembership.ownedMemberFeature
+	featureMembership = ownedFeatureMembership-&gt;union(
+	inheritedMembership-&gt;selectByKind(FeatureMembership))
+	ownedFeature = ownedFeatureMembership.ownedMemberFeature
+	differencingType = ownedDifferencing.differencingType
+	intersectingType-&gt;excludes(self)
+	differencingType-&gt;excludes(self)
+	unioningType = ownedUnioning.unioningType
+	unioningType-&gt;excludes(self)
+	intersectingType = ownedIntersecting.intersectingType
+	ownedRelationship-&gt;selectByKind(Conjugation)-&gt;size() selectByKind(Multiplicity)-&gt;size() select(isEnd)
+	ownedDisjoining =
+	ownedRelationship-&gt;selectByKind(Disjoining)
+	ownedUnioning =
+	ownedRelationship-&gt;selectByKind(Unioning)
+	ownedRelationship-&gt;selectByKind(Intersecting)
+	ownedDifferencing =
+	ownedRelationship-&gt;selectByKind(Differencing)
+	ownedEndFeature = ownedFeature-&gt;select(isEnd)
+	inheritedFeature = inheritedMemberships-&gt;
+	selectByKind(FeatureMembership).memberFeature
+	ownedUnioning-&gt;size() &lt;&gt; 1
+	ownedIntersecting-&gt;size() &lt;&gt; 1
+	ownedDifferencing-&gt;size() &lt;&gt; 1</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Namespace" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#TypeFeaturing">
+        <rdfs:label>TypeFeaturing</rdfs:label>
+        <rdfs:comment>A TypeFeaturing is a Featuring Relationship in which the featureOfType is the source and the featuringType is the target.</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Featuring" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#Unioning">
+        <rdfs:label>Unioning</rdfs:label>
+        <rdfs:comment>Unioning is a Relationship that makes its unioningType one of the unioningTypes of its typeUnioned.</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Relationship" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#Usage">
+        <rdfs:label>Usage</rdfs:label>
+        <rdfs:comment>A Usage is a usage of a Definition. A Usage may only be an ownedFeature of a Definition or another Usage.
+	
+	A Usage may have nestedUsages that model features that apply in the context of the owningUsage. A Usage may also have Definitions nested in it, but this has no semantic significance, other than the nested scoping resulting from the Usage being considered as a Namespace for any nested Definitions.
+	
+	However, if a Usage has isVariation = true, then it represents a variation point Usage. In this case, all of its members must be variant Usages, related to the Usage by VariantMembership Relationships. Rather than being features of the Usage, variant Usages model different concrete alternatives that can be chosen to fill in for the variation point Usage.
+	variant = variantMembership.ownedVariantUsage
+	variantMembership = ownedMembership-&gt;selectByKind(VariantMembership)
+	isVariation implies ownedFeatureMembership-&gt;isEmpty()
+	isReference = not isComposite
+	owningVariationUsage &lt;&gt; null implies
+	specializes(owningVariationUsage)
+	isVariation implies
+	not ownedSpecialization.specific-&gt;exists(
+	oclIsKindOf(Definition) and
+	oclAsType(Definition).isVariation or
+	oclIsKindOf(Usage) and
+	oclAsType(Usage).isVariation)
+	owningVariationDefinition &lt;&gt; null implies
+	specializes(owningVariationDefinition)
+	directedUsage = directedFeature-&gt;selectByKind(Usage)
+	nestedAction = nestedUsage-&gt;selectByKind(ActionUsage)
+	nestedAllocation = nestedUsage-&gt;selectByKind(AllocationUsage)
+	nestedAnalysisCase = nestedUsage-&gt;selectByKind(AnalysisCaseUsage)
+	nestedAttribute = nestedUsage-&gt;selectByKind(AttributeUsage)
+	nestedCalculation = nestedUsage-&gt;selectByKind(CalculationUsage)
+	nestedCase = nestedUsage-&gt;selectByKind(CaseUsage)
+	nestedConcern = nestedUsage-&gt;selectByKind(ConcernUsage)
+	nestedConnection = nestedUsage-&gt;selectByKind(ConnectorAsUsage)
+	nestedConstraint = nestedUsage-&gt;selectByKind(ConstraintUsage)
+	ownedNested = nestedUsage-&gt;selectByKind(EnumerationUsage)
+	nestedFlow = nestedUsage-&gt;selectByKind(FlowConnectionUsage)
+	nestedInterface = nestedUsage-&gt;selectByKind(ReferenceUsage)
+	nestedItem = nestedUsage-&gt;selectByKind(ItemUsage)
+	nestedMetadata = nestedUsage-&gt;selectByKind(MetadataUsage)
+	nestedOccurrence = nestedUsage-&gt;selectByKind(OccurrenceUsage)
+	nestedPart = nestedUsage-&gt;selectByKind(PartUsage)
+	nestedPort = nestedUsage-&gt;selectByKind(PortUsage)
+	nestedReference = nestedUsage-&gt;selectByKind(ReferenceUsage)
+	nestedRendering = nestedUsage-&gt;selectByKind(RenderingUsage)
+	nestedRequirement = nestedUsage-&gt;selectByKind(RequirementUsage)
+	nestedState = nestedUsage-&gt;selectByKind(StateUsage)
+	nestedTransition = nestedUsage-&gt;selectByKind(TransitionUsage)
+	nestedUsage = ownedFeature-&gt;selectByKind(Usage)
+	nestedUseCase = nestedUsage-&gt;selectByKind(UseCaseUsage)
+	nestedVerificationCase = nestedUsage-&gt;selectByKind(VerificationCaseUsage)
+	nestedView = nestedUsage-&gt;selectByKind(ViewUsage)
+	nestedViewpoint = nestedUsage-&gt;selectByKind(ViewpointUsage)
+	usage = feature-&gt;selectByKind(Usage)
+	direction &lt;&gt; null or isEnd or featuringType-&gt;isEmpty() implies
+	isReference
+	isVariation implies isAbstract</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Feature" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#UseCaseUsage">
+        <rdfs:label>UseCaseUsage</rdfs:label>
+        <rdfs:comment>A UseCaseUsage is a Usage of a UseCaseDefinition.
+	includedUseCase = ownedUseCase-&gt;
+	selectByKind(IncludeUseCaseUsage).
+	useCaseIncluded
+	specializesFromLibrary('UseCases::useCases')
+	isComposite and owningType &lt;&gt; null and
+	(owningType.oclIsKindOf(UseCaseDefinition) or
+	owningType.oclIsKindOf(UseCaseUsage)) implies
+	specializesFromLibrary('UseCases::UseCase::subUseCases')</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#CaseUsage" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#VariantMembership">
+        <rdfs:label>VariantMembership</rdfs:label>
+        <rdfs:comment>A VariantMembership is a Membership between a variation point Definition or Usage and a Usage that represents a variant in the context of that variation. The membershipOwningNamespace for the VariantMembership must be either a Definition or a Usage with isVariation = true.
+	membershipOwningNamespace.oclIsKindOf(Definition) and
+	membershipOwningNamespace.oclAsType(Definition).isVariation or
+	membershipOwningNamespace.oclIsKindOf(Usage) and
+	membershipOwningNamespace.oclAsType(Usage).isVariation</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#OwningMembership" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#VerificationCaseUsage">
+        <rdfs:label>VerificationCaseUsage</rdfs:label>
+        <rdfs:comment>A VerificationCaseUsage is a Usage of a VerificationCaseDefinition.
+	verifiedRequirement =
+	if objectiveRequirement = null then OrderedSet{}
+	else
+	objectiveRequirement.featureMembership-&gt;
+	selectByKind(RequirementVerificationMembership).
+	verifiedRequirement-&gt;asOrderedSet()
+	endif
+	specializesFromLibrary('VerificationCases::verificationCases')
+	isComposite and owningType &lt;&gt; null and
+	(owningType.oclIsKindOf(VerificationCaseDefinition) or
+	owningType.oclIsKindOf(VerificationCaseUsage)) implies
+	specializesFromLibrary('VerificationCases::VerificationCase::subVerificationCases')</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#CaseUsage" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#ViewRenderingMembership">
+        <rdfs:label>ViewRenderingMembership</rdfs:label>
+        <rdfs:comment>A ViewRenderingMembership is a FeatureMembership that identifies the viewRendering of a ViewDefinition or ViewUsage.
+	referencedRendering =
+	let reference: ReferenceSubsetting =
+	ownedRendering.ownedReferenceSubsetting in
+	if reference = null then ownedRendering
+	else if not reference.referencedFeature.oclIsKindOf(RenderingUsage) then null
+	else reference.referencedFeature.oclAsType(RenderingUsage)
+	endif
+	owningType.oclIsKindOf(ViewDefinition) or
+	owningType.oclIsKindOf(ViewUsage)</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#FeatureMembership" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#ViewUsage">
+        <rdfs:label>ViewUsage</rdfs:label>
+        <rdfs:comment>A ViewUsage is a usage of a ViewDefinition to specify the generation of a view of the members of a collection of exposedNamespaces. The ViewUsage can satisfy more viewpoints than its definition, and it can specialize the viewRendering specified by its definition.
+	exposedElement = ownedImport-&gt;selectByKind(Expose).
+	importedMemberships(Set{}).memberElement-&gt;
+	select(elm | includeAsExposed(elm))-&gt;
+	asOrderedSet()
+	satisfiedViewpoint = ownedRequirement-&gt;
+	selectByKind(ViewpointUsage)-&gt;
+	select(isComposite)
+	viewCondition = ownedMembership-&gt;
+	selectByKind(ElementFilterMembership).
+	condition
+	viewRendering =
+	let renderings: OrderedSet(ViewRenderingMembership) =
+	featureMembership-&gt;selectByKind(ViewRenderingMembership) in
+	if renderings-&gt;isEmpty() then null
+	else renderings-&gt;first().referencedRendering
+	endif
+	featureMembership-&gt;
+	selectByKind(ViewRenderingMembership)-&gt;
+	size()  null and
+	(owningType.oclIsKindOf(ViewDefinition) or
+	owningType.oclIsKindOf(ViewUsage)) implies
+	specializesFromLibrary('Views::View::subviews')</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#PartUsage" />
+    </owl:Class>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#ViewpointUsage">
+        <rdfs:label>ViewpointUsage</rdfs:label>
+        <rdfs:comment>A ViewpointUsage is a Usage of a ViewpointDefinition.
+	
+	
+	viewpointStakeholder = framedConcern.featureMemberhsip-&gt;
+	selectByKind(StakeholderMembership).
+	ownedStakeholderParameter
+	specializesFromLibrary('Views::viewpoints')
+	isComposite and owningType &lt;&gt; null and
+	(owningType.oclIsKindOf(ViewDefinition) or
+	owningType.oclIsKindOf(ViewUsage)) implies
+	specializesFromLibrary('Views::View::viewpointSatisfactions')</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#RequirementUsage" />
+    </owl:Class>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#ActorMembership_ownedActorParameter">
+        <rdfs:label>ownedActorParameter</rdfs:label>
+        <rdfs:comment>The PartUsage specifying the actor.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#ActorMembership" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#PartUsage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#ParameterMembership_ownedMemberParameter" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#AnnotatingElement_ownedAnnotatingRelationship">
+        <rdfs:label>ownedAnnotatingRelationship</rdfs:label>
+        <rdfs:comment>The ownedRelationships of this AnnotatingElement that are Annotations, for which this AnnotatingElement is the annotatingElement.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#AnnotatingElement" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Annotation" />
+        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#Annotation_owningAnnotatingElement" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Annotation_owningAnnotatedElement">
+        <rdfs:label>owningAnnotatedElement</rdfs:label>
+        <rdfs:comment>The annotatedElement of this Annotation, when it is also its owningRelatedElement.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Annotation" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Element" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Annotation_annotatedElement" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Relationship_owningRelatedElement" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Annotation_owningAnnotatingElement">
+        <rdfs:label>owningAnnotatingElement</rdfs:label>
+        <rdfs:comment>The annotatingElement of this Annotation, when it is also its owningRelatedElement.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Annotation" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#AnnotatingElement" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Annotation_annotatingElement" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Relationship_owningRelatedElement" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Classifier_ownedSubclassification">
+        <rdfs:label>ownedSubclassification</rdfs:label>
+        <rdfs:comment>The ownedSpecializations of this Classifier that are Subclassifications, for which this Classifier is the subclassifier.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Classifier" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Subclassification" />
+        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#Subclassification_owningClassifier" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#ConjugatedPortDefinition_ownedPortConjugator">
+        <rdfs:label>ownedPortConjugator</rdfs:label>
+        <rdfs:comment>The PortConjugation that is the ownedConjugator of this ConjugatedPortDefinition, linking it to its originalPortDefinition.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#ConjugatedPortDefinition" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#PortConjugation" />
+        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#PortConjugation_conjugatedPortDefinition" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Conjugation_owningType">
+        <rdfs:label>owningType</rdfs:label>
+        <rdfs:comment>The conjugatedType of this Conjugation that is also its owningRelatedElement.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Conjugation" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Type" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Conjugation_conjugatedType" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Relationship_owningRelatedElement" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Definition_ownedAction">
+        <rdfs:label>ownedAction</rdfs:label>
+        <rdfs:comment>The ActionUsages that are ownedUsages of this Definition.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Definition" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#ActionUsage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Definition_ownedOccurrence" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Definition_ownedAllocation">
+        <rdfs:label>ownedAllocation</rdfs:label>
+        <rdfs:comment>The AllocationUsages that are ownedUsages of this Definition.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Definition" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#AllocationUsage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Definition_ownedConnection" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Definition_ownedAnalysisCase">
+        <rdfs:label>ownedAnalysisCase</rdfs:label>
+        <rdfs:comment>The AnalysisCaseUsages that are ownedUsages of this Definition.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Definition" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#AnalysisCaseUsage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Definition_ownedCase" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Definition_ownedAttribute">
+        <rdfs:label>ownedAttribute</rdfs:label>
+        <rdfs:comment>The AttributeUsages that are ownedUsages of this Definition.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Definition" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#AttributeUsage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Definition_ownedUsage" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Definition_ownedCalculation">
+        <rdfs:label>ownedCalculation</rdfs:label>
+        <rdfs:comment>The CalculationUsages that are ownedUsages of this Definition.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Definition" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#CalculationUsage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Definition_ownedAction" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Definition_ownedCase">
+        <rdfs:label>ownedCase</rdfs:label>
+        <rdfs:comment>The code&gt;CaseUsages that are ownedUsages of this Definition.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Definition" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#CaseUsage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Definition_ownedCalculation" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Definition_ownedConcern">
+        <rdfs:label>ownedConcern</rdfs:label>
+        <rdfs:comment>The ConcernUsages that are ownedUsages of this Definition.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Definition" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#ConcernUsage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Definition_ownedRequirement" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Definition_ownedConnection">
+        <rdfs:label>ownedConnection</rdfs:label>
+        <rdfs:comment>The ConnectorAsUsages that are ownedUsages of this Definition. Note that this list includes BindingConnectorAsUsages and SuccessionAsUsages, even though these are ConnectorAsUsages but not ConnectionUsages.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Definition" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#ConnectorAsUsage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Definition_ownedPart" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Definition_ownedConstraint">
+        <rdfs:label>ownedConstraint</rdfs:label>
+        <rdfs:comment>The ConstraintUsages that are ownedUsages of this Definition.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Definition" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#ConstraintUsage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Definition_ownedOccurrence" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Definition_ownedEnumeration">
+        <rdfs:label>ownedEnumeration</rdfs:label>
+        <rdfs:comment>The EnumerationUsages that are ownedUsages of this Definition.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Definition" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#EnumerationUsage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Definition_ownedAttribute" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Definition_ownedFlow">
+        <rdfs:label>ownedFlow</rdfs:label>
+        <rdfs:comment>The FlowConnectionUsages that are ownedUsages of this Definition.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Definition" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#FlowConnectionUsage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Definition_ownedConnection" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Definition_ownedInterface">
+        <rdfs:label>ownedInterface</rdfs:label>
+        <rdfs:comment>The InterfaceUsages that are ownedUsages of this Definition.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Definition" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#InterfaceUsage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Definition_ownedConnection" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Definition_ownedItem">
+        <rdfs:label>ownedItem</rdfs:label>
+        <rdfs:comment>The ItemUsages that are ownedUsages of this Definition.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Definition" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#ItemUsage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Definition_ownedOccurrence" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Definition_ownedMetadata">
+        <rdfs:label>ownedMetadata</rdfs:label>
+        <rdfs:comment>The MetadataUsages that are ownedUsages of this Definition.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Definition" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#MetadataUsage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Definition_ownedItem" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Definition_ownedOccurrence">
+        <rdfs:label>ownedOccurrence</rdfs:label>
+        <rdfs:comment>The OccurrenceUsages that are ownedUsages of this Definition.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Definition" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#OccurrenceUsage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Definition_ownedUsage" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Definition_ownedPart">
+        <rdfs:label>ownedPart</rdfs:label>
+        <rdfs:comment>The PartUsages that are ownedUsages of this Definition.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Definition" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#PartUsage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Definition_ownedItem" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Definition_ownedPort">
+        <rdfs:label>ownedPort</rdfs:label>
+        <rdfs:comment>The PortUsages that are ownedUsages of this Definition.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Definition" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#PortUsage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Definition_ownedUsage" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Definition_ownedReference">
+        <rdfs:label>ownedReference</rdfs:label>
+        <rdfs:comment>The ReferenceUsages that are ownedUsages of this Definition.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Definition" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#ReferenceUsage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Definition_ownedUsage" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Definition_ownedRendering">
+        <rdfs:label>ownedRendering</rdfs:label>
+        <rdfs:comment>The RenderingUsages that are ownedUsages of this Definition.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Definition" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#RenderingUsage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Definition_ownedPart" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Definition_ownedRequirement">
+        <rdfs:label>ownedRequirement</rdfs:label>
+        <rdfs:comment>The RequirementUsages that are ownedUsages of this Definition.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Definition" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#RequirementUsage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Definition_ownedConstraint" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Definition_ownedState">
+        <rdfs:label>ownedState</rdfs:label>
+        <rdfs:comment>The StateUsages that are ownedUsages of this Definition.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Definition" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#StateUsage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Definition_ownedAction" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Definition_ownedTransition">
+        <rdfs:label>ownedTransition</rdfs:label>
+        <rdfs:comment>The TransitionUsages that are ownedUsages of this Definition.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Definition" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#TransitionUsage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Definition_ownedUsage" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Definition_ownedUsage">
+        <rdfs:label>ownedUsage</rdfs:label>
+        <rdfs:comment>The Usages that are ownedFeatures of this Definition.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Definition" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Usage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Definition_usage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Type_ownedFeature" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Definition_ownedUseCase">
+        <rdfs:label>ownedUseCase</rdfs:label>
+        <rdfs:comment>The UseCaseUsages that are ownedUsages of this Definition.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Definition" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#UseCaseUsage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Definition_ownedCase" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Definition_ownedVerificationCase">
+        <rdfs:label>ownedVerificationCase</rdfs:label>
+        <rdfs:comment>The VerificationCaseUsages that are ownedUsages of this Definition.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Definition" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#VerificationCaseUsage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Definition_ownedCase" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Definition_ownedView">
+        <rdfs:label>ownedView</rdfs:label>
+        <rdfs:comment>The ViewUsages that are ownedUsages of this Definition.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Definition" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#ViewUsage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Definition_ownedPart" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Definition_ownedViewpoint">
+        <rdfs:label>ownedViewpoint</rdfs:label>
+        <rdfs:comment>The ViewpointUsages that are ownedUsages of this Definition.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Definition" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#ViewpointUsage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Definition_ownedRequirement" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Disjoining_owningType">
+        <rdfs:label>owningType</rdfs:label>
+        <rdfs:comment>A typeDisjoined that is also an owningRelatedElement.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Disjoining" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Type" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Disjoining_typeDisjoined" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Relationship_owningRelatedElement" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Element_ownedAnnotation">
+        <rdfs:label>ownedAnnotation</rdfs:label>
+        <rdfs:comment>The ownedRelationships of this Element that are Annotations, for which this Element is the annotatedElement.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Element" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Annotation" />
+        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#Annotation_owningAnnotatedElement" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Element_ownedElement">
+        <rdfs:label>ownedElement</rdfs:label>
+        <rdfs:comment>The Elements owned by this Element, derived as the ownedRelatedElements of the ownedRelationships of this Element.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Element" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Element" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Element_ownedRelationship">
+        <rdfs:label>ownedRelationship</rdfs:label>
+        <rdfs:comment>The Relationships for which this Element is the owningRelatedElement.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Element" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Relationship" />
+        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#Relationship_owningRelatedElement" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Element_owner">
+        <rdfs:label>owner</rdfs:label>
+        <rdfs:comment>The owner of this Element, derived as the owningRelatedElement of the owningRelationship of this Element, if any.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Element" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Element" />
+        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#Element_ownedElement" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Element_owningMembership">
+        <rdfs:label>owningMembership</rdfs:label>
+        <rdfs:comment>The owningRelationship of this Element, if that Relationship is a Membership.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Element" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#OwningMembership" />
+        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#OwningMembership_ownedMemberElement" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Element_owningNamespace">
+        <rdfs:label>owningNamespace</rdfs:label>
+        <rdfs:comment>The Namespace that owns this Element, which is the membershipOwningNamespace of the owningMembership of this Element, if any.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Element" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Namespace" />
+        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#Namespace_ownedMember" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Element_owningRelationship">
+        <rdfs:label>owningRelationship</rdfs:label>
+        <rdfs:comment>The Relationship for which this Element is an ownedRelatedElement, if any.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Element" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Relationship" />
+        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#Relationship_ownedRelatedElement" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#FeatureInverting_owningFeature">
+        <rdfs:label>owningFeature</rdfs:label>
+        <rdfs:comment>A featureInverted that is also the owningRelatedElement of this FeatureInverting.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#FeatureInverting" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Feature" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#FeatureInverting_featureInverted" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Relationship_owningRelatedElement" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#FeatureMembership_ownedMemberFeature">
+        <rdfs:label>ownedMemberFeature</rdfs:label>
+        <rdfs:comment>The Feature that this FeatureMembership relates to its owningType, making it an ownedFeature of the owningType.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#FeatureMembership" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Feature" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Featuring_feature" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#OwningMembership_ownedMemberElement" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#FeatureMembership_owningType">
+        <rdfs:label>owningType</rdfs:label>
+        <rdfs:comment>The Type that owns this FeatureMembership.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#FeatureMembership" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Type" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Featuring_type" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Membership_membershipOwningNamespace" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#FeatureTyping_owningFeature">
+        <rdfs:label>owningFeature</rdfs:label>
+        <rdfs:comment>A typedFeature that is also the owningRelatedElement of this FeatureTyping.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#FeatureTyping" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Feature" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#FeatureTyping_typedFeature" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Specialization_owningType" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Feature_ownedFeatureChaining">
+        <rdfs:label>ownedFeatureChaining</rdfs:label>
+        <rdfs:comment>The ownedRelationships of this Feature that are FeatureChainings, for which the Feature will be the featureChained.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Feature" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#FeatureChaining" />
+        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#FeatureChaining_featureChained" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Feature_ownedFeatureInverting">
+        <rdfs:label>ownedFeatureInverting</rdfs:label>
+        <rdfs:comment>The ownedRelationships of this Feature that are FeatureInvertings and for which the Feature is the featureInverted.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Feature" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#FeatureInverting" />
+        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#FeatureInverting_owningFeature" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Feature_ownedRedefinition">
+        <rdfs:label>ownedRedefinition</rdfs:label>
+        <rdfs:comment>The ownedSubsettings of this Feature that are Redefinitions, for which the Feature is the redefiningFeature.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Feature" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Redefinition" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Feature_ownedSubsetting" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Feature_ownedReferenceSubsetting">
+        <rdfs:label>ownedReferenceSubsetting</rdfs:label>
+        <rdfs:comment>The one ownedSubsetting of this Feature, if any, that is a ReferenceSubsetting, for which the Feature is the referencingFeature.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Feature" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#ReferenceSubsetting" />
+        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#ReferenceSubsetting_referencingFeature" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Feature_ownedSubsetting">
+        <rdfs:label>ownedSubsetting</rdfs:label>
+        <rdfs:comment>The ownedSpecializations of this Feature that are Subsettings, for which the Feature is the subsettingFeature.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Feature" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Subsetting" />
+        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#Subsetting_owningFeature" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Feature_ownedTypeFeaturing">
+        <rdfs:label>ownedTypeFeaturing</rdfs:label>
+        <rdfs:comment>The ownedRelationships of this Feature that are TypeFeaturings and for which the Feature is the featureOfType.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Feature" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#TypeFeaturing" />
+        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#TypeFeaturing_owningFeatureOfType" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Feature_ownedTyping">
+        <rdfs:label>ownedTyping</rdfs:label>
+        <rdfs:comment>The ownedSpecializations of this Feature that are FeatureTypings, for which the Feature is the typedFeature.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Feature" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#FeatureTyping" />
+        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#FeatureTyping_owningFeature" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Feature_owningFeatureMembership">
+        <rdfs:label>owningFeatureMembership</rdfs:label>
+        <rdfs:comment>The FeatureMembership that owns this Feature as an ownedMemberFeature, determining its owningType.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Feature" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#FeatureMembership" />
+        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#FeatureMembership_ownedMemberFeature" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Feature_owningType">
+        <rdfs:label>owningType</rdfs:label>
+        <rdfs:comment>The Type that is the owningType of the owningFeatureMembership of this Feature.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Feature" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Type" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Feature_featuringType" />
+        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#Type_ownedFeature" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#FramedConcernMembership_ownedConcern">
+        <rdfs:label>ownedConcern</rdfs:label>
+        <rdfs:comment>The ConcernUsage that is the ownedConstraint of this FramedConcernMembership.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#FramedConcernMembership" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#ConcernUsage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#RequirementConstraintMembership_ownedConstraint" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Namespace_ownedImport">
+        <rdfs:label>ownedImport</rdfs:label>
+        <rdfs:comment>The ownedRelationships of this Namespace that are Imports, for which the Namespace is the importOwningNamespace.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Namespace" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Import" />
+        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#Import_importOwningNamespace" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Namespace_ownedMember">
+        <rdfs:label>ownedMember</rdfs:label>
+        <rdfs:comment>The owned members of this Namespace, which are the ownedMemberElements of the ownedMemberships of the Namespace.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Namespace" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Element" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Namespace_member" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Namespace_ownedMembership">
+        <rdfs:label>ownedMembership</rdfs:label>
+        <rdfs:comment>The ownedRelationships of this Namespace that are Memberships, for which the Namespace is the membershipOwningNamespace.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Namespace" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Membership" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Namespace_membership" />
+        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#Membership_membershipOwningNamespace" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#ObjectiveMembership_ownedObjectiveRequirement">
+        <rdfs:label>ownedObjectiveRequirement</rdfs:label>
+        <rdfs:comment>The RequirementUsage that is the ownedMemberFeature of this RequirementUsage.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#ObjectiveMembership" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#RequirementUsage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#FeatureMembership_ownedMemberFeature" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#OwningMembership_ownedMemberElement">
+        <rdfs:label>ownedMemberElement</rdfs:label>
+        <rdfs:comment>The Element that becomes an ownedMember of the membershipOwningNamespace due to this OwningMembership.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#OwningMembership" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Element" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Membership_memberElement" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Relationship_ownedRelatedElement" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#ParameterMembership_ownedMemberParameter">
+        <rdfs:label>ownedMemberParameter</rdfs:label>
+        <rdfs:comment>The Feature that is identified as a parameter by this ParameterMembership.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#ParameterMembership" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Feature" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#FeatureMembership_ownedMemberFeature" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Relationship_ownedRelatedElement">
+        <rdfs:label>ownedRelatedElement</rdfs:label>
+        <rdfs:comment>The relatedElements of this Relationship that are owned by the Relationship.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Relationship" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Element" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Relationship_relatedElement" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Relationship_owningRelatedElement">
+        <rdfs:label>owningRelatedElement</rdfs:label>
+        <rdfs:comment>The relatedElement of this Relationship that owns the Relationship, if any.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Relationship" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Element" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Relationship_relatedElement" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#RequirementConstraintMembership_ownedConstraint">
+        <rdfs:label>ownedConstraint</rdfs:label>
+        <rdfs:comment>The ConstraintUsage that is the ownedMemberFeature of this RequirementConstraintMembership.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#RequirementConstraintMembership" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#ConstraintUsage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#FeatureMembership_ownedMemberFeature" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#RequirementVerificationMembership_ownedRequirement">
+        <rdfs:label>ownedRequirement</rdfs:label>
+        <rdfs:comment>The owned RequirementUsage that acts as the ownedConstraint for this RequirementVerificationMembership. This will either be the verifiedRequirement, or it will subset the verifiedRequirement.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#RequirementVerificationMembership" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#RequirementUsage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#RequirementConstraintMembership_ownedConstraint" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#ResultExpressionMembership_ownedResultExpression">
+        <rdfs:label>ownedResultExpression</rdfs:label>
+        <rdfs:comment>The Expression that provides the result for the owner of the ResultExpressionMembership.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#ResultExpressionMembership" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Expression" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#FeatureMembership_ownedMemberFeature" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Specialization_owningType">
+        <rdfs:label>owningType</rdfs:label>
+        <rdfs:comment>The Type that is the specific Type of this Specialization and owns it as its owningRelatedElement.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Specialization" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Type" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Relationship_owningRelatedElement" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Specialization_specific" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#StakeholderMembership_ownedStakeholderParameter">
+        <rdfs:label>ownedStakeholderParameter</rdfs:label>
+        <rdfs:comment>The PartUsage specifying the stakeholder.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#StakeholderMembership" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#PartUsage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#ParameterMembership_ownedMemberParameter" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Subclassification_owningClassifier">
+        <rdfs:label>owningClassifier</rdfs:label>
+        <rdfs:comment>The Classifier that owns this Subclassification relationship, which must also be its subclassifier.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Subclassification" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Classifier" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Specialization_owningType" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#SubjectMembership_ownedSubjectParameter">
+        <rdfs:label>ownedSubjectParameter</rdfs:label>
+        <rdfs:comment>The UsageownedMemberParameter of this SubjectMembership.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#SubjectMembership" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Usage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#ParameterMembership_ownedMemberParameter" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Subsetting_owningFeature">
+        <rdfs:label>owningFeature</rdfs:label>
+        <rdfs:comment>A subsettingFeature that is also the owningRelatedElement of this Subsetting.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Subsetting" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Feature" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Specialization_owningType" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Subsetting_subsettingFeature" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#TypeFeaturing_owningFeatureOfType">
+        <rdfs:label>owningFeatureOfType</rdfs:label>
+        <rdfs:comment>A featureOfType that is also the owningRelatedElement of this TypeFeaturing.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#TypeFeaturing" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Feature" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Relationship_owningRelatedElement" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#TypeFeaturing_featureOfType" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Type_ownedConjugator">
+        <rdfs:label>ownedConjugator</rdfs:label>
+        <rdfs:comment>A Conjugation owned by this Type for which the Type is the originalType.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Type" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Conjugation" />
+        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#Conjugation_owningType" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Type_ownedDifferencing">
+        <rdfs:label>ownedDifferencing</rdfs:label>
+        <rdfs:comment>The ownedRelationships of this Type that are Differencings, having this Type as their typeDifferenced.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Type" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Differencing" />
+        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#Differencing_typeDifferenced" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Type_ownedDisjoining">
+        <rdfs:label>ownedDisjoining</rdfs:label>
+        <rdfs:comment>The ownedRelationships of this Type that are Disjoinings, for which the Type is the typeDisjoined Type.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Type" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Disjoining" />
+        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#Disjoining_owningType" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Type_ownedEndFeature">
+        <rdfs:label>ownedEndFeature</rdfs:label>
+        <rdfs:comment>All endFeatures of this Type that are ownedFeatures.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Type" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Feature" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Type_endFeature" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Type_ownedFeature" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Type_ownedFeature">
+        <rdfs:label>ownedFeature</rdfs:label>
+        <rdfs:comment>The ownedMemberFeatures of the ownedFeatureMemberships of this Type.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Type" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Feature" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Namespace_ownedMember" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Type_ownedFeatureMembership">
+        <rdfs:label>ownedFeatureMembership</rdfs:label>
+        <rdfs:comment>The ownedMemberships of this Type that are FeatureMemberships, for which the Type is the owningType. Each such FeatureMembership identifies an ownedFeature of the Type.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Type" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#FeatureMembership" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Type_featureMembership" />
+        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#FeatureMembership_owningType" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Type_ownedIntersecting">
+        <rdfs:label>ownedIntersecting</rdfs:label>
+        <rdfs:comment>The ownedRelationships of this Type that are Intersectings, have the Type as their typeIntersected.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Type" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Intersecting" />
+        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#Intersecting_typeIntersected" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Type_ownedSpecialization">
+        <rdfs:label>ownedSpecialization</rdfs:label>
+        <rdfs:comment>The ownedRelationships of this Type that are Specializations, for which the Type is the specific Type.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Type" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Specialization" />
+        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#Specialization_owningType" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Type_ownedUnioning">
+        <rdfs:label>ownedUnioning</rdfs:label>
+        <rdfs:comment>The ownedRelationships of this Type that are Unionings, having the Type as their typeUnioned.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Type" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Unioning" />
+        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#Unioning_typeUnioned" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Usage_owningDefinition">
+        <rdfs:label>owningDefinition</rdfs:label>
+        <rdfs:comment>The Definition that owns this Usage (if any).</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Usage" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Definition" />
+        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#Definition_ownedUsage" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Usage_owningUsage">
+        <rdfs:label>owningUsage</rdfs:label>
+        <rdfs:comment>The Usage in which this Usage is nested (if any).</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Usage" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Usage" />
+        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#Usage_nestedUsage" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#VariantMembership_ownedVariantUsage">
+        <rdfs:label>ownedVariantUsage</rdfs:label>
+        <rdfs:comment>The Usage that represents a variant in the context of the owningVariationDefinition or owningVariationUsage.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#VariantMembership" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Usage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#OwningMembership_ownedMemberElement" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#ViewRenderingMembership_ownedRendering">
+        <rdfs:label>ownedRendering</rdfs:label>
+        <rdfs:comment>The owned RenderingUsage that is either itself the referencedRendering or subsets the referencedRendering.</rdfs:comment>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#ViewRenderingMembership" />
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#RenderingUsage" />
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#FeatureMembership_ownedMemberFeature" />
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty" />
+    </owl:ObjectProperty>
+</rdf:RDF>

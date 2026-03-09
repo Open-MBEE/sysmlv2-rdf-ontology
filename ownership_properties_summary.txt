@@ -1,0 +1,287 @@
+================================================================================
+OWNERSHIP-RELATED OBJECT PROPERTIES FROM SysML.owl
+================================================================================
+
+SUMMARY STATISTICS
+------------------
+Total Properties Found: 86
+
+Breakdown by Pattern:
+  - 'owner' pattern  (e.g., Element_owner): 1 property
+  - 'owned' pattern  (e.g., Element_ownedElement): 66 properties  
+  - 'owning' pattern (e.g., Element_owningRelationship): 19 properties
+
+Characteristics:
+  - Functional Properties: 61
+  - Inverse Functional Properties: 11
+  - Properties with inverseOf: 31
+
+================================================================================
+KEY CORE OWNERSHIP PROPERTIES
+================================================================================
+
+1. Element_owner
+   - Domain: Element → Range: Element
+   - Inverse of: Element_ownedElement
+   - Comment: The owner of this Element, derived as the owningRelatedElement
+     of the owningRelationship of this Element, if any.
+
+2. Element_ownedElement  
+   - Domain: Element → Range: Element
+   - Comment: The Elements owned by this Element, derived as the 
+     ownedRelatedElements of the ownedRelationships of this Element.
+
+3. Element_ownedRelationship
+   - Domain: Element → Range: Relationship
+   - Characteristics: InverseFunctional
+   - Inverse of: Relationship_owningRelatedElement
+   - Comment: The Relationships for which this Element is the 
+     owningRelatedElement.
+
+4. Element_owningRelationship
+   - Domain: Element → Range: Relationship
+   - Inverse of: Relationship_ownedRelatedElement
+   - Comment: The Relationship for which this Element is an 
+     ownedRelatedElement, if any.
+
+5. Element_owningMembership
+   - Domain: Element → Range: OwningMembership
+   - Characteristics: Functional, InverseFunctional
+   - Inverse of: OwningMembership_ownedMemberElement
+   - Comment: The owningRelationship of this Element, if that 
+     Relationship is a Membership.
+
+6. Element_owningNamespace
+   - Domain: Element → Range: Namespace
+   - Inverse of: Namespace_ownedMember
+   - Comment: The Namespace that owns this Element, which is the 
+     membershipOwningNamespace of the owningMembership of this Element.
+
+================================================================================
+NAMESPACE & MEMBERSHIP OWNERSHIP PROPERTIES
+================================================================================
+
+7. Namespace_ownedMember
+   - Domain: Namespace → Range: Element
+   - Sub-property of: Namespace_member
+   - Comment: The owned members of this Namespace.
+
+8. Namespace_ownedMembership
+   - Domain: Namespace → Range: Membership
+   - Characteristics: Functional, InverseFunctional
+   - Inverse of: Membership_membershipOwningNamespace
+   - Sub-property of: Namespace_membership
+
+9. OwningMembership_ownedMemberElement
+   - Domain: OwningMembership → Range: Element
+   - Characteristics: Functional
+   - Sub-property of: Membership_memberElement, Relationship_ownedRelatedElement
+
+================================================================================
+TYPE & FEATURE OWNERSHIP PROPERTIES
+================================================================================
+
+10. Type_ownedFeature
+    - Domain: Type → Range: Feature
+    - Sub-property of: Namespace_ownedMember
+    - Comment: The ownedMemberFeatures of the ownedFeatureMemberships.
+
+11. Type_ownedFeatureMembership
+    - Domain: Type → Range: FeatureMembership
+    - Characteristics: Functional, InverseFunctional
+    - Inverse of: FeatureMembership_owningType
+    - Sub-property of: Type_featureMembership
+
+12. Type_ownedSpecialization
+    - Domain: Type → Range: Specialization
+    - Characteristics: Functional, InverseFunctional
+    - Inverse of: Specialization_owningType
+
+13. Feature_owningType
+    - Domain: Feature → Range: Type
+    - Inverse of: Type_ownedFeature
+    - Sub-property of: Feature_featuringType
+
+14. Feature_owningFeatureMembership
+    - Domain: Feature → Range: FeatureMembership
+    - Characteristics: Functional, InverseFunctional
+    - Inverse of: FeatureMembership_ownedMemberFeature
+
+15. FeatureMembership_owningType
+    - Domain: FeatureMembership → Range: Type
+    - Characteristics: Functional
+    - Sub-property of: Featuring_type, Membership_membershipOwningNamespace
+
+16. FeatureMembership_ownedMemberFeature
+    - Domain: FeatureMembership → Range: Feature
+    - Characteristics: Functional
+    - Sub-property of: Featuring_feature, OwningMembership_ownedMemberElement
+
+================================================================================
+SPECIALIZATION & RELATIONSHIP OWNERSHIP PROPERTIES
+================================================================================
+
+17. Specialization_owningType
+    - Domain: Specialization → Range: Type
+    - Characteristics: Functional
+    - Sub-property of: Relationship_owningRelatedElement, Specialization_specific
+
+18. Subclassification_owningClassifier
+    - Domain: Subclassification → Range: Classifier
+    - Characteristics: Functional
+    - Sub-property of: Specialization_owningType
+
+19. Subsetting_owningFeature
+    - Domain: Subsetting → Range: Feature
+    - Characteristics: Functional
+    - Sub-property of: Specialization_owningType, Subsetting_subsettingFeature
+
+20. FeatureTyping_owningFeature
+    - Domain: FeatureTyping → Range: Feature
+    - Characteristics: Functional
+    - Sub-property of: FeatureTyping_typedFeature, Specialization_owningType
+
+21. Relationship_ownedRelatedElement
+    - Domain: Relationship → Range: Element
+    - Sub-property of: Relationship_relatedElement
+
+22. Relationship_owningRelatedElement
+    - Domain: Relationship → Range: Element
+    - Characteristics: Functional
+    - Sub-property of: Relationship_relatedElement
+
+================================================================================
+DEFINITION & USAGE OWNERSHIP PROPERTIES (Sample)
+================================================================================
+
+23. Definition_ownedUsage
+    - Domain: Definition → Range: Usage
+    - Sub-property of: Definition_usage, Type_ownedFeature
+
+24. Definition_ownedAction
+    - Domain: Definition → Range: ActionUsage
+    - Sub-property of: Definition_ownedOccurrence
+
+25. Definition_ownedPart
+    - Domain: Definition → Range: PartUsage
+    - Sub-property of: Definition_ownedItem
+
+26. Definition_ownedPort
+    - Domain: Definition → Range: PortUsage
+    - Sub-property of: Definition_ownedUsage
+
+27. Definition_ownedAttribute
+    - Domain: Definition → Range: AttributeUsage
+    - Sub-property of: Definition_ownedUsage
+
+28. Definition_ownedConnection
+    - Domain: Definition → Range: ConnectorAsUsage
+    - Sub-property of: Definition_ownedPart
+
+29. Definition_ownedConstraint
+    - Domain: Definition → Range: ConstraintUsage
+    - Sub-property of: Definition_ownedOccurrence
+
+30. Definition_ownedRequirement
+    - Domain: Definition → Range: RequirementUsage
+    - Sub-property of: Definition_ownedConstraint
+
+31. Usage_owningDefinition
+    - Domain: Usage → Range: Definition
+    - Inverse of: Definition_ownedUsage
+
+32. Usage_owningUsage
+    - Domain: Usage → Range: Usage
+    - Inverse of: Usage_nestedUsage
+
+================================================================================
+SPECIALIZED MEMBERSHIP OWNERSHIP PROPERTIES
+================================================================================
+
+33. ParameterMembership_ownedMemberParameter
+    - Domain: ParameterMembership → Range: Feature
+    - Characteristics: Functional
+    - Sub-property of: FeatureMembership_ownedMemberFeature
+
+34. ActorMembership_ownedActorParameter
+    - Domain: ActorMembership → Range: PartUsage
+    - Characteristics: Functional
+    - Sub-property of: ParameterMembership_ownedMemberParameter
+
+35. SubjectMembership_ownedSubjectParameter
+    - Domain: SubjectMembership → Range: Usage
+    - Characteristics: Functional
+    - Sub-property of: ParameterMembership_ownedMemberParameter
+
+36. RequirementConstraintMembership_ownedConstraint
+    - Domain: RequirementConstraintMembership → Range: ConstraintUsage
+    - Characteristics: Functional
+    - Sub-property of: FeatureMembership_ownedMemberFeature
+
+37. ObjectiveMembership_ownedObjectiveRequirement
+    - Domain: ObjectiveMembership → Range: RequirementUsage
+    - Characteristics: Functional
+    - Sub-property of: FeatureMembership_ownedMemberFeature
+
+================================================================================
+ADDITIONAL OWNERSHIP PROPERTIES
+================================================================================
+
+Other ownership properties include:
+
+Feature-related:
+- Feature_ownedTyping, Feature_ownedSubsetting, Feature_ownedRedefinition
+- Feature_ownedFeatureChaining, Feature_ownedFeatureInverting
+- Feature_ownedReferenceSubsetting, Feature_ownedTypeFeaturing
+
+Type-related:
+- Type_ownedConjugator, Type_ownedDisjoining, Type_ownedDifferencing
+- Type_ownedIntersecting, Type_ownedUnioning, Type_ownedEndFeature
+
+Annotation-related:
+- Element_ownedAnnotation, AnnotatingElement_ownedAnnotatingRelationship
+- Annotation_owningAnnotatedElement, Annotation_owningAnnotatingElement
+
+Definition specialized usages (continued):
+- Definition_ownedCalculation, Definition_ownedCase, Definition_ownedAnalysisCase
+- Definition_ownedVerificationCase, Definition_ownedUseCase
+- Definition_ownedState, Definition_ownedTransition
+- Definition_ownedFlow, Definition_ownedInterface, Definition_ownedAllocation
+- Definition_ownedItem, Definition_ownedOccurrence, Definition_ownedMetadata
+- Definition_ownedEnumeration, Definition_ownedConcern
+- Definition_ownedReference, Definition_ownedRendering
+- Definition_ownedView, Definition_ownedViewpoint
+
+Other specialized:
+- Classifier_ownedSubclassification
+- ConjugatedPortDefinition_ownedPortConjugator
+- Conjugation_owningType, Disjoining_owningType
+- FeatureInverting_owningFeature, TypeFeaturing_owningFeatureOfType
+- FramedConcernMembership_ownedConcern
+- Namespace_ownedImport
+- RequirementVerificationMembership_ownedRequirement
+- ResultExpressionMembership_ownedResultExpression
+- StakeholderMembership_ownedStakeholderParameter
+- VariantMembership_ownedVariantUsage
+- ViewRenderingMembership_ownedRendering
+
+================================================================================
+FILES GENERATED
+================================================================================
+
+1. /tmp/ownership_props.json
+   - Complete raw JSON data with all property details
+
+2. /tmp/ownership_props.csv  
+   - Spreadsheet format for easy import/analysis
+
+3. /tmp/ownership_props_summary.json
+   - JSON summary with categorized data
+
+4. /tmp/ownership_props_report.md
+   - Detailed markdown report
+
+5. /tmp/ownership_properties_summary.txt
+   - This summary file
+
+================================================================================

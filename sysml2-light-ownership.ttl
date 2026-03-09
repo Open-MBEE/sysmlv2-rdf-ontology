@@ -1,0 +1,1191 @@
+# SysML2 Light Ontology - Ownership Relationships
+# Generated: 2026-02-24T14:56:36.130347
+# Focus: Ownership and containment relationships
+# Classes: 68 | Properties: 86
+
+@prefix : <https://www.omg.org/spec/SysML#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.omg.org/spec/SysML-Light-Ownership>
+    a owl:Ontology ;
+    rdfs:label "SysML2 Light Ontology - Ownership" ;
+    rdfs:comment "A lightweight version of the SysML2 ontology focused on querying ownership and containment relationships." ;
+    owl:versionInfo "1.0" .
+
+#
+# Classes
+#
+
+:ActionUsage
+    a owl:Class ;
+    rdfs:label "ActionUsage" ;
+    rdfs:comment "An ActionUsage is a Usage that is also a Step, and, so, is typed by a Behavior. Nominally, if the type is an ActionDefinition, an ActionUsage is a Usage of that ActionDefinition within a system. However, other kinds of kernel Behaviors are also allowed, to permit use of Behaviors from the Kernel Model Libraries.\n	\n	isSubactionUsage() implies\n	specializesFromLibrary('Actions::Action::subactions')\n	specializesFromLibrary('Actions::actions')\n	isComposite and owningType <> null and\n	(owningType.oclIsKindOf(PartDefinition) or\n	owningType.oclIsKindOf(PartUsage)) implies\n	specializesFromLibrary('Parts::Part::ownedActions')\n	owningFeatureMembership <> null and\n	owningFeatureMembership.oclIsKindOf(StateSubactionMembership) implies\n	let kind : StateSubactionKind =\n	owningFeatureMembership.oclAsType(StateSubactionMembership).kind in\n	if kind = StateSubactionKind::entry then\n	redefinesFromLibrary('States::StateAction::entryAction')\n	else if kind = StateSubactionKind::do then\n	redefinesFromLibrary('States::StateAction::doAction')\n	else\n	redefinesFromLibrary('States::StateAction::exitAction')\n	endif endif" ;
+    rdfs:subClassOf :OccurrenceUsage ;
+    rdfs:subClassOf :Step .
+
+:ActorMembership
+    a owl:Class ;
+    rdfs:label "ActorMembership" ;
+    rdfs:comment "An ActorMembership is a ParameterMembership that identifies a PartUsage as an actor parameter, which specifies a role played by an external entity in interaction with the owningType of the ActorMembership.\n	owningType.oclIsKindOf(RequirementUsage) or\n	owningType.oclIsKindOf(RequirementDefinition) or\n	owningType.oclIsKindOf(CaseDefinition) or\n	owningType.oclIsKindOf(CaseUsage)" ;
+    rdfs:subClassOf :ParameterMembership .
+
+:AllocationUsage
+    a owl:Class ;
+    rdfs:label "AllocationUsage" ;
+    rdfs:comment "An AllocationUsage is a usage of an AllocationDefinition asserting the allocation of the source feature to the target feature.\n	specializesFromLibrary('Allocations::allocations')" ;
+    rdfs:subClassOf :ConnectionUsage .
+
+:AnalysisCaseUsage
+    a owl:Class ;
+    rdfs:label "AnalysisCaseUsage" ;
+    rdfs:comment "An AnalysisCaseUsage is a Usage of an AnalysisCaseDefinition.\n	resultExpression =\n	let results : OrderedSet(ResultExpressionMembership) =\n	featureMembersip->\n	selectByKind(ResultExpressionMembership) in\n	if results->isEmpty() then null\n	else results->first().ownedResultExpression\n	endif\n	specializesFromLibrary('AnalysisCases::analysisCases')\n	isComposite and owningType <> null and\n	(owningType.oclIsKindOf(AnalysisCaseDefinition) or\n	owningType.oclIsKindOf(AnalysisCaseUsage)) implies\n	specializesFromLibrary('AnalysisCases::AnalysisCase::subAnalysisCases')" ;
+    rdfs:subClassOf :CaseUsage .
+
+:AnnotatingElement
+    a owl:Class ;
+    rdfs:label "AnnotatingElement" ;
+    rdfs:comment "An AnnotatingElement is an Element that provides additional description of or metadata on some other Element. An AnnotatingElement is either attached to its annotatedElements by Annotation Relationships, or it implicitly annotates its owningNamespace.\n	\n	annotatedElement =\n	if annotation->notEmpty() then annotation.annotatedElement\n	else Sequence{owningNamespace} endif\n	ownedAnnotatingRelationship = ownedRelationship->\n	selectByKind(Annotation)->\n	select(a | a.annotatingElement = self)" ;
+    rdfs:subClassOf :Element .
+
+:Annotation
+    a owl:Class ;
+    rdfs:label "Annotation" ;
+    rdfs:comment "An Annotation is a Relationship between an AnnotatingElement and the Element that is annotated by that AnnotatingElement." ;
+    rdfs:subClassOf :Relationship .
+
+:AttributeUsage
+    a owl:Class ;
+    rdfs:label "AttributeUsage" ;
+    rdfs:comment "An AttributeUsage is a Usage whose type is a DataType. Nominally, if the type is an AttributeDefinition, an AttributeUsage is a usage of a AttributeDefinition to represent the value of some system quality or characteristic. However, other kinds of kernel DataTypes are also allowed, to permit use of DataTypes from the Kernel Model Libraries. An AttributeUsage itself as well as all its nested features must be referential (non-composite).\n	\n	An AttributeUsage must specialize, directly or indirectly, the base Feature Base::dataValues from the Kernel Semantic Library.\n	isReference\n	feature->forAll(not isComposite)\n	specializesFromLibrary('Base::dataValues')" ;
+    rdfs:subClassOf :Usage .
+
+:CalculationUsage
+    a owl:Class ;
+    rdfs:label "CalculationUsage" ;
+    rdfs:comment "A CalculationUsage is an ActionUsage that is also an Expression, and, so, is typed by a Function. Nominally, if the type is a CalculationDefinition, a CalculationUsage is a Usage of that CalculationDefinition within a system. However, other kinds of kernel Functions are also allowed, to permit use of Functions from the Kernel Model Libraries.\n	specializesFromLibrary('Calculations::calculations')\n	owningType <> null and\n	(owningType.oclIsKindOf(CalculationDefinition) or\n	owningType.oclIsKindOf(CalculationUsage)) implies\n	specializesFromLibrary('Calculations::Calculation::subcalculations')" ;
+    rdfs:subClassOf :ActionUsage ;
+    rdfs:subClassOf :Expression .
+
+:CaseUsage
+    a owl:Class ;
+    rdfs:label "CaseUsage" ;
+    rdfs:comment "A CaseUsage is a Usage of a CaseDefinition.\n	objectiveRequirement =\n	let objectives: OrderedSet(RequirementUsage) =\n	featureMembership->\n	selectByKind(ObjectiveMembership).\n	ownedRequirement in\n	if objectives->isEmpty() then null\n	else objectives->first().ownedObjectiveRequirement\n	endif\n	featureMembership->\n	selectByKind(ObjectiveMembership)->\n	size() \n	selectByKind(SubjectMembership)->\n	size() \n	selectByKind(ActorMembership).\n	ownedActorParameter\n	subjectParameter =\n	let subjects : OrderedSet(SubjectMembership) =\n	featureMembership->selectByKind(SubjectMembership) in\n	if subjects->isEmpty() then null\n	else subjects->first().ownedSubjectParameter\n	endif\n	input->notEmpty() and input->first() = subjectParameter\n	specializesFromLibrary('Cases::cases')\n	isComposite and owningType <> null and\n	(owningType.oclIsKindOf(CaseDefinition) or\n	owningType.oclIsKindOf(CaseUsage)) implies\n	specializesFromLibrary('Cases::Case::subcases')" ;
+    rdfs:subClassOf :CalculationUsage .
+
+:Classifier
+    a owl:Class ;
+    rdfs:label "Classifier" ;
+    rdfs:comment "A Classifier is a Type that classifies:\n	\n	\n	Things (in the universe) regardless of how Features relate them. (These are interpreted semantically as sequences of exactly one thing.)\n	How the above things are related by Features. (These are interpreted semantically as sequences of multiple things, such that the last thing in the sequence is also classified by the Classifier. Note that this means that a Classifier modeled as specializing a Feature cannot classify anything.)\n	\n	\n	\n	ownedSubclassification =\n	ownedSpecialization->selectByKind(Subclassification)\n	multiplicity <> null implies multiplicity.featuringType->isEmpty()" ;
+    rdfs:subClassOf :Type .
+
+:ConcernUsage
+    a owl:Class ;
+    rdfs:label "ConcernUsage" ;
+    rdfs:comment "A ConcernUsage is a Usage of a ConcernDefinition.\n	\n	The ownedStakeholder features of the ConcernUsage shall all subset the ConcernCheck::concernedStakeholders feature. If the ConcernUsage is an ownedFeature of a StakeholderDefinition or StakeholderUsage, then the ConcernUsage shall have an ownedStakeholder feature that is bound to the self feature of its owner.\n	\n	specializesFromLibrary('Requirements::concernChecks')\n	owningFeatureMembership <> null and\n	owningFeatureMembership.oclIsKindOf(FramedConcernMembership) implies\n	specializesFromLibrary('Requirements::RequirementCheck::concerns')" ;
+    rdfs:subClassOf :RequirementUsage .
+
+:ConjugatedPortDefinition
+    a owl:Class ;
+    rdfs:label "ConjugatedPortDefinition" ;
+    rdfs:comment "A ConjugatedPortDefinition is a PortDefinition that is a PortDefinition of its original PortDefinition. That is, a ConjugatedPortDefinition inherits all the features of the original PortDefinition, but input flows of the original PortDefinition become outputs on the ConjugatedPortDefinition and output flows of the original PortDefinition become inputs on the ConjugatedPortDefinition. Every PortDefinition (that is not itself a ConjugatedPortDefinition) has exactly one corresponding ConjugatedPortDefinition, whose effective name is the name of the originalPortDefinition, with the character ~ prepended.\n	ownedPortConjugator.originalPortDefinition = originalPortDefinition\n	conjugatedPortDefinition = null" ;
+    rdfs:subClassOf :PortDefinition .
+
+:Conjugation
+    a owl:Class ;
+    rdfs:label "Conjugation" ;
+    rdfs:comment "Conjugation is a Relationship between two types in which the conjugatedType inherits all the Features of the originalType, but with all input and output Features reversed. That is, any Features with a direction in relative to the originalType are considered to have an effective direction of out relative to the conjugatedType and, similarly, Features with direction out in the originalType are considered to have an effective direction of in in the conjugatedType. Features with direction inout, or with no direction, in the originalType, are inherited without change.\n	\n	A Type may participate as a conjugatedType in at most one Conjugation relationship, and such a Type may not also be the specific Type in any Specialization relationship." ;
+    rdfs:subClassOf :Relationship .
+
+:ConnectorAsUsage
+    a owl:Class ;
+    rdfs:label "ConnectorAsUsage" ;
+    rdfs:comment "A ConnectorAsUsage is both a Connector and a Usage. ConnectorAsUsage cannot itself be instantiated in a SysML model, but it is the base class for the concrete classes BindingConnectorAsUsage, SuccessionAsUsage and ConnectionUsage." ;
+    rdfs:subClassOf :Connector ;
+    rdfs:subClassOf :Usage .
+
+:ConstraintUsage
+    a owl:Class ;
+    rdfs:label "ConstraintUsage" ;
+    rdfs:comment "A ConstraintUsage is an OccurrenceUsage that is also a BooleanExpression, and, so, is typed by a Predicate. Nominally, if the type is a ConstraintDefinition, a ConstraintUsage is a Usage of that ConstraintDefinition. However, other kinds of kernel Predicates are also allowed, to permit use of Predicates from the Kernel Model Libraries.\n	owningFeatureMembership <> null and\n	owningFeatureMembership.oclIsKindOf(RequirementConstraintMembership) implies\n	if owningFeatureMembership.oclAsType(RequirementConstraintMembership).kind =\n	RequirementConstraintKind::assumption then\n	specializesFromLibrary('Requirements::RequirementCheck::assumptions')\n	else\n	specializesFromLibrary('Requirements::RequirementCheck::constraints')\n	endif\n	specializesFromLibrary('Constraints::constraintChecks')\n	owningType <> null and\n	(owningType.oclIsKindOf(ItemDefinition) or\n	owningType.oclIsKindOf(ItemUsage)) implies\n	specializesFromLibrary('Items::Item::checkedConstraints')" ;
+    rdfs:subClassOf :BooleanExpression ;
+    rdfs:subClassOf :OccurrenceUsage .
+
+:Definition
+    a owl:Class ;
+    rdfs:label "Definition" ;
+    rdfs:comment "A Definition is a Classifier of Usages. The actual kinds of Definition that may appear in a model are given by the subclasses of Definition (possibly as extended with user-defined SemanticMetadata).\n	\n	Normally, a Definition has owned Usages that model features of the thing being defined. A Definition may also have other Definitions nested in it, but this has no semantic significance, other than the nested scoping resulting from the Definition being considered as a Namespace for any nested Definitions.\n	\n	However, if a Definition has isVariation = true, then it represents a variation point Definition. In this case, all of its members must be variant Usages, related to the Definition by VariantMembership Relationships. Rather than being features of the Definition, variant Usages model different concrete alternatives that can be chosen to fill in for an abstract Usage of the variation point Definition.\n	\n	isVariation implies ownedFeatureMembership->isEmpty()\n	variant = variantMembership.ownedVariantUsage\n	variantMembership = ownedMembership->selectByKind(VariantMembership)\n	isVariation implies\n	not ownedSpecialization.specific->exists(\n	oclIsKindOf(Definition) and\n	oclAsType(Definition).isVariation)\n	usage = feature->selectByKind(Usage)\n	directedUsage = directedFeature->selectByKind(Usage)\n	ownedUsage = ownedFeature->selectByKind(Usage)\n	ownedAttribute = ownedUsage->selectByKind(AttributeUsage)\n	ownedReference = ownedUsage->selectByKind(ReferenceUsage)\n	ownedEnumeration = ownedUsage->selectByKind(EnumerationUsage)\n	ownedOccurrence = ownedUsage->selectByKind(OccurrenceUsage)\n	ownedItem = ownedUsage->selectByKind(ItemUsage)\n	ownedPart = ownedUsage->selectByKind(PartUsage)\n	ownedPort = ownedUsage->selectByKind(PortUsage)\n	ownedConnection = ownedUsage->selectByKind(ConnectorAsUsage)\n	ownedFlow = ownedUsage->selectByKind(FlowConnectionUsage)\n	ownedInterface = ownedUsage->selectByKind(ReferenceUsage)\n	ownedAllocation = ownedUsage->selectByKind(AllocationUsage)\n	ownedAction = ownedUsage->selectByKind(ActionUsage)\n	ownedState = ownedUsage->selectByKind(StateUsage)\n	ownedTransition = ownedUsage->selectByKind(TransitionUsage)\n	ownedCalculation = ownedUsage->selectByKind(CalculationUsage)\n	ownedConstraint = ownedUsage->selectByKind(ConstraintUsage)\n	ownedRequirement = ownedUsage->selectByKind(RequirementUsage)\n	ownedConcern = ownedUsage->selectByKind(ConcernUsage)\n	ownedCase = ownedUsage->selectByKind(CaseUsage)\n	ownedAnalysisCase = ownedUsage->selectByKind(AnalysisCaseUsage)\n	ownedVerificationCase = ownedUsage->selectByKind(VerificationCaseUsage)\n	ownedUseCase = ownedUsage->selectByKind(UseCaseUsage)\n	ownedView = ownedUsage->selectByKind(ViewUsage)\n	ownedViewpoint = ownedUsage->selectByKind(ViewpointUsage)\n	ownedRendering = ownedUsage->selectByKind(RenderingUsage)\n	ownedMetadata = ownedUsage->selectByKind(MetadataUsage)\n	isVariation implies isAbstract" ;
+    rdfs:subClassOf :Classifier .
+
+:Differencing
+    a owl:Class ;
+    rdfs:label "Differencing" ;
+    rdfs:comment "Differencing is a Relationship that makes its differencingType one of the differencingTypes of its typeDifferenced." ;
+    rdfs:subClassOf :Relationship .
+
+:Disjoining
+    a owl:Class ;
+    rdfs:label "Disjoining" ;
+    rdfs:comment "A Disjoining is a Relationship between Types asserted to have interpretations that are not shared (disjoint) between them, identified as typeDisjoined and disjoiningType. For example, a Classifier for mammals is disjoint from a Classifier for minerals, and a Feature for people&#39;s parents is disjoint from a Feature for their children." ;
+    rdfs:subClassOf :Relationship .
+
+:Element
+    a owl:Class ;
+    rdfs:label "Element" ;
+    rdfs:comment "An Element is a constituent of a model that is uniquely identified relative to all other Elements. It can have Relationships with other Elements. Some of these Relationships might imply ownership of other Elements, which means that if an Element is deleted from a model, then so are all the Elements that it owns.\n	\n	ownedElement = ownedRelationship.ownedRelatedElement\n	owner = owningRelationship.owningRelatedElement\n	qualifiedName =\n	if owningNamespace = null then null\n	else if owningNamespace.owner = null then escapedName()\n	else if owningNamespace.qualifiedName = null or\n	escapedName() = null then null\n	else owningNamespace.qualifiedName + '::' + escapedName()\n	endif endif endif\n	documentation = ownedElement->selectByKind(Documentation)\n	ownedAnnotation = ownedRelationship->\n	selectByKind(Annotation)->\n	select(a | a.annotatedElement = self)\n	name = effectiveName()\n	ownedRelationship->exists(isImplied) implies isImpliedIncluded\n	isLibraryElement = libraryNamespace() <> null\n	\n	shortName = effectiveShortName()\n	owningNamespace =\n	if owningMembership = null then null\n	else owningMembership.membershipOwningNamespace\n	endif\n	textualRepresentation = ownedElement->selectByKind(TextualRepresentation)" .
+
+:EnumerationUsage
+    a owl:Class ;
+    rdfs:label "EnumerationUsage" ;
+    rdfs:comment "An EnumerationUsage is an AttributeUsage whose attributeDefinition is an EnumerationDefinition." ;
+    rdfs:subClassOf :AttributeUsage .
+
+:Expression
+    a owl:Class ;
+    rdfs:label "Expression" ;
+    rdfs:comment "An Expression is a Step that is typed by a Function. An Expression that also has a Function as its featuringType is a computational step within that Function. An Expression always has a single result parameter, which redefines the result parameter of its defining function. This allows Expressions to be interconnected in tree structures, in which inputs to each Expression in the tree are determined as the results of other Expression in the tree.\n	\n	isModelLevelEvaluable = modelLevelEvaluable(Set(Element){})\n	specializesFromLibrary('Performances::evaluations')\n	owningMembership <> null and\n	owningMembership.oclIsKindOf(FeatureValue) implies\n	let featureWithValue : Feature =\n	owningMembership.oclAsType(FeatureValue).featureWithValue in\n	featuringType = featureWithValue.featuringType\n	ownedMembership.selectByKind(ResultExpressionMembership)->\n	forAll(mem | ownedFeature.selectByKind(BindingConnector)->\n	exists(binding |\n	binding.relatedFeature->includes(result) and\n	binding.relatedFeature->includes(mem.ownedResultExpression.result)))\n	result =\n	let resultParams : Sequence(Feature) =\n	ownedFeatureMemberships->\n	selectByKind(ReturnParameterMembership).\n	ownedParameterMember in\n	if resultParams->notEmpty() then resultParams->first()\n	else if function <> null then function.result\n	else null\n	endif endif\n	ownedFeatureMembership->\n	selectByKind(ReturnParameterMembership)->\n	size() selectByKind(ResultExpressionMembership)->size() <= 1" ;
+    rdfs:subClassOf :Step .
+
+:Feature
+    a owl:Class ;
+    rdfs:label "Feature" ;
+    rdfs:comment "A Feature is a Type that classifies relations between multiple things (in the universe). The domain of the relation is the intersection of the featuringTypes of the Feature. (The domain of a Feature with no featuringTyps is implicitly the most general Type Base::Anything from the Kernel Semantic Library.) The co-domain of the relation is the intersection of the types of the Feature.\n	\n	In the simplest cases, the featuringTypes and types are Classifiers and the Feature relates two things, one from the domain and one from the range. Examples include cars paired with wheels, people paired with other people, and cars paired with numbers representing the car length.\n	\n	Since Features are Types, their featuringTypes and types can be Features. In this case, the Feature effectively classifies relations between relations, which can be interpreted as the sequence of things related by the domain Feature concatenated with the sequence of things related by the co-domain Feature.\n	\n	The values of a Feature for a given instance of its domain are all the instances of its co-domain that are related to that domain instance by the Feature. The values of a Feature with chainingFeatures are the same as values of the last Feature in the chain, which can be found by starting with values of the first Feature, then using those values as domain instances to obtain valus of the second Feature, and so on, to values of the last Feature.\n	\n	ownedRedefinition = ownedSubsetting->selectByKind(Redefinition)\n	ownedTypeFeaturing = ownedRelationship->selectByKind(TypeFeaturing)->\n	select(tf | tf.featureOfType = self)\n	ownedSubsetting = ownedSpecialization->selectByKind(Subsetting)\n	ownedTyping = ownedGeneralization->selectByKind(FeatureTyping)\n	type =\n	let types : OrderedSet(Types) = OrderedSet{self}->\n	-- Note: The closure operation automatically handles circular relationships.\n	closure(typingFeatures()).typing.type->asOrderedSet() in\n	types->reject(t1 | types->exist(t2 | t2 <> t1 and t2.specializes(t1)))\n	multiplicity <> null implies multiplicity.featuringType = featuringType\n	specializesFromLibrary('Base::things')\n	chainingFeature->excludes(self)\n	ownedFeatureChaining = ownedRelationship->selectByKind(FeatureChaining)\n	chainingFeature = ownedFeatureChaining.chainingFeature\n	chainingFeature->size() <> 1\n	isEnd and owningType <> null implies\n	let i : Integer =\n	owningType.ownedEndFeature->indexOf(self) in\n	owningType.ownedSpecialization.general->\n	forAll(supertype |\n	supertype.endFeature->size() >= i implies\n	redefines(supertype.endFeature->at(i))\n	direction = null and\n	ownedSpecializations->forAll(isImplied) implies\n	ownedMembership->\n	selectByKind(FeatureValue)->\n	forAll(fv | specializes(fv.value.result))\n	isEnd and owningType <> null and\n	(owningType.oclIsKindOf(Association) or\n	owningType.oclIsKindOf(Connector)) implies\n	specializesFromLibrary('Links::Link::participant')\n	isComposite and\n	ownedTyping.type->includes(oclIsKindOf(Structure)) and\n	owningType <> null and\n	(owningType.oclIsKindOf(Structure) or\n	owningType.type->includes(oclIsKindOf(Structure))) implies\n	specializesFromLibrary('Occurrence::Occurrence::suboccurrences')\n	owningType <> null and\n	owningType.oclIsKindOf(FeatureReferenceExpression) and\n	self = owningType.oclAsType(FeatureReferenceExpression).result implies\n	specializes(owningType.oclAsType(FeatureReferenceExpression).referent)\n	\n	ownedTyping.type->exists(selectByKind(Class)) implies\n	specializesFromLibrary('Occurrences::occurrences')\n	isComposite and\n	ownedTyping.type->includes(oclIsKindOf(Class)) and\n	owningType <> null and\n	(owningType.oclIsKindOf(Class) or\n	owningType.oclIsKindOf(Feature) and\n	owningType.oclAsType(Feature).type->\n	exists(oclIsKindOf(Class))) implies\n	specializesFromLibrary('Occurrence::Occurrence::suboccurrences')\n	ownedTyping.type->exists(selectByKind(DataType)) implies\n	specializesFromLibrary('Base::dataValues')\n	owningType <> null and\n	owningType.oclIsKindOf(ItemFlowEnd) and\n	owningType.ownedFeature->at(1) = self implies\n	let flowType : Type = owningType.owningType in\n	flowType <> null implies\n	let i : Integer =\n	flowType.ownedFeature.indexOf(owningType) in\n	(i = 1 implies\n	redefinesFromLibrary('Transfers::Transfer::source::sourceOutput')) and\n	(i = 2 implies\n	redefinesFromLibrary('Transfers::Transfer::source::targetInput'))\n	\n	owningType <> null and\n	(owningType.oclIsKindOf(Behavior) or\n	owningType.oclIsKindOf(Step)) implies\n	let i : Integer =\n	owningType.ownedFeature->select(direction <> null) in\n	owningType.ownedSpecialization.general->\n	forAll(supertype |\n	let ownedParameters : Sequence(Feature) =\n	supertype.ownedFeature->select(direction <> null) in\n	ownedParameters->size() >= i implies\n	redefines(ownedParameters->at(i))\n	ownedTyping.type->exists(selectByKind(Structure)) implies\n	specializesFromLibary('Objects::objects')\n	owningType <> null and\n	(owningType.oclIsKindOf(Function) and\n	self = owningType.oclAsType(Function).result or\n	owningType.oclIsKindOf(Expression) and\n	self = owningType.oclAsType(Expression).result) implies\n	owningType.ownedSpecialization.general->\n	select(oclIsKindOf(Function) or oclIsKindOf(Expression))->\n	forAll(supertype |\n	redefines(\n	if superType.oclIsKindOf(Function) then\n	superType.oclAsType(Function).result\n	else\n	superType.oclAsType(Expression).result\n	endif)\n	ownedFeatureInverting = ownedRelationship->selectByKind(FeatureInverting)->\n	select(fi | fi.featureInverted = self)\n	featuringType =\n	let featuringTypes : OrderedSet(Type) =\n	featuring.type->asOrderedSet() in\n	if chainingFeature->isEmpty() then featuringTypes\n	else\n	featuringTypes->\n	union(chainingFeature->first().featuringType)->\n	asOrderedSet()\n	endif\n	ownedReferenceSubsetting =\n	let referenceSubsettings : OrderedSet(ReferenceSubsetting) =\n	ownedSubsetting->selectByKind(ReferenceSubsetting) in\n	if referenceSubsettings->isEmpty() then null\n	else referenceSubsettings->first() endif\n	ownedSubsetting->selectByKind(ReferenceSubsetting)->size() size() - 1}->forAll(i |\n	chainingFeature->at(i + 1).featuringType->forAll(t |\n	chainingFeature->at(i).specializes(t)))\n	\n	isPortion and\n	ownedTyping.type->includes(oclIsKindOf(Class)) and\n	owningType <> null and\n	(owningType.oclIsKindOf(Class) or\n	owningType.oclIsKindOf(Feature) and\n	owningType.oclAsType(Feature).type->\n	exists(oclIsKindOf(Class))) implies\n	specializesFromLibrary('Occurrence::Occurrence::portions')\n	featureTarget = if chainingFeature->isEmpty() then self else chainingFeature->last() endif\n	owningType <> null and\n	owningType.oclIsKindOf(InvocationExpression) and\n	let owningInvocation: InvocationExpression = owningType.oclAsType(InvocationExpression) in\n	self = owningInvocation.result and\n	not owningInvocation.ownedTyping->exists(oclIsKindOf(Function)) and\n	not owningInvocation.ownedSubsetting->reject(isImplied).subsettedFeature.type->exists(oclIsKindOf(Function)) implies\n	owningInvocation.ownedTyping->forAll(type | self.specializes(type))" ;
+    rdfs:subClassOf :Type .
+
+:FeatureChaining
+    a owl:Class ;
+    rdfs:label "FeatureChaining" ;
+    rdfs:comment "FeatureChaining is a Relationship that makes its target Feature one of the chainingFeatures of its owning Feature." ;
+    rdfs:subClassOf :Relationship .
+
+:FeatureInverting
+    a owl:Class ;
+    rdfs:label "FeatureInverting" ;
+    rdfs:comment "A FeatureInverting is a Relationship between Features asserting that their interpretations (sequences) are the reverse of each other, identified as featureInverted and invertingFeature. For example, a Feature identifying each person&#39;s parents is the inverse of a Feature identifying each person&#39;s children. A person identified as a parent of another will identify that other as one of their children." ;
+    rdfs:subClassOf :Relationship .
+
+:FeatureMembership
+    a owl:Class ;
+    rdfs:label "FeatureMembership" ;
+    rdfs:comment "A FeatureMembership is an OwningMembership between a Feature in an owningType that is also a Featuring Relationship between the Feature and the Type, in which the featuringType is the source and the featureOfType is the target. A FeatureMembership is always owned by its owningType, which is the featuringType for the FeatureMembership considered as a Featuring." ;
+    rdfs:subClassOf :Featuring ;
+    rdfs:subClassOf :OwningMembership .
+
+:FeatureTyping
+    a owl:Class ;
+    rdfs:label "FeatureTyping" ;
+    rdfs:comment "FeatureTyping is Specialization in which the specific Type is a Feature. This means the set of instances of the (specific) typedFeature is a subset of the set of instances of the (general) type. In the simplest case, the type is a Classifier, whereupon the typedFeature has values that are instances of the Classifier." ;
+    rdfs:subClassOf :Specialization .
+
+:FlowConnectionUsage
+    a owl:Class ;
+    rdfs:label "FlowConnectionUsage" ;
+    rdfs:comment "A FlowConnectionUsage is a ConnectionUsage that is also an ItemFlow.\n	if ownedEndFeatures->isEmpty() then\n	specializesFromLibrary('Connections::messageConnections')\n	else\n	specializesFromLibrary('Connections::flowConnections')\n	endif" ;
+    rdfs:subClassOf :ActionUsage ;
+    rdfs:subClassOf :ConnectionUsage ;
+    rdfs:subClassOf :ItemFlow .
+
+:FramedConcernMembership
+    a owl:Class ;
+    rdfs:label "FramedConcernMembership" ;
+    rdfs:comment "A FramedConcernMembership is a RequirementConstraintMembership for a framed ConcernUsage of a RequirementDefinition or RequirementUsage.\n	kind = RequirementConstraintKind::requirement" ;
+    rdfs:subClassOf :RequirementConstraintMembership .
+
+:Import
+    a owl:Class ;
+    rdfs:label "Import" ;
+    rdfs:comment "An Import is an Relationship between its importOwningNamespace and either a Membership (for a MembershipImport) or another Namespace (for a NamespaceImport), which determines a set of Memberships that become importedMemberships of the importOwningNamespace. If isImportAll = false (the default), then only public Memberships are considered &quot;visible&quot;. If isImportAll = true, then all Memberships are considered &quot;visible&quot;, regardless of their declared visibility. If isRecursive = true, then visible Memberships are also recursively imported from owned sub-Namespaces.\n	\n	\n	importOwningNamespace.owningNamespace = null implies\n	visibility = VisibilityKind::private" ;
+    rdfs:subClassOf :Relationship .
+
+:InterfaceUsage
+    a owl:Class ;
+    rdfs:label "InterfaceUsage" ;
+    rdfs:comment "An InterfaceUsage is a Usage of an InterfaceDefinition to represent an interface connecting parts of a system through specific ports.\n	ownedEndFeature->size() = 2 implies\n	specializesFromLibrary('Interfaces::binaryInterfaces')\n	specializesFromLibrary('Interfaces::interfaces')" ;
+    rdfs:subClassOf :ConnectionUsage .
+
+:Intersecting
+    a owl:Class ;
+    rdfs:label "Intersecting" ;
+    rdfs:comment "Intersecting is a Relationship that makes its intersectingType one of the intersectingTypes of its typeIntersected." ;
+    rdfs:subClassOf :Relationship .
+
+:ItemUsage
+    a owl:Class ;
+    rdfs:label "ItemUsage" ;
+    rdfs:comment "An ItemUsage is a ItemUsage whose definition is a Structure. Nominally, if the definition is an ItemDefinition, an ItemUsage is a ItemUsage of that ItemDefinition within a system. However, other kinds of Kernel Structures are also allowed, to permit use of Structures from the Kernel Model Libraries.\n	itemDefinition = occurrenceDefinition->selectByKind(ItemDefinition)\n	specializesFromLibrary('Items::items')\n	isComposite and owningType <> null and\n	(owningType.oclIsKindOf(ItemDefinition) or\n	owningType.oclIsKindOf(ItemUsage)) implies\n	specializesFromLibrary('Items::Item::subitem')" ;
+    rdfs:subClassOf :OccurrenceUsage .
+
+:Membership
+    a owl:Class ;
+    rdfs:label "Membership" ;
+    rdfs:comment "A Membership is a Relationship between a Namespace and an Element that indicates the Element is a member of (i.e., is contained in) the Namespace. Any memberNames specify how the memberElement is identified in the Namespace and the visibility specifies whether or not the memberElement is publicly visible from outside the Namespace.\n	\n	If a Membership is an OwningMembership, then it owns its memberElement, which becomes an ownedMember of the membershipOwningNamespace. Otherwise, the memberNames of a Membership are effectively aliases within the membershipOwningNamespace for an Element with a separate OwningMembership in the same or a different Namespace.\n	\n	&nbsp;\n	\n	memberElementId = memberElement.elementId" ;
+    rdfs:subClassOf :Relationship .
+
+:MetadataUsage
+    a owl:Class ;
+    rdfs:label "MetadataUsage" ;
+    rdfs:comment "A  MetadataUsage is a Usage and a MetadataFeature, used to annotate other Elements in a system model with metadata. As a MetadataFeature, its type must be a Metaclass, which will nominally be a MetadataDefinition. However, any kernel Metaclass is also allowed, to permit use of Metaclasses from the Kernel Model Libraries.\n	specializesFromLibrary('Metadata::metadataItems')" ;
+    rdfs:subClassOf :ItemUsage ;
+    rdfs:subClassOf :MetadataFeature .
+
+:Namespace
+    a owl:Class ;
+    rdfs:label "Namespace" ;
+    rdfs:comment "A Namespace is an Element that contains other Elements, known as its members, via Membership Relationships with those Elements. The members of a Namespace may be owned by the Namespace, aliased in the Namespace, or imported into the Namespace via Import Relationships.\n	\n	A Namespace can provide names for its members via the memberNames and memberShortNames specified by the Memberships in the Namespace. If a Membership specifies a memberName and/or memberShortName, then those are names of the corresponding memberElement relative to the Namespace. For an OwningMembership, the owningMemberName and owningMemberShortName are given by the Element name and shortName. Note that the same Element may be the memberElement of multiple Memberships in a Namespace (though it may be owned at most once), each of which may define a separate alias for the Element relative to the Namespace.\n	\n	membership->forAll(m1 |\n	membership->forAll(m2 |\n	m1 <> m2 implies m1.isDistinguishableFrom(m2)))\n	member = membership.memberElement\n	ownedMember = ownedMembership->selectByKind(OwningMembership).ownedMemberElement\n	importedMembership = importedMemberships(Set{})\n	ownedImport = ownedRelationship->selectByKind(Import)\n	ownedMembership = ownedRelationship->selectByKind(Membership)" ;
+    rdfs:subClassOf :Element .
+
+:ObjectiveMembership
+    a owl:Class ;
+    rdfs:label "ObjectiveMembership" ;
+    rdfs:comment "An ObjectiveMembership is a FeatureMembership that indicates that its ownedObjectiveRequirement is the objective RequirementUsage for its owningType, which must be a CaseDefinition or CaseUsage.\n	owningType.oclIsType(CaseDefinition) or\n	owningType.oclIsType(CaseUsage)\n	\n	ownedObjectiveRequirement.isComposite" ;
+    rdfs:subClassOf :FeatureMembership .
+
+:OccurrenceUsage
+    a owl:Class ;
+    rdfs:label "OccurrenceUsage" ;
+    rdfs:comment "An OccurrenceUsage is a Usage whose types are all Classes. Nominally, if a type is an OccurrenceDefinition, an OccurrenceUsage is a Usage of that OccurrenceDefinition within a system. However, other types of Kernel Classes are also allowed, to permit use of Classes from the Kernel Model Libraries.\n	\n	individualDefinition =\n	let individualDefinitions : OrderedSet(OccurrenceDefinition) =\n	occurrenceDefinition->\n	selectByKind(OccurrenceDefinition)->\n	select(isIndividual) in\n	if individualDefinitions->isEmpty() then null\n	else individualDefinitions->first() endif\n	isIndividual implies individualDefinition <> null\n	specializesFromLibrary('Occurrences::occurrences')\n	isComposite and\n	owningType <> null and\n	(owningType.oclIsKindOf(Class) or\n	owningType.oclIsKindOf(OccurrenceUsage) or\n	owningType.oclIsKindOf(Feature) and\n	owningType.oclAsType(Feature).type->\n	exists(oclIsKind(Class))) implies\n	specializesFromLibrary('Occurrences::Occurrence::suboccurrences')\n	occurrenceDefinition->\n	selectByKind(OccurrenceDefinition)->\n	select(isIndividual).size()  null implies\n	occurrenceDefinition->forAll(occ |\n	featuringType->exists(specializes(occ)))" ;
+    rdfs:subClassOf :Usage .
+
+:OwningMembership
+    a owl:Class ;
+    rdfs:label "OwningMembership" ;
+    rdfs:comment "An OwningMembership is a Membership that owns its memberElement as a ownedRelatedElement. The ownedMemberElement becomes an ownedMember of the membershipOwningNamespace.\n	\n	ownedMemberName = ownedMemberElement.name\n	ownedMemberShortName = ownedMemberElement.shortName" ;
+    rdfs:subClassOf :Membership .
+
+:ParameterMembership
+    a owl:Class ;
+    rdfs:label "ParameterMembership" ;
+    rdfs:comment "A ParameterMembership is a FeatureMembership that identifies its memberFeature as a parameter, which is always owned, and must have a direction. A ParameterMembership must be owned by a Behavior or a Step.\n	ownedMemberParameter.direction = parameterDirection()\n	owningType.oclIsKindOf(Behavior) or owningType.oclIsKindOf(Step)" ;
+    rdfs:subClassOf :FeatureMembership .
+
+:PartUsage
+    a owl:Class ;
+    rdfs:label "PartUsage" ;
+    rdfs:comment "A PartUsage is a usage of a PartDefinition to represent a system or a part of a system. At least one of the itemDefinitions of the PartUsage must be a PartDefinition.\n	\n	A PartUsage must subset, directly or indirectly, the base PartUsage parts from the Systems Model Library.\n	itemDefinition->selectByKind(PartDefinition)\n	partDefinition->notEmpty()\n	specializesFromLibrary('Parts::parts')\n	isComposite and owningType <> null and\n	(owningType.oclIsKindOf(ItemDefinition) or\n	owningType.oclIsKindOf(ItemUsage)) implies\n	specializesFromLibrary('Items::Item::subparts')\n	owningFeatureMembership <> null and\n	owningFeatureMembership.oclIsKindOf(ActorMembership) implies\n	if owningType.oclIsKindOf(RequirementDefinition) or\n	owningType.oclIsKindOf(RequirementUsage)\n	then specializesFromLibrary('Requirements::RequirementCheck::actors')\n	else specializesFromLibrary('Cases::Case::actors')\n	owningFeatureMembership <> null and\n	owningFeatureMembership.oclIsKindOf(StakeholderMembership) implies\n	specializesFromLibrary('Requirements::RequirementCheck::stakeholders')" ;
+    rdfs:subClassOf :ItemUsage .
+
+:PortConjugation
+    a owl:Class ;
+    rdfs:label "PortConjugation" ;
+    rdfs:comment "A PortConjugation is a Conjugation Relationship between a PortDefinition and its corresponding ConjugatedPortDefinition. As a result of this Relationship, the ConjugatedPortDefinition inherits all the features of the original PortDefinition, but input flows of the original PortDefinition become outputs on the ConjugatedPortDefinition and output flows of the original PortDefinition become inputs on the ConjugatedPortDefinition." ;
+    rdfs:subClassOf :Conjugation .
+
+:PortUsage
+    a owl:Class ;
+    rdfs:label "PortUsage" ;
+    rdfs:comment "A PortUsage is a usage of a PortDefinition. A PortUsage itself as well as all its nestedUsages must be referential (non-composite).\n	nestedUsage->\n	reject(oclIsKindOf(PortUsage))->\n	forAll(not isComposite)\n	specializesFromLibrary('Ports::ports')\n	isComposite and owningType <> null and\n	(owningType.oclIsKindOf(PortDefinition) or\n	owningType.oclIsKindOf(PortUsage)) implies\n	specializesFromLibrary('Ports::Port::subports')\n	owningType = null or\n	not owningType.oclIsKindOf(PortDefinition) and\n	not owningType.oclIsKindOf(PortUsage) implies\n	isReference" ;
+    rdfs:subClassOf :OccurrenceUsage .
+
+:Redefinition
+    a owl:Class ;
+    rdfs:label "Redefinition" ;
+    rdfs:comment "Redefinition is a kind of Subsetting that requires the redefinedFeature and the redefiningFeature to have the same values (on each instance of the domain of the redefiningFeature). This means any restrictions on the redefiningFeature, such as type or multiplicity, also apply to the redefinedFeature (on each instance of the domain of the redefiningFeature), and vice versa. The redefinedFeature might have values for instances of the domain of the redefiningFeature, but only as instances of the domain of the redefinedFeature that happen to also be instances of the domain of the redefiningFeature. This is supported by the constraints inherited from Subsetting on the domains of the redefiningFeature and redefinedFeature. However, these constraints are narrowed for Redefinition to require the owningTypes of the redefiningFeature and redefinedFeature to be different and the redefinedFeature to not be inherited into the owningNamespace of the redefiningFeature.This enables the redefiningFeature to have the same name as the redefinedFeature, if desired.\n	\n	let anythingType: Type =\n	redefiningFeature.resolveGlobal('Base::Anything').modelElement.oclAsType(Type) in\n	-- Including \"Anything\" accounts for implicit featuringType of Features\n	-- with no explicit featuringType.\n	let redefiningFeaturingTypes: Set(Type) =\n	redefiningFeature.featuringTypes->asSet()->including(anythingType) in\n	let redefinedFeaturingTypes: Set(Type) =\n	redefinedFeature.featuringTypes->asSet()->including(anythingType) in\n	redefiningFeaturingTypes <> redefinedFeaturingType\n	featuringType->forAll(t |\n	let direction : FeatureDirectionKind = t.directionOf(redefinedFeature) in\n	((direction = FeatureDirectionKind::_'in' or\n	direction = FeatureDirectionKind::out) implies\n	redefiningFeature.direction = direction)\n	and\n	(direction = FeatureDirectionKind::inout implies\n	redefiningFeature.direction <> null))" ;
+    rdfs:subClassOf :Subsetting .
+
+:ReferenceSubsetting
+    a owl:Class ;
+    rdfs:label "ReferenceSubsetting" ;
+    rdfs:comment "ReferenceSubsetting is a kind of Subsetting in which the referencedFeature is syntactically distinguished from other Features subsetted by the referencingFeature. ReferenceSubsetting has the same semantics as Subsetting, but the referenceFeature may have a special purpose relative to the referencingFeature. For instance, ReferenceSubsetting is used to identify the relatedFeatures of a Connector.\n	\n	ReferenceSubsetting is always an ownedRelationship of its referencingFeature. A Feature can have at most one ownedReferenceSubsetting." ;
+    rdfs:subClassOf :Subsetting .
+
+:ReferenceUsage
+    a owl:Class ;
+    rdfs:label "ReferenceUsage" ;
+    rdfs:comment "A ReferenceUsage is a Usage that specifies a non-compositional (isComposite = false) reference to something. The definition of a ReferenceUsage can be any kind of Classifier, with the default being the top-level Classifier Base::Anything from the Kernel Semantic Library. This allows the specification of a generic reference without distinguishing if the thing referenced is an attribute value, item, action, etc.\n	isReference" ;
+    rdfs:subClassOf :Usage .
+
+:Relationship
+    a owl:Class ;
+    rdfs:label "Relationship" ;
+    rdfs:comment "A Relationship is an Element that relates other Element. Some of its relatedElements may be owned, in which case those ownedRelatedElements will be deleted from a model if their owningRelationship is. A Relationship may also be owned by another Element, in which case the ownedRelatedElements of the Relationship are also considered to be transitively owned by the owningRelatedElement of the Relationship.\n	\n	The relatedElements of a Relationship are divided into source and target Elements. The Relationship is considered to be directed from the source to the target Elements. An undirected Relationship may have either all source or all target Elements.\n	\n	A &quot;relationship Element&quot; in the abstract syntax is generically any Element that is an instance of either Relationship or a direct or indirect specialization of Relationship. Any other kind of Element is a &quot;non-relationship Element&quot;. It is a convention of that non-relationship Elements are only related via reified relationship Elements. Any meta-associations directly between non-relationship Elements must be derived from underlying reified Relationship.\n	\n	relatedElement = source->union(target)" ;
+    rdfs:subClassOf :Element .
+
+:RenderingUsage
+    a owl:Class ;
+    rdfs:label "RenderingUsage" ;
+    rdfs:comment "A RenderingUsage is the usage of a RenderingDefinition to specify the rendering of a specific model view to produce a physical view artifact.\n	\n	\n	specializesFromLibrary('Views::renderings')\n	owningType <> null and\n	(owningType.oclIsKindOf(RenderingDefinition) or\n	owningType.oclIsKindOf(RenderingUsage)) implies\n	specializesFromLibrary('Views::Rendering::subrenderings')\n	owningFeatureMembership <> null and\n	owningFeatureMembership.oclIsKindOf(ViewRenderingMembership) implies\n	redefinesFromLibrary('Views::View::viewRendering')" ;
+    rdfs:subClassOf :PartUsage .
+
+:RequirementConstraintMembership
+    a owl:Class ;
+    rdfs:label "RequirementConstraintMembership" ;
+    rdfs:comment "A RequirementConstraintMembership is a FeatureMembership for an assumed or required ConstraintUsage of a RequirementDefinition or RequirementUsage.\n	referencedConstraint =\n	let reference : ReferenceSubsetting =\n	ownedConstraint.ownedReferenceSubsetting in\n	if reference = null then ownedConstraint\n	else if not reference.referencedFeature.oclIsKindOf(ConstraintUsage) then null\n	else reference.referencedFeature.oclAsType(ConstraintUsage)\n	endif endif\n	owningType.oclIsKindOf(RequirementDefinition) or\n	owningType.oclIsKindOf(RequirementUsage)\n	ownedConstraint.isComposite" ;
+    rdfs:subClassOf :FeatureMembership .
+
+:RequirementUsage
+    a owl:Class ;
+    rdfs:label "RequirementUsage" ;
+    rdfs:comment "A RequirementUsage is a Usage of a RequirementDefinition.\n	actorParameter = featureMembership->\n	selectByKind(ActorMembership).\n	ownedActorParameter\n	assumedConstraint = ownedFeatureMembership->\n	selectByKind(RequirementConstraintMembership)->\n	select(kind = RequirementConstraintKind::assumption).\n	ownedConstraint\n	framedConcern = featureMembership->\n	selectByKind(FramedConcernMembership).\n	ownedConcern\n	requiredConstraint = ownedFeatureMembership->\n	selectByKind(RequirementConstraintMembership)->\n	select(kind = RequirementConstraintKind::requirement).\n	ownedConstraint\n	stakeholderParameter = featureMembership->\n	selectByKind(AStakholderMembership).\n	ownedStakeholderParameter\n	subjectParameter =\n	let subjects : OrderedSet(SubjectMembership) =\n	featureMembership->selectByKind(SubjectMembership) in\n	if subjects->isEmpty() then null\n	else subjects->first().ownedSubjectParameter\n	endif\n	text = documentation.body\n	featureMembership->\n	selectByKind(SubjectMembership)->\n	size() notEmpty() and input->first() = subjectParameter\n	specializesFromLibrary('Requirements::requirementChecks')\n	isComposite and owningType <> null and\n	(owningType.oclIsKindOf(RequirementDefinition) or\n	owningType.oclIsKindOf(RequirementUsage)) implies\n	specializesFromLibrary('Requirements::RequirementCheck::subrequirements')\n	owningfeatureMembership <> null and\n	owningfeatureMembership.oclIsKindOf(ObjectiveMembership) implies\n	owningType.ownedSpecialization.general->forAll(gen |\n	(gen.oclIsKindOf(CaseDefinition) implies\n	redefines(gen.oclAsType(CaseDefinition).objectiveRequirement)) and\n	(gen.oclIsKindOf(CaseUsage) implies\n	redefines(gen.oclAsType(CaseUsage).objectiveRequirement))\n	owningFeatureMembership <> null and\n	owningFeatureMembership.oclIsKindOf(RequirementVerificationMembership) implies\n	specializesFromLibrary('VerificationCases::VerificationCase::obj::requirementVerifications')" ;
+    rdfs:subClassOf :ConstraintUsage .
+
+:RequirementVerificationMembership
+    a owl:Class ;
+    rdfs:label "RequirementVerificationMembership" ;
+    rdfs:comment "A RequirementVerificationMembership is a RequirementConstraintMembership  used in the objective of a VerificationCase to identify a RequirementUsage that is verified by the VerificationCase.\n	kind = RequirementConstraintKind::requirement\n	owningType.oclIsKindOf(RequirementUsage) and\n	owningType.owningFeatureMembership <> null and\n	owningType.owningFeatureMembership.oclIsKindOf(ObjectiveMembership)" ;
+    rdfs:subClassOf :RequirementConstraintMembership .
+
+:ResultExpressionMembership
+    a owl:Class ;
+    rdfs:label "ResultExpressionMembership" ;
+    rdfs:comment "A ResultExpressionMembership is a FeatureMembership that indicates that the ownedResultExpression provides the result values for the Function or Expression that owns it. The owning Function or Expression must contain a BindingConnector between the result parameter of the ownedResultExpression and the result parameter of the owning Function or Expression.\n	\n	owningType.oclIsKindOf(Function) or owningType.oclIsKindOf(Expression)" ;
+    rdfs:subClassOf :FeatureMembership .
+
+:Specialization
+    a owl:Class ;
+    rdfs:label "Specialization" ;
+    rdfs:comment "Specialization is a Relationship between two Types that requires all instances of the specific type to also be instances of the general Type (i.e., the set of instances of the specific Type is a subset of those of the general Type, which might be the same set).\n	\n	not specific.isConjugated" ;
+    rdfs:subClassOf :Relationship .
+
+:StakeholderMembership
+    a owl:Class ;
+    rdfs:label "StakeholderMembership" ;
+    rdfs:comment "A StakeholderMembership is a ParameterMembership that identifies a PartUsage as a stakeholderParameter of a RequirementDefinition or RequirementUsage, which specifies a role played by an entity with concerns framed by the owningType.\n	owningType.oclIsKindOf(RequirementUsage) or\n	owningType.oclIsKindOf(RequirementDefinition)" ;
+    rdfs:subClassOf :ParameterMembership .
+
+:StateUsage
+    a owl:Class ;
+    rdfs:label "StateUsage" ;
+    rdfs:comment "A StateUsage is an ActionUsage that is nominally the Usage of a StateDefinition. However, other kinds of kernel Behaviors are also allowed as types, to permit use of Behaviors\n	\n	A StateUsage may be related to up to three of its ownedFeatures by StateSubactionMembership Relationships, all of different kinds, corresponding to the entry, do and exit actions of the StateUsage.\n	\n	doAction =\n	let doMemberships : Sequence(StateSubactionMembership) =\n	ownedMembership->\n	selectByKind(StateSubactionMembership)->\n	select(kind = StateSubactionKind::do) in\n	if doMemberships->isEmpty() then null\n	else doMemberships->at(1)\n	endif\n	entryAction =\n	let entryMemberships : Sequence(StateSubactionMembership) =\n	ownedMembership->\n	selectByKind(StateSubactionMembership)->\n	select(kind = StateSubactionKind::entry) in\n	if entryMemberships->isEmpty() then null\n	else entryMemberships->at(1)\n	endif\n	isParallel implies\n	nestedAction.incomingTransition->isEmpty() and\n	nestedAction.outgoingTransition->isEmpty()\n	isSubstateUsage(false) implies\n	specializesFromLibrary('States::StateAction::exclusiveStates')\n	exitAction =\n	let exitMemberships : Sequence(StateSubactionMembership) =\n	ownedMembership->\n	selectByKind(StateSubactionMembership)->\n	select(kind = StateSubactionKind::exit) in\n	if exitMemberships->isEmpty() then null\n	else exitMemberships->at(1)\n	endif\n	specializesFromLibrary('States::stateActions')\n	ownedMembership->\n	selectByKind(StateSubactionMembership)->\n	isUnique(kind)\n	isSubstateUsage(true) implies\n	specializesFromLibrary('States::StateAction::substates')" ;
+    rdfs:subClassOf :ActionUsage .
+
+:Subclassification
+    a owl:Class ;
+    rdfs:label "Subclassification" ;
+    rdfs:comment "Subclassification is Specialization in which both the specific and general Types are Classifier. This means all instances of the specific Classifier are also instances of the general Classifier." ;
+    rdfs:subClassOf :Specialization .
+
+:SubjectMembership
+    a owl:Class ;
+    rdfs:label "SubjectMembership" ;
+    rdfs:comment "A SubjectMembership is a ParameterMembership that indicates that its ownedSubjectParameter is the subject of its owningType. The owningType of a SubjectMembership must be a RequirementDefinition, RequirementUsage, CaseDefinition, or CaseUsage.\n	owningType.oclIsType(RequirementDefinition) or\n	owningType.oclIsType(RequiremenCaseRequirementDefinition) or\n	owningType.oclIsType(CaseDefinition) or\n	owningType.oclIsType(CaseUsage)" ;
+    rdfs:subClassOf :ParameterMembership .
+
+:Subsetting
+    a owl:Class ;
+    rdfs:label "Subsetting" ;
+    rdfs:comment "Subsetting is Specialization in which the specific and general Types are Features. This means all values of the subsettingFeature (on instances of its domain, i.e., the intersection of its featuringTypes) are values of the subsettedFeature on instances of its domain. To support this the domain of the subsettingFeature must be the same or specialize (at least indirectly) the domain of the subsettedFeature (via Specialization), and the co-domain (intersection of the types) of the subsettingFeature must specialize the co-domain of the subsettedFeature.\n	\n	let subsettingFeaturingTypes: OrderedSet(Type) =\n	subsettingFeature.featuringTypes in\n	let subsettedFeaturingTypes: OrderedSet(Type) =\n	subsettedFeature.featuringTypes in\n	let anythingType: Element =\n	subsettingFeature.resolveGlobal('Base::Anything').memberElement in\n	subsettedFeaturingTypes->forAll(t |\n	subsettingFeaturingTypes->isEmpty() and t = anythingType or\n	subsettingFeaturingTypes->exists(specializes(t))\n	subsettedFeature.isUnique implies subsettingFeature.isUnique" ;
+    rdfs:subClassOf :Specialization .
+
+:TransitionUsage
+    a owl:Class ;
+    rdfs:label "TransitionUsage" ;
+    rdfs:comment "A TransitionUsage is an ActionUsage representing a triggered transition between ActionUsages or StateUsages. When triggered by a triggerAction, when its guardExpression is true, the TransitionUsage asserts that its source is exited, then its effectAction (if any) is performed, and then its target is entered.\n	\n	A TransitionUsage can be related to some of its ownedFeatures using TransitionFeatureMembership Relationships, corresponding to the triggerAction, guardExpression and effectAction of the TransitionUsage.\n	isComposite and owningType <> null and\n	(owningType.oclIsKindOf(ActionDefinition) or\n	owningType.oclIsKindOf(ActionUsage)) and\n	not (owningType.oclIsKindOf(StateDefinition) or\n	owningType.oclIsKindOf(StateUsage)) implies\n	specializesFromLibrary('Actions::Action::decisionTransitions')\n	isComposite and owningType <> null and\n	(owningType.oclIsKindOf(StateDefinition) or\n	owningType.oclIsKindOf(StateUsage)) implies\n	specializesFromLibrary('States::State::stateTransitions')\n	specializesFromLibrary('Actions::transitionActions')\n	source =\n	if ownedMembership->isEmpty() then null\n	else\n	let member : Element =\n	ownedMembership->at(1).memberElement in\n	if not member.oclIsKindOf(ActionUsage) then null\n	else member.oclAsKindOf(ActionUsage)\n	endif\n	endif\n	target =\n	if succession.targetFeature->isEmpty() then null\n	else\n	let targetFeature : Feature =\n	succession.targetFeature->at(1) in\n	if not targetFeature.oclIsKindOf(ActionUsage) then null\n	else targetFeature.oclAsType(ActionUsage)\n	endif\n	endif\n	triggerAction = ownedFeatureMembership->\n	selectByKind(TransitionFeatureMembership)->\n	select(kind = TransitionFeatureKind::trigger).transitionFeature->\n	selectByKind(AcceptActionUsage)\n	let successions : Sequence(Successions) =\n	ownedMember->selectByKind(Succession) in\n	successions->notEmpty() and\n	successions->at(1).targetFeature->\n	forAll(oclIsKindOf(ActionUsage))\n	guardExpression = ownedFeatureMembership->\n	selectByKind(TransitionFeatureMembership)->\n	select(kind = TransitionFeatureKind::trigger).transitionFeature->\n	selectByKind(Expression)\n	triggerAction->forAll(specializesFromLibrary('Actions::TransitionAction::accepter') and\n	guardExpression->forAll(specializesFromLibrary('Actions::TransitionAction::guard') and\n	effectAction->forAll(specializesFromLibrary('Actions::TransitionAction::effect'))\n	triggerAction = ownedFeatureMembership->\n	selectByKind(TransitionFeatureMembership)->\n	select(kind = TransitionFeatureKind::trigger).transitionFeatures->\n	selectByKind(AcceptActionUsage)\n	succession.sourceFeature = source\n	ownedMember->selectByKind(BindingConnector)->exists(b |\n	b.relatedFeatures->includes(source) and\n	b.relatedFeatures->includes(inputParameter(1)))\n	triggerAction->notEmpty() implies\n	let payloadParameter : Feature = inputParameter(2) in\n	payloadParameter <> null and\n	payloadParameter.subsetsChain(triggerAction->at(1), triggerPayloadParameter())\n	ownedMember->selectByKind(BindingConnector)->exists(b |\n	b.relatedFeatures->includes(succession) and\n	b.relatedFeatures->includes(resolveGlobal(\n	'TransitionPerformances::TransitionPerformance::transitionLink')))\n	if triggerAction->isEmpty() then\n	inputParameters()->size() >= 1\n	else\n	inputParameters()->size() >= 2\n	endif\n	\n	succession = ownedMember->selectByKind(Succession)->at(1)" ;
+    rdfs:subClassOf :ActionUsage .
+
+:Type
+    a owl:Class ;
+    rdfs:label "Type" ;
+    rdfs:comment "A Type is a Namespace that is the most general kind of Element supporting the semantics of classification. A Type may be a Classifier or a Feature, defining conditions on what is classified by the Type (see also the description of isSufficient).\n	\n	ownedSpecialization = ownedRelationship->selectByKind(Specialization)->\n	select(s | s.special = self)\n	\n	multiplicity =\n	let ownedMultiplicities: Sequence(Multiplicity) =\n	ownedMember->selectByKind(Multiplicity) in\n	if ownedMultiplicities->isEmpty() then null\n	else ownedMultiplicities->first()\n	endif\n	ownedFeatureMembership = ownedRelationship->selectByKind(FeatureMembership)\n	ownedConjugator =\n	let ownedConjugators: Sequence(Conjugator) =\n	ownedRelationship->selectByKind(Conjugation) in\n	if ownedConjugators->isEmpty() then null\n	else ownedConjugators->at(1) endif\n	output = feature->select(f |\n	let direction: FeatureDirectionKind = directionOf(f) in\n	direction = FeatureDirectionKind::out or\n	direction = FeatureDirectionKind::inout)\n	input = feature->select(f |\n	let direction: FeatureDirectionKind = directionOf(f) in\n	direction = FeatureDirectionKind::_'in' or\n	direction = FeatureDirectionKind::inout)\n	inheritedMembership = inheritedMemberships(Set{}, false)\n	specializesFromLibrary('Base::Anything')\n	directedFeature = feature->select(f | directionOf(f) <> null)\n	feature = featureMembership.ownedMemberFeature\n	featureMembership = ownedFeatureMembership->union(\n	inheritedMembership->selectByKind(FeatureMembership))\n	ownedFeature = ownedFeatureMembership.ownedMemberFeature\n	differencingType = ownedDifferencing.differencingType\n	intersectingType->excludes(self)\n	differencingType->excludes(self)\n	unioningType = ownedUnioning.unioningType\n	unioningType->excludes(self)\n	intersectingType = ownedIntersecting.intersectingType\n	ownedRelationship->selectByKind(Conjugation)->size() selectByKind(Multiplicity)->size() select(isEnd)\n	ownedDisjoining =\n	ownedRelationship->selectByKind(Disjoining)\n	ownedUnioning =\n	ownedRelationship->selectByKind(Unioning)\n	ownedRelationship->selectByKind(Intersecting)\n	ownedDifferencing =\n	ownedRelationship->selectByKind(Differencing)\n	ownedEndFeature = ownedFeature->select(isEnd)\n	inheritedFeature = inheritedMemberships->\n	selectByKind(FeatureMembership).memberFeature\n	ownedUnioning->size() <> 1\n	ownedIntersecting->size() <> 1\n	ownedDifferencing->size() <> 1" ;
+    rdfs:subClassOf :Namespace .
+
+:TypeFeaturing
+    a owl:Class ;
+    rdfs:label "TypeFeaturing" ;
+    rdfs:comment "A TypeFeaturing is a Featuring Relationship in which the featureOfType is the source and the featuringType is the target." ;
+    rdfs:subClassOf :Featuring .
+
+:Unioning
+    a owl:Class ;
+    rdfs:label "Unioning" ;
+    rdfs:comment "Unioning is a Relationship that makes its unioningType one of the unioningTypes of its typeUnioned." ;
+    rdfs:subClassOf :Relationship .
+
+:Usage
+    a owl:Class ;
+    rdfs:label "Usage" ;
+    rdfs:comment "A Usage is a usage of a Definition. A Usage may only be an ownedFeature of a Definition or another Usage.\n	\n	A Usage may have nestedUsages that model features that apply in the context of the owningUsage. A Usage may also have Definitions nested in it, but this has no semantic significance, other than the nested scoping resulting from the Usage being considered as a Namespace for any nested Definitions.\n	\n	However, if a Usage has isVariation = true, then it represents a variation point Usage. In this case, all of its members must be variant Usages, related to the Usage by VariantMembership Relationships. Rather than being features of the Usage, variant Usages model different concrete alternatives that can be chosen to fill in for the variation point Usage.\n	variant = variantMembership.ownedVariantUsage\n	variantMembership = ownedMembership->selectByKind(VariantMembership)\n	isVariation implies ownedFeatureMembership->isEmpty()\n	isReference = not isComposite\n	owningVariationUsage <> null implies\n	specializes(owningVariationUsage)\n	isVariation implies\n	not ownedSpecialization.specific->exists(\n	oclIsKindOf(Definition) and\n	oclAsType(Definition).isVariation or\n	oclIsKindOf(Usage) and\n	oclAsType(Usage).isVariation)\n	owningVariationDefinition <> null implies\n	specializes(owningVariationDefinition)\n	directedUsage = directedFeature->selectByKind(Usage)\n	nestedAction = nestedUsage->selectByKind(ActionUsage)\n	nestedAllocation = nestedUsage->selectByKind(AllocationUsage)\n	nestedAnalysisCase = nestedUsage->selectByKind(AnalysisCaseUsage)\n	nestedAttribute = nestedUsage->selectByKind(AttributeUsage)\n	nestedCalculation = nestedUsage->selectByKind(CalculationUsage)\n	nestedCase = nestedUsage->selectByKind(CaseUsage)\n	nestedConcern = nestedUsage->selectByKind(ConcernUsage)\n	nestedConnection = nestedUsage->selectByKind(ConnectorAsUsage)\n	nestedConstraint = nestedUsage->selectByKind(ConstraintUsage)\n	ownedNested = nestedUsage->selectByKind(EnumerationUsage)\n	nestedFlow = nestedUsage->selectByKind(FlowConnectionUsage)\n	nestedInterface = nestedUsage->selectByKind(ReferenceUsage)\n	nestedItem = nestedUsage->selectByKind(ItemUsage)\n	nestedMetadata = nestedUsage->selectByKind(MetadataUsage)\n	nestedOccurrence = nestedUsage->selectByKind(OccurrenceUsage)\n	nestedPart = nestedUsage->selectByKind(PartUsage)\n	nestedPort = nestedUsage->selectByKind(PortUsage)\n	nestedReference = nestedUsage->selectByKind(ReferenceUsage)\n	nestedRendering = nestedUsage->selectByKind(RenderingUsage)\n	nestedRequirement = nestedUsage->selectByKind(RequirementUsage)\n	nestedState = nestedUsage->selectByKind(StateUsage)\n	nestedTransition = nestedUsage->selectByKind(TransitionUsage)\n	nestedUsage = ownedFeature->selectByKind(Usage)\n	nestedUseCase = nestedUsage->selectByKind(UseCaseUsage)\n	nestedVerificationCase = nestedUsage->selectByKind(VerificationCaseUsage)\n	nestedView = nestedUsage->selectByKind(ViewUsage)\n	nestedViewpoint = nestedUsage->selectByKind(ViewpointUsage)\n	usage = feature->selectByKind(Usage)\n	direction <> null or isEnd or featuringType->isEmpty() implies\n	isReference\n	isVariation implies isAbstract" ;
+    rdfs:subClassOf :Feature .
+
+:UseCaseUsage
+    a owl:Class ;
+    rdfs:label "UseCaseUsage" ;
+    rdfs:comment "A UseCaseUsage is a Usage of a UseCaseDefinition.\n	includedUseCase = ownedUseCase->\n	selectByKind(IncludeUseCaseUsage).\n	useCaseIncluded\n	specializesFromLibrary('UseCases::useCases')\n	isComposite and owningType <> null and\n	(owningType.oclIsKindOf(UseCaseDefinition) or\n	owningType.oclIsKindOf(UseCaseUsage)) implies\n	specializesFromLibrary('UseCases::UseCase::subUseCases')" ;
+    rdfs:subClassOf :CaseUsage .
+
+:VariantMembership
+    a owl:Class ;
+    rdfs:label "VariantMembership" ;
+    rdfs:comment "A VariantMembership is a Membership between a variation point Definition or Usage and a Usage that represents a variant in the context of that variation. The membershipOwningNamespace for the VariantMembership must be either a Definition or a Usage with isVariation = true.\n	membershipOwningNamespace.oclIsKindOf(Definition) and\n	membershipOwningNamespace.oclAsType(Definition).isVariation or\n	membershipOwningNamespace.oclIsKindOf(Usage) and\n	membershipOwningNamespace.oclAsType(Usage).isVariation" ;
+    rdfs:subClassOf :OwningMembership .
+
+:VerificationCaseUsage
+    a owl:Class ;
+    rdfs:label "VerificationCaseUsage" ;
+    rdfs:comment "A VerificationCaseUsage is a Usage of a VerificationCaseDefinition.\n	verifiedRequirement =\n	if objectiveRequirement = null then OrderedSet{}\n	else\n	objectiveRequirement.featureMembership->\n	selectByKind(RequirementVerificationMembership).\n	verifiedRequirement->asOrderedSet()\n	endif\n	specializesFromLibrary('VerificationCases::verificationCases')\n	isComposite and owningType <> null and\n	(owningType.oclIsKindOf(VerificationCaseDefinition) or\n	owningType.oclIsKindOf(VerificationCaseUsage)) implies\n	specializesFromLibrary('VerificationCases::VerificationCase::subVerificationCases')" ;
+    rdfs:subClassOf :CaseUsage .
+
+:ViewRenderingMembership
+    a owl:Class ;
+    rdfs:label "ViewRenderingMembership" ;
+    rdfs:comment "A ViewRenderingMembership is a FeatureMembership that identifies the viewRendering of a ViewDefinition or ViewUsage.\n	referencedRendering =\n	let reference: ReferenceSubsetting =\n	ownedRendering.ownedReferenceSubsetting in\n	if reference = null then ownedRendering\n	else if not reference.referencedFeature.oclIsKindOf(RenderingUsage) then null\n	else reference.referencedFeature.oclAsType(RenderingUsage)\n	endif\n	owningType.oclIsKindOf(ViewDefinition) or\n	owningType.oclIsKindOf(ViewUsage)" ;
+    rdfs:subClassOf :FeatureMembership .
+
+:ViewUsage
+    a owl:Class ;
+    rdfs:label "ViewUsage" ;
+    rdfs:comment "A ViewUsage is a usage of a ViewDefinition to specify the generation of a view of the members of a collection of exposedNamespaces. The ViewUsage can satisfy more viewpoints than its definition, and it can specialize the viewRendering specified by its definition.\n	exposedElement = ownedImport->selectByKind(Expose).\n	importedMemberships(Set{}).memberElement->\n	select(elm | includeAsExposed(elm))->\n	asOrderedSet()\n	satisfiedViewpoint = ownedRequirement->\n	selectByKind(ViewpointUsage)->\n	select(isComposite)\n	viewCondition = ownedMembership->\n	selectByKind(ElementFilterMembership).\n	condition\n	viewRendering =\n	let renderings: OrderedSet(ViewRenderingMembership) =\n	featureMembership->selectByKind(ViewRenderingMembership) in\n	if renderings->isEmpty() then null\n	else renderings->first().referencedRendering\n	endif\n	featureMembership->\n	selectByKind(ViewRenderingMembership)->\n	size()  null and\n	(owningType.oclIsKindOf(ViewDefinition) or\n	owningType.oclIsKindOf(ViewUsage)) implies\n	specializesFromLibrary('Views::View::subviews')" ;
+    rdfs:subClassOf :PartUsage .
+
+:ViewpointUsage
+    a owl:Class ;
+    rdfs:label "ViewpointUsage" ;
+    rdfs:comment "A ViewpointUsage is a Usage of a ViewpointDefinition.\n	\n	\n	viewpointStakeholder = framedConcern.featureMemberhsip->\n	selectByKind(StakeholderMembership).\n	ownedStakeholderParameter\n	specializesFromLibrary('Views::viewpoints')\n	isComposite and owningType <> null and\n	(owningType.oclIsKindOf(ViewDefinition) or\n	owningType.oclIsKindOf(ViewUsage)) implies\n	specializesFromLibrary('Views::View::viewpointSatisfactions')" ;
+    rdfs:subClassOf :RequirementUsage .
+
+#
+# Object Properties - Ownership Relationships
+#
+
+:ActorMembership_ownedActorParameter
+    a owl:ObjectProperty ;
+    rdfs:label "ownedActorParameter" ;
+    rdfs:comment "The PartUsage specifying the actor." ;
+    rdfs:domain :ActorMembership ;
+    rdfs:range :PartUsage ;
+    rdfs:subPropertyOf :ParameterMembership_ownedMemberParameter ;
+    a owl:FunctionalProperty .
+
+:AnnotatingElement_ownedAnnotatingRelationship
+    a owl:ObjectProperty ;
+    rdfs:label "ownedAnnotatingRelationship" ;
+    rdfs:comment "The ownedRelationships of this AnnotatingElement that are Annotations, for which this AnnotatingElement is the annotatingElement." ;
+    rdfs:domain :AnnotatingElement ;
+    rdfs:range :Annotation ;
+    owl:inverseOf :Annotation_owningAnnotatingElement ;
+    a owl:FunctionalProperty .
+
+:Annotation_owningAnnotatedElement
+    a owl:ObjectProperty ;
+    rdfs:label "owningAnnotatedElement" ;
+    rdfs:comment "The annotatedElement of this Annotation, when it is also its owningRelatedElement." ;
+    rdfs:domain :Annotation ;
+    rdfs:range :Element ;
+    rdfs:subPropertyOf :Annotation_annotatedElement ;
+    rdfs:subPropertyOf :Relationship_owningRelatedElement ;
+    a owl:FunctionalProperty .
+
+:Annotation_owningAnnotatingElement
+    a owl:ObjectProperty ;
+    rdfs:label "owningAnnotatingElement" ;
+    rdfs:comment "The annotatingElement of this Annotation, when it is also its owningRelatedElement." ;
+    rdfs:domain :Annotation ;
+    rdfs:range :AnnotatingElement ;
+    rdfs:subPropertyOf :Annotation_annotatingElement ;
+    rdfs:subPropertyOf :Relationship_owningRelatedElement ;
+    a owl:FunctionalProperty .
+
+:Classifier_ownedSubclassification
+    a owl:ObjectProperty ;
+    rdfs:label "ownedSubclassification" ;
+    rdfs:comment "The ownedSpecializations of this Classifier that are Subclassifications, for which this Classifier is the subclassifier." ;
+    rdfs:domain :Classifier ;
+    rdfs:range :Subclassification ;
+    owl:inverseOf :Subclassification_owningClassifier ;
+    a owl:FunctionalProperty .
+
+:ConjugatedPortDefinition_ownedPortConjugator
+    a owl:ObjectProperty ;
+    rdfs:label "ownedPortConjugator" ;
+    rdfs:comment "The PortConjugation that is the ownedConjugator of this ConjugatedPortDefinition, linking it to its originalPortDefinition." ;
+    rdfs:domain :ConjugatedPortDefinition ;
+    rdfs:range :PortConjugation ;
+    owl:inverseOf :PortConjugation_conjugatedPortDefinition ;
+    a owl:FunctionalProperty .
+
+:Conjugation_owningType
+    a owl:ObjectProperty ;
+    rdfs:label "owningType" ;
+    rdfs:comment "The conjugatedType of this Conjugation that is also its owningRelatedElement." ;
+    rdfs:domain :Conjugation ;
+    rdfs:range :Type ;
+    rdfs:subPropertyOf :Conjugation_conjugatedType ;
+    rdfs:subPropertyOf :Relationship_owningRelatedElement ;
+    a owl:FunctionalProperty .
+
+:Definition_ownedAction
+    a owl:ObjectProperty ;
+    rdfs:label "ownedAction" ;
+    rdfs:comment "The ActionUsages that are ownedUsages of this Definition." ;
+    rdfs:domain :Definition ;
+    rdfs:range :ActionUsage ;
+    rdfs:subPropertyOf :Definition_ownedOccurrence .
+
+:Definition_ownedAllocation
+    a owl:ObjectProperty ;
+    rdfs:label "ownedAllocation" ;
+    rdfs:comment "The AllocationUsages that are ownedUsages of this Definition." ;
+    rdfs:domain :Definition ;
+    rdfs:range :AllocationUsage ;
+    rdfs:subPropertyOf :Definition_ownedConnection .
+
+:Definition_ownedAnalysisCase
+    a owl:ObjectProperty ;
+    rdfs:label "ownedAnalysisCase" ;
+    rdfs:comment "The AnalysisCaseUsages that are ownedUsages of this Definition." ;
+    rdfs:domain :Definition ;
+    rdfs:range :AnalysisCaseUsage ;
+    rdfs:subPropertyOf :Definition_ownedCase .
+
+:Definition_ownedAttribute
+    a owl:ObjectProperty ;
+    rdfs:label "ownedAttribute" ;
+    rdfs:comment "The AttributeUsages that are ownedUsages of this Definition." ;
+    rdfs:domain :Definition ;
+    rdfs:range :AttributeUsage ;
+    rdfs:subPropertyOf :Definition_ownedUsage .
+
+:Definition_ownedCalculation
+    a owl:ObjectProperty ;
+    rdfs:label "ownedCalculation" ;
+    rdfs:comment "The CalculationUsages that are ownedUsages of this Definition." ;
+    rdfs:domain :Definition ;
+    rdfs:range :CalculationUsage ;
+    rdfs:subPropertyOf :Definition_ownedAction .
+
+:Definition_ownedCase
+    a owl:ObjectProperty ;
+    rdfs:label "ownedCase" ;
+    rdfs:comment "The code>CaseUsages that are ownedUsages of this Definition." ;
+    rdfs:domain :Definition ;
+    rdfs:range :CaseUsage ;
+    rdfs:subPropertyOf :Definition_ownedCalculation .
+
+:Definition_ownedConcern
+    a owl:ObjectProperty ;
+    rdfs:label "ownedConcern" ;
+    rdfs:comment "The ConcernUsages that are ownedUsages of this Definition." ;
+    rdfs:domain :Definition ;
+    rdfs:range :ConcernUsage ;
+    rdfs:subPropertyOf :Definition_ownedRequirement .
+
+:Definition_ownedConnection
+    a owl:ObjectProperty ;
+    rdfs:label "ownedConnection" ;
+    rdfs:comment "The ConnectorAsUsages that are ownedUsages of this Definition. Note that this list includes BindingConnectorAsUsages and SuccessionAsUsages, even though these are ConnectorAsUsages but not ConnectionUsages." ;
+    rdfs:domain :Definition ;
+    rdfs:range :ConnectorAsUsage ;
+    rdfs:subPropertyOf :Definition_ownedPart .
+
+:Definition_ownedConstraint
+    a owl:ObjectProperty ;
+    rdfs:label "ownedConstraint" ;
+    rdfs:comment "The ConstraintUsages that are ownedUsages of this Definition." ;
+    rdfs:domain :Definition ;
+    rdfs:range :ConstraintUsage ;
+    rdfs:subPropertyOf :Definition_ownedOccurrence .
+
+:Definition_ownedEnumeration
+    a owl:ObjectProperty ;
+    rdfs:label "ownedEnumeration" ;
+    rdfs:comment "The EnumerationUsages that are ownedUsages of this Definition." ;
+    rdfs:domain :Definition ;
+    rdfs:range :EnumerationUsage ;
+    rdfs:subPropertyOf :Definition_ownedAttribute .
+
+:Definition_ownedFlow
+    a owl:ObjectProperty ;
+    rdfs:label "ownedFlow" ;
+    rdfs:comment "The FlowConnectionUsages that are ownedUsages of this Definition." ;
+    rdfs:domain :Definition ;
+    rdfs:range :FlowConnectionUsage ;
+    rdfs:subPropertyOf :Definition_ownedConnection .
+
+:Definition_ownedInterface
+    a owl:ObjectProperty ;
+    rdfs:label "ownedInterface" ;
+    rdfs:comment "The InterfaceUsages that are ownedUsages of this Definition." ;
+    rdfs:domain :Definition ;
+    rdfs:range :InterfaceUsage ;
+    rdfs:subPropertyOf :Definition_ownedConnection .
+
+:Definition_ownedItem
+    a owl:ObjectProperty ;
+    rdfs:label "ownedItem" ;
+    rdfs:comment "The ItemUsages that are ownedUsages of this Definition." ;
+    rdfs:domain :Definition ;
+    rdfs:range :ItemUsage ;
+    rdfs:subPropertyOf :Definition_ownedOccurrence .
+
+:Definition_ownedMetadata
+    a owl:ObjectProperty ;
+    rdfs:label "ownedMetadata" ;
+    rdfs:comment "The MetadataUsages that are ownedUsages of this Definition." ;
+    rdfs:domain :Definition ;
+    rdfs:range :MetadataUsage ;
+    rdfs:subPropertyOf :Definition_ownedItem .
+
+:Definition_ownedOccurrence
+    a owl:ObjectProperty ;
+    rdfs:label "ownedOccurrence" ;
+    rdfs:comment "The OccurrenceUsages that are ownedUsages of this Definition." ;
+    rdfs:domain :Definition ;
+    rdfs:range :OccurrenceUsage ;
+    rdfs:subPropertyOf :Definition_ownedUsage .
+
+:Definition_ownedPart
+    a owl:ObjectProperty ;
+    rdfs:label "ownedPart" ;
+    rdfs:comment "The PartUsages that are ownedUsages of this Definition." ;
+    rdfs:domain :Definition ;
+    rdfs:range :PartUsage ;
+    rdfs:subPropertyOf :Definition_ownedItem .
+
+:Definition_ownedPort
+    a owl:ObjectProperty ;
+    rdfs:label "ownedPort" ;
+    rdfs:comment "The PortUsages that are ownedUsages of this Definition." ;
+    rdfs:domain :Definition ;
+    rdfs:range :PortUsage ;
+    rdfs:subPropertyOf :Definition_ownedUsage .
+
+:Definition_ownedReference
+    a owl:ObjectProperty ;
+    rdfs:label "ownedReference" ;
+    rdfs:comment "The ReferenceUsages that are ownedUsages of this Definition." ;
+    rdfs:domain :Definition ;
+    rdfs:range :ReferenceUsage ;
+    rdfs:subPropertyOf :Definition_ownedUsage .
+
+:Definition_ownedRendering
+    a owl:ObjectProperty ;
+    rdfs:label "ownedRendering" ;
+    rdfs:comment "The RenderingUsages that are ownedUsages of this Definition." ;
+    rdfs:domain :Definition ;
+    rdfs:range :RenderingUsage ;
+    rdfs:subPropertyOf :Definition_ownedPart .
+
+:Definition_ownedRequirement
+    a owl:ObjectProperty ;
+    rdfs:label "ownedRequirement" ;
+    rdfs:comment "The RequirementUsages that are ownedUsages of this Definition." ;
+    rdfs:domain :Definition ;
+    rdfs:range :RequirementUsage ;
+    rdfs:subPropertyOf :Definition_ownedConstraint .
+
+:Definition_ownedState
+    a owl:ObjectProperty ;
+    rdfs:label "ownedState" ;
+    rdfs:comment "The StateUsages that are ownedUsages of this Definition." ;
+    rdfs:domain :Definition ;
+    rdfs:range :StateUsage ;
+    rdfs:subPropertyOf :Definition_ownedAction .
+
+:Definition_ownedTransition
+    a owl:ObjectProperty ;
+    rdfs:label "ownedTransition" ;
+    rdfs:comment "The TransitionUsages that are ownedUsages of this Definition." ;
+    rdfs:domain :Definition ;
+    rdfs:range :TransitionUsage ;
+    rdfs:subPropertyOf :Definition_ownedUsage .
+
+:Definition_ownedUsage
+    a owl:ObjectProperty ;
+    rdfs:label "ownedUsage" ;
+    rdfs:comment "The Usages that are ownedFeatures of this Definition." ;
+    rdfs:domain :Definition ;
+    rdfs:range :Usage ;
+    rdfs:subPropertyOf :Definition_usage ;
+    rdfs:subPropertyOf :Type_ownedFeature .
+
+:Definition_ownedUseCase
+    a owl:ObjectProperty ;
+    rdfs:label "ownedUseCase" ;
+    rdfs:comment "The UseCaseUsages that are ownedUsages of this Definition." ;
+    rdfs:domain :Definition ;
+    rdfs:range :UseCaseUsage ;
+    rdfs:subPropertyOf :Definition_ownedCase .
+
+:Definition_ownedVerificationCase
+    a owl:ObjectProperty ;
+    rdfs:label "ownedVerificationCase" ;
+    rdfs:comment "The VerificationCaseUsages that are ownedUsages of this Definition." ;
+    rdfs:domain :Definition ;
+    rdfs:range :VerificationCaseUsage ;
+    rdfs:subPropertyOf :Definition_ownedCase .
+
+:Definition_ownedView
+    a owl:ObjectProperty ;
+    rdfs:label "ownedView" ;
+    rdfs:comment "The ViewUsages that are ownedUsages of this Definition." ;
+    rdfs:domain :Definition ;
+    rdfs:range :ViewUsage ;
+    rdfs:subPropertyOf :Definition_ownedPart .
+
+:Definition_ownedViewpoint
+    a owl:ObjectProperty ;
+    rdfs:label "ownedViewpoint" ;
+    rdfs:comment "The ViewpointUsages that are ownedUsages of this Definition." ;
+    rdfs:domain :Definition ;
+    rdfs:range :ViewpointUsage ;
+    rdfs:subPropertyOf :Definition_ownedRequirement .
+
+:Disjoining_owningType
+    a owl:ObjectProperty ;
+    rdfs:label "owningType" ;
+    rdfs:comment "A typeDisjoined that is also an owningRelatedElement." ;
+    rdfs:domain :Disjoining ;
+    rdfs:range :Type ;
+    rdfs:subPropertyOf :Disjoining_typeDisjoined ;
+    rdfs:subPropertyOf :Relationship_owningRelatedElement ;
+    a owl:FunctionalProperty .
+
+:Element_ownedAnnotation
+    a owl:ObjectProperty ;
+    rdfs:label "ownedAnnotation" ;
+    rdfs:comment "The ownedRelationships of this Element that are Annotations, for which this Element is the annotatedElement." ;
+    rdfs:domain :Element ;
+    rdfs:range :Annotation ;
+    owl:inverseOf :Annotation_owningAnnotatedElement ;
+    a owl:FunctionalProperty .
+
+:Element_ownedElement
+    a owl:ObjectProperty ;
+    rdfs:label "ownedElement" ;
+    rdfs:comment "The Elements owned by this Element, derived as the ownedRelatedElements of the ownedRelationships of this Element." ;
+    rdfs:domain :Element ;
+    rdfs:range :Element .
+
+:Element_ownedRelationship
+    a owl:ObjectProperty ;
+    rdfs:label "ownedRelationship" ;
+    rdfs:comment "The Relationships for which this Element is the owningRelatedElement." ;
+    rdfs:domain :Element ;
+    rdfs:range :Relationship ;
+    owl:inverseOf :Relationship_owningRelatedElement ;
+    a owl:FunctionalProperty .
+
+:Element_owner
+    a owl:ObjectProperty ;
+    rdfs:label "owner" ;
+    rdfs:comment "The owner of this Element, derived as the owningRelatedElement of the owningRelationship of this Element, if any." ;
+    rdfs:domain :Element ;
+    rdfs:range :Element ;
+    owl:inverseOf :Element_ownedElement .
+
+:Element_owningMembership
+    a owl:ObjectProperty ;
+    rdfs:label "owningMembership" ;
+    rdfs:comment "The owningRelationship of this Element, if that Relationship is a Membership." ;
+    rdfs:domain :Element ;
+    rdfs:range :OwningMembership ;
+    owl:inverseOf :OwningMembership_ownedMemberElement ;
+    a owl:FunctionalProperty .
+
+:Element_owningNamespace
+    a owl:ObjectProperty ;
+    rdfs:label "owningNamespace" ;
+    rdfs:comment "The Namespace that owns this Element, which is the membershipOwningNamespace of the owningMembership of this Element, if any." ;
+    rdfs:domain :Element ;
+    rdfs:range :Namespace ;
+    owl:inverseOf :Namespace_ownedMember .
+
+:Element_owningRelationship
+    a owl:ObjectProperty ;
+    rdfs:label "owningRelationship" ;
+    rdfs:comment "The Relationship for which this Element is an ownedRelatedElement, if any." ;
+    rdfs:domain :Element ;
+    rdfs:range :Relationship ;
+    owl:inverseOf :Relationship_ownedRelatedElement .
+
+:FeatureInverting_owningFeature
+    a owl:ObjectProperty ;
+    rdfs:label "owningFeature" ;
+    rdfs:comment "A featureInverted that is also the owningRelatedElement of this FeatureInverting." ;
+    rdfs:domain :FeatureInverting ;
+    rdfs:range :Feature ;
+    rdfs:subPropertyOf :FeatureInverting_featureInverted ;
+    rdfs:subPropertyOf :Relationship_owningRelatedElement ;
+    a owl:FunctionalProperty .
+
+:FeatureMembership_ownedMemberFeature
+    a owl:ObjectProperty ;
+    rdfs:label "ownedMemberFeature" ;
+    rdfs:comment "The Feature that this FeatureMembership relates to its owningType, making it an ownedFeature of the owningType." ;
+    rdfs:domain :FeatureMembership ;
+    rdfs:range :Feature ;
+    rdfs:subPropertyOf :Featuring_feature ;
+    rdfs:subPropertyOf :OwningMembership_ownedMemberElement ;
+    a owl:FunctionalProperty .
+
+:FeatureMembership_owningType
+    a owl:ObjectProperty ;
+    rdfs:label "owningType" ;
+    rdfs:comment "The Type that owns this FeatureMembership." ;
+    rdfs:domain :FeatureMembership ;
+    rdfs:range :Type ;
+    rdfs:subPropertyOf :Featuring_type ;
+    rdfs:subPropertyOf :Membership_membershipOwningNamespace ;
+    a owl:FunctionalProperty .
+
+:FeatureTyping_owningFeature
+    a owl:ObjectProperty ;
+    rdfs:label "owningFeature" ;
+    rdfs:comment "A typedFeature that is also the owningRelatedElement of this FeatureTyping." ;
+    rdfs:domain :FeatureTyping ;
+    rdfs:range :Feature ;
+    rdfs:subPropertyOf :FeatureTyping_typedFeature ;
+    rdfs:subPropertyOf :Specialization_owningType ;
+    a owl:FunctionalProperty .
+
+:Feature_ownedFeatureChaining
+    a owl:ObjectProperty ;
+    rdfs:label "ownedFeatureChaining" ;
+    rdfs:comment "The ownedRelationships of this Feature that are FeatureChainings, for which the Feature will be the featureChained." ;
+    rdfs:domain :Feature ;
+    rdfs:range :FeatureChaining ;
+    owl:inverseOf :FeatureChaining_featureChained ;
+    a owl:FunctionalProperty .
+
+:Feature_ownedFeatureInverting
+    a owl:ObjectProperty ;
+    rdfs:label "ownedFeatureInverting" ;
+    rdfs:comment "The ownedRelationships of this Feature that are FeatureInvertings and for which the Feature is the featureInverted." ;
+    rdfs:domain :Feature ;
+    rdfs:range :FeatureInverting ;
+    owl:inverseOf :FeatureInverting_owningFeature ;
+    a owl:FunctionalProperty .
+
+:Feature_ownedRedefinition
+    a owl:ObjectProperty ;
+    rdfs:label "ownedRedefinition" ;
+    rdfs:comment "The ownedSubsettings of this Feature that are Redefinitions, for which the Feature is the redefiningFeature." ;
+    rdfs:domain :Feature ;
+    rdfs:range :Redefinition ;
+    rdfs:subPropertyOf :Feature_ownedSubsetting .
+
+:Feature_ownedReferenceSubsetting
+    a owl:ObjectProperty ;
+    rdfs:label "ownedReferenceSubsetting" ;
+    rdfs:comment "The one ownedSubsetting of this Feature, if any, that is a ReferenceSubsetting, for which the Feature is the referencingFeature." ;
+    rdfs:domain :Feature ;
+    rdfs:range :ReferenceSubsetting ;
+    owl:inverseOf :ReferenceSubsetting_referencingFeature ;
+    a owl:FunctionalProperty .
+
+:Feature_ownedSubsetting
+    a owl:ObjectProperty ;
+    rdfs:label "ownedSubsetting" ;
+    rdfs:comment "The ownedSpecializations of this Feature that are Subsettings, for which the Feature is the subsettingFeature." ;
+    rdfs:domain :Feature ;
+    rdfs:range :Subsetting ;
+    owl:inverseOf :Subsetting_owningFeature ;
+    a owl:FunctionalProperty .
+
+:Feature_ownedTypeFeaturing
+    a owl:ObjectProperty ;
+    rdfs:label "ownedTypeFeaturing" ;
+    rdfs:comment "The ownedRelationships of this Feature that are TypeFeaturings and for which the Feature is the featureOfType." ;
+    rdfs:domain :Feature ;
+    rdfs:range :TypeFeaturing ;
+    owl:inverseOf :TypeFeaturing_owningFeatureOfType ;
+    a owl:FunctionalProperty .
+
+:Feature_ownedTyping
+    a owl:ObjectProperty ;
+    rdfs:label "ownedTyping" ;
+    rdfs:comment "The ownedSpecializations of this Feature that are FeatureTypings, for which the Feature is the typedFeature." ;
+    rdfs:domain :Feature ;
+    rdfs:range :FeatureTyping ;
+    owl:inverseOf :FeatureTyping_owningFeature ;
+    a owl:FunctionalProperty .
+
+:Feature_owningFeatureMembership
+    a owl:ObjectProperty ;
+    rdfs:label "owningFeatureMembership" ;
+    rdfs:comment "The FeatureMembership that owns this Feature as an ownedMemberFeature, determining its owningType." ;
+    rdfs:domain :Feature ;
+    rdfs:range :FeatureMembership ;
+    owl:inverseOf :FeatureMembership_ownedMemberFeature ;
+    a owl:FunctionalProperty .
+
+:Feature_owningType
+    a owl:ObjectProperty ;
+    rdfs:label "owningType" ;
+    rdfs:comment "The Type that is the owningType of the owningFeatureMembership of this Feature." ;
+    rdfs:domain :Feature ;
+    rdfs:range :Type ;
+    rdfs:subPropertyOf :Feature_featuringType ;
+    owl:inverseOf :Type_ownedFeature .
+
+:FramedConcernMembership_ownedConcern
+    a owl:ObjectProperty ;
+    rdfs:label "ownedConcern" ;
+    rdfs:comment "The ConcernUsage that is the ownedConstraint of this FramedConcernMembership." ;
+    rdfs:domain :FramedConcernMembership ;
+    rdfs:range :ConcernUsage ;
+    rdfs:subPropertyOf :RequirementConstraintMembership_ownedConstraint ;
+    a owl:FunctionalProperty .
+
+:Namespace_ownedImport
+    a owl:ObjectProperty ;
+    rdfs:label "ownedImport" ;
+    rdfs:comment "The ownedRelationships of this Namespace that are Imports, for which the Namespace is the importOwningNamespace." ;
+    rdfs:domain :Namespace ;
+    rdfs:range :Import ;
+    owl:inverseOf :Import_importOwningNamespace ;
+    a owl:FunctionalProperty .
+
+:Namespace_ownedMember
+    a owl:ObjectProperty ;
+    rdfs:label "ownedMember" ;
+    rdfs:comment "The owned members of this Namespace, which are the ownedMemberElements of the ownedMemberships of the Namespace." ;
+    rdfs:domain :Namespace ;
+    rdfs:range :Element ;
+    rdfs:subPropertyOf :Namespace_member .
+
+:Namespace_ownedMembership
+    a owl:ObjectProperty ;
+    rdfs:label "ownedMembership" ;
+    rdfs:comment "The ownedRelationships of this Namespace that are Memberships, for which the Namespace is the membershipOwningNamespace." ;
+    rdfs:domain :Namespace ;
+    rdfs:range :Membership ;
+    rdfs:subPropertyOf :Namespace_membership ;
+    owl:inverseOf :Membership_membershipOwningNamespace ;
+    a owl:FunctionalProperty .
+
+:ObjectiveMembership_ownedObjectiveRequirement
+    a owl:ObjectProperty ;
+    rdfs:label "ownedObjectiveRequirement" ;
+    rdfs:comment "The RequirementUsage that is the ownedMemberFeature of this RequirementUsage." ;
+    rdfs:domain :ObjectiveMembership ;
+    rdfs:range :RequirementUsage ;
+    rdfs:subPropertyOf :FeatureMembership_ownedMemberFeature ;
+    a owl:FunctionalProperty .
+
+:OwningMembership_ownedMemberElement
+    a owl:ObjectProperty ;
+    rdfs:label "ownedMemberElement" ;
+    rdfs:comment "The Element that becomes an ownedMember of the membershipOwningNamespace due to this OwningMembership." ;
+    rdfs:domain :OwningMembership ;
+    rdfs:range :Element ;
+    rdfs:subPropertyOf :Membership_memberElement ;
+    rdfs:subPropertyOf :Relationship_ownedRelatedElement ;
+    a owl:FunctionalProperty .
+
+:ParameterMembership_ownedMemberParameter
+    a owl:ObjectProperty ;
+    rdfs:label "ownedMemberParameter" ;
+    rdfs:comment "The Feature that is identified as a parameter by this ParameterMembership." ;
+    rdfs:domain :ParameterMembership ;
+    rdfs:range :Feature ;
+    rdfs:subPropertyOf :FeatureMembership_ownedMemberFeature ;
+    a owl:FunctionalProperty .
+
+:Relationship_ownedRelatedElement
+    a owl:ObjectProperty ;
+    rdfs:label "ownedRelatedElement" ;
+    rdfs:comment "The relatedElements of this Relationship that are owned by the Relationship." ;
+    rdfs:domain :Relationship ;
+    rdfs:range :Element ;
+    rdfs:subPropertyOf :Relationship_relatedElement .
+
+:Relationship_owningRelatedElement
+    a owl:ObjectProperty ;
+    rdfs:label "owningRelatedElement" ;
+    rdfs:comment "The relatedElement of this Relationship that owns the Relationship, if any." ;
+    rdfs:domain :Relationship ;
+    rdfs:range :Element ;
+    rdfs:subPropertyOf :Relationship_relatedElement ;
+    a owl:FunctionalProperty .
+
+:RequirementConstraintMembership_ownedConstraint
+    a owl:ObjectProperty ;
+    rdfs:label "ownedConstraint" ;
+    rdfs:comment "The ConstraintUsage that is the ownedMemberFeature of this RequirementConstraintMembership." ;
+    rdfs:domain :RequirementConstraintMembership ;
+    rdfs:range :ConstraintUsage ;
+    rdfs:subPropertyOf :FeatureMembership_ownedMemberFeature ;
+    a owl:FunctionalProperty .
+
+:RequirementVerificationMembership_ownedRequirement
+    a owl:ObjectProperty ;
+    rdfs:label "ownedRequirement" ;
+    rdfs:comment "The owned RequirementUsage that acts as the ownedConstraint for this RequirementVerificationMembership. This will either be the verifiedRequirement, or it will subset the verifiedRequirement." ;
+    rdfs:domain :RequirementVerificationMembership ;
+    rdfs:range :RequirementUsage ;
+    rdfs:subPropertyOf :RequirementConstraintMembership_ownedConstraint ;
+    a owl:FunctionalProperty .
+
+:ResultExpressionMembership_ownedResultExpression
+    a owl:ObjectProperty ;
+    rdfs:label "ownedResultExpression" ;
+    rdfs:comment "The Expression that provides the result for the owner of the ResultExpressionMembership." ;
+    rdfs:domain :ResultExpressionMembership ;
+    rdfs:range :Expression ;
+    rdfs:subPropertyOf :FeatureMembership_ownedMemberFeature ;
+    a owl:FunctionalProperty .
+
+:Specialization_owningType
+    a owl:ObjectProperty ;
+    rdfs:label "owningType" ;
+    rdfs:comment "The Type that is the specific Type of this Specialization and owns it as its owningRelatedElement." ;
+    rdfs:domain :Specialization ;
+    rdfs:range :Type ;
+    rdfs:subPropertyOf :Relationship_owningRelatedElement ;
+    rdfs:subPropertyOf :Specialization_specific ;
+    a owl:FunctionalProperty .
+
+:StakeholderMembership_ownedStakeholderParameter
+    a owl:ObjectProperty ;
+    rdfs:label "ownedStakeholderParameter" ;
+    rdfs:comment "The PartUsage specifying the stakeholder." ;
+    rdfs:domain :StakeholderMembership ;
+    rdfs:range :PartUsage ;
+    rdfs:subPropertyOf :ParameterMembership_ownedMemberParameter ;
+    a owl:FunctionalProperty .
+
+:Subclassification_owningClassifier
+    a owl:ObjectProperty ;
+    rdfs:label "owningClassifier" ;
+    rdfs:comment "The Classifier that owns this Subclassification relationship, which must also be its subclassifier." ;
+    rdfs:domain :Subclassification ;
+    rdfs:range :Classifier ;
+    rdfs:subPropertyOf :Specialization_owningType ;
+    a owl:FunctionalProperty .
+
+:SubjectMembership_ownedSubjectParameter
+    a owl:ObjectProperty ;
+    rdfs:label "ownedSubjectParameter" ;
+    rdfs:comment "The UsageownedMemberParameter of this SubjectMembership." ;
+    rdfs:domain :SubjectMembership ;
+    rdfs:range :Usage ;
+    rdfs:subPropertyOf :ParameterMembership_ownedMemberParameter ;
+    a owl:FunctionalProperty .
+
+:Subsetting_owningFeature
+    a owl:ObjectProperty ;
+    rdfs:label "owningFeature" ;
+    rdfs:comment "A subsettingFeature that is also the owningRelatedElement of this Subsetting." ;
+    rdfs:domain :Subsetting ;
+    rdfs:range :Feature ;
+    rdfs:subPropertyOf :Specialization_owningType ;
+    rdfs:subPropertyOf :Subsetting_subsettingFeature ;
+    a owl:FunctionalProperty .
+
+:TypeFeaturing_owningFeatureOfType
+    a owl:ObjectProperty ;
+    rdfs:label "owningFeatureOfType" ;
+    rdfs:comment "A featureOfType that is also the owningRelatedElement of this TypeFeaturing." ;
+    rdfs:domain :TypeFeaturing ;
+    rdfs:range :Feature ;
+    rdfs:subPropertyOf :Relationship_owningRelatedElement ;
+    rdfs:subPropertyOf :TypeFeaturing_featureOfType ;
+    a owl:FunctionalProperty .
+
+:Type_ownedConjugator
+    a owl:ObjectProperty ;
+    rdfs:label "ownedConjugator" ;
+    rdfs:comment "A Conjugation owned by this Type for which the Type is the originalType." ;
+    rdfs:domain :Type ;
+    rdfs:range :Conjugation ;
+    owl:inverseOf :Conjugation_owningType ;
+    a owl:FunctionalProperty .
+
+:Type_ownedDifferencing
+    a owl:ObjectProperty ;
+    rdfs:label "ownedDifferencing" ;
+    rdfs:comment "The ownedRelationships of this Type that are Differencings, having this Type as their typeDifferenced." ;
+    rdfs:domain :Type ;
+    rdfs:range :Differencing ;
+    owl:inverseOf :Differencing_typeDifferenced ;
+    a owl:FunctionalProperty .
+
+:Type_ownedDisjoining
+    a owl:ObjectProperty ;
+    rdfs:label "ownedDisjoining" ;
+    rdfs:comment "The ownedRelationships of this Type that are Disjoinings, for which the Type is the typeDisjoined Type." ;
+    rdfs:domain :Type ;
+    rdfs:range :Disjoining ;
+    owl:inverseOf :Disjoining_owningType ;
+    a owl:FunctionalProperty .
+
+:Type_ownedEndFeature
+    a owl:ObjectProperty ;
+    rdfs:label "ownedEndFeature" ;
+    rdfs:comment "All endFeatures of this Type that are ownedFeatures." ;
+    rdfs:domain :Type ;
+    rdfs:range :Feature ;
+    rdfs:subPropertyOf :Type_endFeature ;
+    rdfs:subPropertyOf :Type_ownedFeature .
+
+:Type_ownedFeature
+    a owl:ObjectProperty ;
+    rdfs:label "ownedFeature" ;
+    rdfs:comment "The ownedMemberFeatures of the ownedFeatureMemberships of this Type." ;
+    rdfs:domain :Type ;
+    rdfs:range :Feature ;
+    rdfs:subPropertyOf :Namespace_ownedMember .
+
+:Type_ownedFeatureMembership
+    a owl:ObjectProperty ;
+    rdfs:label "ownedFeatureMembership" ;
+    rdfs:comment "The ownedMemberships of this Type that are FeatureMemberships, for which the Type is the owningType. Each such FeatureMembership identifies an ownedFeature of the Type." ;
+    rdfs:domain :Type ;
+    rdfs:range :FeatureMembership ;
+    rdfs:subPropertyOf :Type_featureMembership ;
+    owl:inverseOf :FeatureMembership_owningType ;
+    a owl:FunctionalProperty .
+
+:Type_ownedIntersecting
+    a owl:ObjectProperty ;
+    rdfs:label "ownedIntersecting" ;
+    rdfs:comment "The ownedRelationships of this Type that are Intersectings, have the Type as their typeIntersected." ;
+    rdfs:domain :Type ;
+    rdfs:range :Intersecting ;
+    owl:inverseOf :Intersecting_typeIntersected ;
+    a owl:FunctionalProperty .
+
+:Type_ownedSpecialization
+    a owl:ObjectProperty ;
+    rdfs:label "ownedSpecialization" ;
+    rdfs:comment "The ownedRelationships of this Type that are Specializations, for which the Type is the specific Type." ;
+    rdfs:domain :Type ;
+    rdfs:range :Specialization ;
+    owl:inverseOf :Specialization_owningType ;
+    a owl:FunctionalProperty .
+
+:Type_ownedUnioning
+    a owl:ObjectProperty ;
+    rdfs:label "ownedUnioning" ;
+    rdfs:comment "The ownedRelationships of this Type that are Unionings, having the Type as their typeUnioned." ;
+    rdfs:domain :Type ;
+    rdfs:range :Unioning ;
+    owl:inverseOf :Unioning_typeUnioned ;
+    a owl:FunctionalProperty .
+
+:Usage_owningDefinition
+    a owl:ObjectProperty ;
+    rdfs:label "owningDefinition" ;
+    rdfs:comment "The Definition that owns this Usage (if any)." ;
+    rdfs:domain :Usage ;
+    rdfs:range :Definition ;
+    owl:inverseOf :Definition_ownedUsage .
+
+:Usage_owningUsage
+    a owl:ObjectProperty ;
+    rdfs:label "owningUsage" ;
+    rdfs:comment "The Usage in which this Usage is nested (if any)." ;
+    rdfs:domain :Usage ;
+    rdfs:range :Usage ;
+    owl:inverseOf :Usage_nestedUsage .
+
+:VariantMembership_ownedVariantUsage
+    a owl:ObjectProperty ;
+    rdfs:label "ownedVariantUsage" ;
+    rdfs:comment "The Usage that represents a variant in the context of the owningVariationDefinition or owningVariationUsage." ;
+    rdfs:domain :VariantMembership ;
+    rdfs:range :Usage ;
+    rdfs:subPropertyOf :OwningMembership_ownedMemberElement ;
+    a owl:FunctionalProperty .
+
+:ViewRenderingMembership_ownedRendering
+    a owl:ObjectProperty ;
+    rdfs:label "ownedRendering" ;
+    rdfs:comment "The owned RenderingUsage that is either itself the referencedRendering or subsets the referencedRendering." ;
+    rdfs:domain :ViewRenderingMembership ;
+    rdfs:range :RenderingUsage ;
+    rdfs:subPropertyOf :FeatureMembership_ownedMemberFeature ;
+    a owl:FunctionalProperty .
+

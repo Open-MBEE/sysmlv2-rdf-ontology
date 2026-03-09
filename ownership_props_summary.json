@@ -1,0 +1,1340 @@
+{
+  "total_count": 86,
+  "by_pattern": {
+    "owner": 1,
+    "owned": 66,
+    "owning": 19
+  },
+  "functional_properties": [
+    "ActorMembership_ownedActorParameter",
+    "AnnotatingElement_ownedAnnotatingRelationship",
+    "Annotation_owningAnnotatedElement",
+    "Annotation_owningAnnotatingElement",
+    "Classifier_ownedSubclassification",
+    "ConjugatedPortDefinition_ownedPortConjugator",
+    "Conjugation_owningType",
+    "Disjoining_owningType",
+    "Element_ownedAnnotation",
+    "Element_ownedRelationship",
+    "Element_owningMembership",
+    "FeatureInverting_owningFeature",
+    "FeatureMembership_ownedMemberFeature",
+    "FeatureMembership_owningType",
+    "FeatureTyping_owningFeature",
+    "Feature_ownedFeatureChaining",
+    "Feature_ownedFeatureInverting",
+    "Feature_ownedReferenceSubsetting",
+    "Feature_ownedSubsetting",
+    "Feature_ownedTypeFeaturing",
+    "Feature_ownedTyping",
+    "Feature_owningFeatureMembership",
+    "FramedConcernMembership_ownedConcern",
+    "Namespace_ownedImport",
+    "Namespace_ownedMembership",
+    "ObjectiveMembership_ownedObjectiveRequirement",
+    "OwningMembership_ownedMemberElement",
+    "ParameterMembership_ownedMemberParameter",
+    "Relationship_owningRelatedElement",
+    "RequirementConstraintMembership_ownedConstraint",
+    "RequirementVerificationMembership_ownedRequirement",
+    "ResultExpressionMembership_ownedResultExpression",
+    "Specialization_owningType",
+    "StakeholderMembership_ownedStakeholderParameter",
+    "Subclassification_owningClassifier",
+    "SubjectMembership_ownedSubjectParameter",
+    "Subsetting_owningFeature",
+    "TypeFeaturing_owningFeatureOfType",
+    "Type_ownedConjugator",
+    "Type_ownedDifferencing",
+    "Type_ownedDisjoining",
+    "Type_ownedFeatureMembership",
+    "Type_ownedIntersecting",
+    "Type_ownedSpecialization",
+    "Type_ownedUnioning",
+    "VariantMembership_ownedVariantUsage",
+    "ViewRenderingMembership_ownedRendering"
+  ],
+  "inverse_functional_properties": [],
+  "properties_with_inverse": [
+    [
+      "AnnotatingElement_ownedAnnotatingRelationship",
+      "Annotation_owningAnnotatingElement"
+    ],
+    [
+      "Classifier_ownedSubclassification",
+      "Subclassification_owningClassifier"
+    ],
+    [
+      "ConjugatedPortDefinition_ownedPortConjugator",
+      "PortConjugation_conjugatedPortDefinition"
+    ],
+    [
+      "Element_ownedAnnotation",
+      "Annotation_owningAnnotatedElement"
+    ],
+    [
+      "Element_ownedRelationship",
+      "Relationship_owningRelatedElement"
+    ],
+    [
+      "Element_owner",
+      "Element_ownedElement"
+    ],
+    [
+      "Element_owningMembership",
+      "OwningMembership_ownedMemberElement"
+    ],
+    [
+      "Element_owningNamespace",
+      "Namespace_ownedMember"
+    ],
+    [
+      "Element_owningRelationship",
+      "Relationship_ownedRelatedElement"
+    ],
+    [
+      "Feature_ownedFeatureChaining",
+      "FeatureChaining_featureChained"
+    ],
+    [
+      "Feature_ownedFeatureInverting",
+      "FeatureInverting_owningFeature"
+    ],
+    [
+      "Feature_ownedReferenceSubsetting",
+      "ReferenceSubsetting_referencingFeature"
+    ],
+    [
+      "Feature_ownedSubsetting",
+      "Subsetting_owningFeature"
+    ],
+    [
+      "Feature_ownedTypeFeaturing",
+      "TypeFeaturing_owningFeatureOfType"
+    ],
+    [
+      "Feature_ownedTyping",
+      "FeatureTyping_owningFeature"
+    ],
+    [
+      "Feature_owningFeatureMembership",
+      "FeatureMembership_ownedMemberFeature"
+    ],
+    [
+      "Feature_owningType",
+      "Type_ownedFeature"
+    ],
+    [
+      "Namespace_ownedImport",
+      "Import_importOwningNamespace"
+    ],
+    [
+      "Namespace_ownedMembership",
+      "Membership_membershipOwningNamespace"
+    ],
+    [
+      "Type_ownedConjugator",
+      "Conjugation_owningType"
+    ],
+    [
+      "Type_ownedDifferencing",
+      "Differencing_typeDifferenced"
+    ],
+    [
+      "Type_ownedDisjoining",
+      "Disjoining_owningType"
+    ],
+    [
+      "Type_ownedFeatureMembership",
+      "FeatureMembership_owningType"
+    ],
+    [
+      "Type_ownedIntersecting",
+      "Intersecting_typeIntersected"
+    ],
+    [
+      "Type_ownedSpecialization",
+      "Specialization_owningType"
+    ],
+    [
+      "Type_ownedUnioning",
+      "Unioning_typeUnioned"
+    ],
+    [
+      "Usage_owningDefinition",
+      "Definition_ownedUsage"
+    ],
+    [
+      "Usage_owningUsage",
+      "Usage_nestedUsage"
+    ]
+  ],
+  "all_properties": [
+    {
+      "uri": "https://www.omg.org/spec/SysML#ActorMembership_ownedActorParameter",
+      "name": "ActorMembership_ownedActorParameter",
+      "domain": "https://www.omg.org/spec/SysML#ActorMembership",
+      "range": "https://www.omg.org/spec/SysML#PartUsage",
+      "label": "ownedActorParameter",
+      "comment": "<p>The <code>PartUsage</code> specifying the actor.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#ParameterMembership_ownedMemberParameter"
+      ],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#AnnotatingElement_ownedAnnotatingRelationship",
+      "name": "AnnotatingElement_ownedAnnotatingRelationship",
+      "domain": "https://www.omg.org/spec/SysML#AnnotatingElement",
+      "range": "https://www.omg.org/spec/SysML#Annotation",
+      "label": "ownedAnnotatingRelationship",
+      "comment": "<p>The <code>ownedRelationships</code> of this <code>AnnotatingElement</code> that are <code>Annotations</code>, for which this <code>AnnotatingElement</code> is the <code>annotatingElement</code>.</p>",
+      "inverseOf": "https://www.omg.org/spec/SysML#Annotation_owningAnnotatingElement",
+      "subPropertyOf": [],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Annotation_owningAnnotatedElement",
+      "name": "Annotation_owningAnnotatedElement",
+      "domain": "https://www.omg.org/spec/SysML#Annotation",
+      "range": "https://www.omg.org/spec/SysML#Element",
+      "label": "owningAnnotatedElement",
+      "comment": "<p>The <code>annotatedElement</code> of this <code>Annotation</code>, when it is also its <code>owningRelatedElement</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Annotation_annotatedElement",
+        "https://www.omg.org/spec/SysML#Relationship_owningRelatedElement"
+      ],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Annotation_owningAnnotatingElement",
+      "name": "Annotation_owningAnnotatingElement",
+      "domain": "https://www.omg.org/spec/SysML#Annotation",
+      "range": "https://www.omg.org/spec/SysML#AnnotatingElement",
+      "label": "owningAnnotatingElement",
+      "comment": "<p>The <code>annotatingElement</code> of this <code>Annotation</code>, when it is also its <code>owningRelatedElement</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Annotation_annotatingElement",
+        "https://www.omg.org/spec/SysML#Relationship_owningRelatedElement"
+      ],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Classifier_ownedSubclassification",
+      "name": "Classifier_ownedSubclassification",
+      "domain": "https://www.omg.org/spec/SysML#Classifier",
+      "range": "https://www.omg.org/spec/SysML#Subclassification",
+      "label": "ownedSubclassification",
+      "comment": "<p>The <code>ownedSpecializations</code> of this <code>Classifier</code> that are <code>Subclassifications</code>, for which this <code>Classifier</code> is the <code>subclassifier</code>.</p>",
+      "inverseOf": "https://www.omg.org/spec/SysML#Subclassification_owningClassifier",
+      "subPropertyOf": [],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#ConjugatedPortDefinition_ownedPortConjugator",
+      "name": "ConjugatedPortDefinition_ownedPortConjugator",
+      "domain": "https://www.omg.org/spec/SysML#ConjugatedPortDefinition",
+      "range": "https://www.omg.org/spec/SysML#PortConjugation",
+      "label": "ownedPortConjugator",
+      "comment": "<p>The <code>PortConjugation</code> that is the <code>ownedConjugator</code> of this <code>ConjugatedPortDefinition</code>, linking it to its <code>originalPortDefinition</code>.</p>",
+      "inverseOf": "https://www.omg.org/spec/SysML#PortConjugation_conjugatedPortDefinition",
+      "subPropertyOf": [],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Conjugation_owningType",
+      "name": "Conjugation_owningType",
+      "domain": "https://www.omg.org/spec/SysML#Conjugation",
+      "range": "https://www.omg.org/spec/SysML#Type",
+      "label": "owningType",
+      "comment": "<p>The <code>conjugatedType</code> of this <code>Conjugation</code> that is also its <code>owningRelatedElement</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Conjugation_conjugatedType",
+        "https://www.omg.org/spec/SysML#Relationship_owningRelatedElement"
+      ],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Definition_ownedAction",
+      "name": "Definition_ownedAction",
+      "domain": "https://www.omg.org/spec/SysML#Definition",
+      "range": "https://www.omg.org/spec/SysML#ActionUsage",
+      "label": "ownedAction",
+      "comment": "<p>The <code>ActionUsages</code> that are <code>ownedUsages</code> of this <code>Definition</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Definition_ownedOccurrence"
+      ],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Definition_ownedAllocation",
+      "name": "Definition_ownedAllocation",
+      "domain": "https://www.omg.org/spec/SysML#Definition",
+      "range": "https://www.omg.org/spec/SysML#AllocationUsage",
+      "label": "ownedAllocation",
+      "comment": "<p>The <code>AllocationUsages</code> that are <code>ownedUsages</code> of this <code>Definition</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Definition_ownedConnection"
+      ],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Definition_ownedAnalysisCase",
+      "name": "Definition_ownedAnalysisCase",
+      "domain": "https://www.omg.org/spec/SysML#Definition",
+      "range": "https://www.omg.org/spec/SysML#AnalysisCaseUsage",
+      "label": "ownedAnalysisCase",
+      "comment": "<p>The <code>AnalysisCaseUsages</code> that are <code>ownedUsages</code> of this <code>Definition</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Definition_ownedCase"
+      ],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Definition_ownedAttribute",
+      "name": "Definition_ownedAttribute",
+      "domain": "https://www.omg.org/spec/SysML#Definition",
+      "range": "https://www.omg.org/spec/SysML#AttributeUsage",
+      "label": "ownedAttribute",
+      "comment": "<p>The <code>AttributeUsages</code> that are <code>ownedUsages</code> of this <code>Definition</code>.<p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Definition_ownedUsage"
+      ],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Definition_ownedCalculation",
+      "name": "Definition_ownedCalculation",
+      "domain": "https://www.omg.org/spec/SysML#Definition",
+      "range": "https://www.omg.org/spec/SysML#CalculationUsage",
+      "label": "ownedCalculation",
+      "comment": "<p>The <code>CalculationUsages</code> that are <code>ownedUsages</code> of this <code>Definition</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Definition_ownedAction"
+      ],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Definition_ownedCase",
+      "name": "Definition_ownedCase",
+      "domain": "https://www.omg.org/spec/SysML#Definition",
+      "range": "https://www.omg.org/spec/SysML#CaseUsage",
+      "label": "ownedCase",
+      "comment": "<p>The code>CaseUsages</code> that are <code>ownedUsages</code> of this <code>Definition</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Definition_ownedCalculation"
+      ],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Definition_ownedConcern",
+      "name": "Definition_ownedConcern",
+      "domain": "https://www.omg.org/spec/SysML#Definition",
+      "range": "https://www.omg.org/spec/SysML#ConcernUsage",
+      "label": "ownedConcern",
+      "comment": "<p>The <code>ConcernUsages</code> that are <code>ownedUsages</code> of this <code>Definition</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Definition_ownedRequirement"
+      ],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Definition_ownedConnection",
+      "name": "Definition_ownedConnection",
+      "domain": "https://www.omg.org/spec/SysML#Definition",
+      "range": "https://www.omg.org/spec/SysML#ConnectorAsUsage",
+      "label": "ownedConnection",
+      "comment": "<p>The <code>ConnectorAsUsages</code> that are <code>ownedUsages</code> of this <code>Definition</code>. Note that this list includes <code>BindingConnectorAsUsages</code> and <code>SuccessionAsUsages</code>, even though these are <code>ConnectorAsUsages</code> but not <code>ConnectionUsages</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Definition_ownedPart"
+      ],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Definition_ownedConstraint",
+      "name": "Definition_ownedConstraint",
+      "domain": "https://www.omg.org/spec/SysML#Definition",
+      "range": "https://www.omg.org/spec/SysML#ConstraintUsage",
+      "label": "ownedConstraint",
+      "comment": "<p>The <code>ConstraintUsages</code> that are <code>ownedUsages</code> of this <code>Definition</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Definition_ownedOccurrence"
+      ],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Definition_ownedEnumeration",
+      "name": "Definition_ownedEnumeration",
+      "domain": "https://www.omg.org/spec/SysML#Definition",
+      "range": "https://www.omg.org/spec/SysML#EnumerationUsage",
+      "label": "ownedEnumeration",
+      "comment": "<p>The <code>EnumerationUsages</code> that are <code>ownedUsages</code> of this <code>Definition</code>.<p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Definition_ownedAttribute"
+      ],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Definition_ownedFlow",
+      "name": "Definition_ownedFlow",
+      "domain": "https://www.omg.org/spec/SysML#Definition",
+      "range": "https://www.omg.org/spec/SysML#FlowConnectionUsage",
+      "label": "ownedFlow",
+      "comment": "<p>The <code>FlowConnectionUsages</code> that are <code>ownedUsages</code> of this <code>Definition</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Definition_ownedConnection"
+      ],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Definition_ownedInterface",
+      "name": "Definition_ownedInterface",
+      "domain": "https://www.omg.org/spec/SysML#Definition",
+      "range": "https://www.omg.org/spec/SysML#InterfaceUsage",
+      "label": "ownedInterface",
+      "comment": "<p>The <code>InterfaceUsages</code> that are <code>ownedUsages</code> of this <code>Definition</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Definition_ownedConnection"
+      ],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Definition_ownedItem",
+      "name": "Definition_ownedItem",
+      "domain": "https://www.omg.org/spec/SysML#Definition",
+      "range": "https://www.omg.org/spec/SysML#ItemUsage",
+      "label": "ownedItem",
+      "comment": "<p>The <code>ItemUsages</code> that are <code>ownedUsages</code> of this <code>Definition</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Definition_ownedOccurrence"
+      ],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Definition_ownedMetadata",
+      "name": "Definition_ownedMetadata",
+      "domain": "https://www.omg.org/spec/SysML#Definition",
+      "range": "https://www.omg.org/spec/SysML#MetadataUsage",
+      "label": "ownedMetadata",
+      "comment": "<p>The <code>MetadataUsages</code> that are <code>ownedUsages</code> of this <code>Definition</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Definition_ownedItem"
+      ],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Definition_ownedOccurrence",
+      "name": "Definition_ownedOccurrence",
+      "domain": "https://www.omg.org/spec/SysML#Definition",
+      "range": "https://www.omg.org/spec/SysML#OccurrenceUsage",
+      "label": "ownedOccurrence",
+      "comment": "<p>The <code>OccurrenceUsages</code> that are <code>ownedUsages</code> of this <code>Definition</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Definition_ownedUsage"
+      ],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Definition_ownedPart",
+      "name": "Definition_ownedPart",
+      "domain": "https://www.omg.org/spec/SysML#Definition",
+      "range": "https://www.omg.org/spec/SysML#PartUsage",
+      "label": "ownedPart",
+      "comment": "<p>The <code>PartUsages</code> that are <code>ownedUsages</code> of this <code>Definition</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Definition_ownedItem"
+      ],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Definition_ownedPort",
+      "name": "Definition_ownedPort",
+      "domain": "https://www.omg.org/spec/SysML#Definition",
+      "range": "https://www.omg.org/spec/SysML#PortUsage",
+      "label": "ownedPort",
+      "comment": "<p>The <code>PortUsages</code> that are <code>ownedUsages</code> of this <code>Definition</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Definition_ownedUsage"
+      ],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Definition_ownedReference",
+      "name": "Definition_ownedReference",
+      "domain": "https://www.omg.org/spec/SysML#Definition",
+      "range": "https://www.omg.org/spec/SysML#ReferenceUsage",
+      "label": "ownedReference",
+      "comment": "<p>The <code>ReferenceUsages</code> that are <code>ownedUsages</code> of this <code>Definition</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Definition_ownedUsage"
+      ],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Definition_ownedRendering",
+      "name": "Definition_ownedRendering",
+      "domain": "https://www.omg.org/spec/SysML#Definition",
+      "range": "https://www.omg.org/spec/SysML#RenderingUsage",
+      "label": "ownedRendering",
+      "comment": "<p>The <code>RenderingUsages</code> that are <code>ownedUsages</code> of this <code>Definition</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Definition_ownedPart"
+      ],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Definition_ownedRequirement",
+      "name": "Definition_ownedRequirement",
+      "domain": "https://www.omg.org/spec/SysML#Definition",
+      "range": "https://www.omg.org/spec/SysML#RequirementUsage",
+      "label": "ownedRequirement",
+      "comment": "<p>The <code>RequirementUsages</code> that are <code>ownedUsages</code> of this <code>Definition</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Definition_ownedConstraint"
+      ],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Definition_ownedState",
+      "name": "Definition_ownedState",
+      "domain": "https://www.omg.org/spec/SysML#Definition",
+      "range": "https://www.omg.org/spec/SysML#StateUsage",
+      "label": "ownedState",
+      "comment": "<p>The <code>StateUsages</code> that are <code>ownedUsages</code> of this <code>Definition</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Definition_ownedAction"
+      ],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Definition_ownedTransition",
+      "name": "Definition_ownedTransition",
+      "domain": "https://www.omg.org/spec/SysML#Definition",
+      "range": "https://www.omg.org/spec/SysML#TransitionUsage",
+      "label": "ownedTransition",
+      "comment": "<p>The <code>TransitionUsages</code> that are <code>ownedUsages</code> of this <code>Definition</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Definition_ownedUsage"
+      ],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Definition_ownedUsage",
+      "name": "Definition_ownedUsage",
+      "domain": "https://www.omg.org/spec/SysML#Definition",
+      "range": "https://www.omg.org/spec/SysML#Usage",
+      "label": "ownedUsage",
+      "comment": "<p>The <code>Usages</code> that are <code>ownedFeatures</code> of this <code>Definition</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Definition_usage",
+        "https://www.omg.org/spec/SysML#Type_ownedFeature"
+      ],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Definition_ownedUseCase",
+      "name": "Definition_ownedUseCase",
+      "domain": "https://www.omg.org/spec/SysML#Definition",
+      "range": "https://www.omg.org/spec/SysML#UseCaseUsage",
+      "label": "ownedUseCase",
+      "comment": "<p>The <code>UseCaseUsages</code> that are <code>ownedUsages</code> of this <code>Definition</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Definition_ownedCase"
+      ],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Definition_ownedVerificationCase",
+      "name": "Definition_ownedVerificationCase",
+      "domain": "https://www.omg.org/spec/SysML#Definition",
+      "range": "https://www.omg.org/spec/SysML#VerificationCaseUsage",
+      "label": "ownedVerificationCase",
+      "comment": "<p>The <code>VerificationCaseUsages</code> that are <code>ownedUsages</code> of this <code>Definition</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Definition_ownedCase"
+      ],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Definition_ownedView",
+      "name": "Definition_ownedView",
+      "domain": "https://www.omg.org/spec/SysML#Definition",
+      "range": "https://www.omg.org/spec/SysML#ViewUsage",
+      "label": "ownedView",
+      "comment": "<p>The <code>ViewUsages</code> that are <code>ownedUsages</code> of this <code>Definition</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Definition_ownedPart"
+      ],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Definition_ownedViewpoint",
+      "name": "Definition_ownedViewpoint",
+      "domain": "https://www.omg.org/spec/SysML#Definition",
+      "range": "https://www.omg.org/spec/SysML#ViewpointUsage",
+      "label": "ownedViewpoint",
+      "comment": "<p>The <code>ViewpointUsages</code> that are <code>ownedUsages</code> of this <code>Definition</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Definition_ownedRequirement"
+      ],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Disjoining_owningType",
+      "name": "Disjoining_owningType",
+      "domain": "https://www.omg.org/spec/SysML#Disjoining",
+      "range": "https://www.omg.org/spec/SysML#Type",
+      "label": "owningType",
+      "comment": "<p>A <code>typeDisjoined</code> that is also an <code>owningRelatedElement</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Disjoining_typeDisjoined",
+        "https://www.omg.org/spec/SysML#Relationship_owningRelatedElement"
+      ],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Element_ownedAnnotation",
+      "name": "Element_ownedAnnotation",
+      "domain": "https://www.omg.org/spec/SysML#Element",
+      "range": "https://www.omg.org/spec/SysML#Annotation",
+      "label": "ownedAnnotation",
+      "comment": "<p>The <code>ownedRelationships</code> of this <code>Element</code> that are <code>Annotations</code>, for which this <code>Element</code> is the <code>annotatedElement</code>.</code>",
+      "inverseOf": "https://www.omg.org/spec/SysML#Annotation_owningAnnotatedElement",
+      "subPropertyOf": [],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Element_ownedElement",
+      "name": "Element_ownedElement",
+      "domain": "https://www.omg.org/spec/SysML#Element",
+      "range": "https://www.omg.org/spec/SysML#Element",
+      "label": "ownedElement",
+      "comment": "<p>The Elements owned by this Element, derived as the <tt>ownedRelatedElements</tt> of the <tt>ownedRelationships</tt> of this Element.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Element_ownedRelationship",
+      "name": "Element_ownedRelationship",
+      "domain": "https://www.omg.org/spec/SysML#Element",
+      "range": "https://www.omg.org/spec/SysML#Relationship",
+      "label": "ownedRelationship",
+      "comment": "<p>The Relationships for which this Element is the <tt>owningRelatedElement</tt>.</p>",
+      "inverseOf": "https://www.omg.org/spec/SysML#Relationship_owningRelatedElement",
+      "subPropertyOf": [],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Element_owner",
+      "name": "Element_owner",
+      "domain": "https://www.omg.org/spec/SysML#Element",
+      "range": "https://www.omg.org/spec/SysML#Element",
+      "label": "owner",
+      "comment": "<p>The owner of this Element, derived as the <code>owningRelatedElement</code> of the <code>owningRelationship</code> of this Element, if any.</p>",
+      "inverseOf": "https://www.omg.org/spec/SysML#Element_ownedElement",
+      "subPropertyOf": [],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Element_owningMembership",
+      "name": "Element_owningMembership",
+      "domain": "https://www.omg.org/spec/SysML#Element",
+      "range": "https://www.omg.org/spec/SysML#OwningMembership",
+      "label": "owningMembership",
+      "comment": "<p>The <code>owningRelationship</code> of this <code>Element</code>, if that <code>Relationship</code> is a <code>Membership</code>.</p>",
+      "inverseOf": "https://www.omg.org/spec/SysML#OwningMembership_ownedMemberElement",
+      "subPropertyOf": [],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Element_owningNamespace",
+      "name": "Element_owningNamespace",
+      "domain": "https://www.omg.org/spec/SysML#Element",
+      "range": "https://www.omg.org/spec/SysML#Namespace",
+      "label": "owningNamespace",
+      "comment": "<p>The <code>Namespace</code> that owns this <code>Element</code>, which is the <code>membershipOwningNamespace</code> of the <code>owningMembership</code> of this <code>Element</code>, if any.</p>",
+      "inverseOf": "https://www.omg.org/spec/SysML#Namespace_ownedMember",
+      "subPropertyOf": [],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Element_owningRelationship",
+      "name": "Element_owningRelationship",
+      "domain": "https://www.omg.org/spec/SysML#Element",
+      "range": "https://www.omg.org/spec/SysML#Relationship",
+      "label": "owningRelationship",
+      "comment": "<p>The Relationship for which this Element is an <tt>ownedRelatedElement</tt>, if any.</p>",
+      "inverseOf": "https://www.omg.org/spec/SysML#Relationship_ownedRelatedElement",
+      "subPropertyOf": [],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#FeatureInverting_owningFeature",
+      "name": "FeatureInverting_owningFeature",
+      "domain": "https://www.omg.org/spec/SysML#FeatureInverting",
+      "range": "https://www.omg.org/spec/SysML#Feature",
+      "label": "owningFeature",
+      "comment": "<p>A <code>featureInverted</code> that is also the <code>owningRelatedElement</code> of this <code>FeatureInverting</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#FeatureInverting_featureInverted",
+        "https://www.omg.org/spec/SysML#Relationship_owningRelatedElement"
+      ],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#FeatureMembership_ownedMemberFeature",
+      "name": "FeatureMembership_ownedMemberFeature",
+      "domain": "https://www.omg.org/spec/SysML#FeatureMembership",
+      "range": "https://www.omg.org/spec/SysML#Feature",
+      "label": "ownedMemberFeature",
+      "comment": "<p>The <code>Feature</code> that this <code>FeatureMembership</code> relates to its <code>owningType</code>, making it an <code>ownedFeature</code> of the <code>owningType</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Featuring_feature",
+        "https://www.omg.org/spec/SysML#OwningMembership_ownedMemberElement"
+      ],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#FeatureMembership_owningType",
+      "name": "FeatureMembership_owningType",
+      "domain": "https://www.omg.org/spec/SysML#FeatureMembership",
+      "range": "https://www.omg.org/spec/SysML#Type",
+      "label": "owningType",
+      "comment": "<p>The <code>Type</code> that owns this <code>FeatureMembership</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Featuring_type",
+        "https://www.omg.org/spec/SysML#Membership_membershipOwningNamespace"
+      ],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#FeatureTyping_owningFeature",
+      "name": "FeatureTyping_owningFeature",
+      "domain": "https://www.omg.org/spec/SysML#FeatureTyping",
+      "range": "https://www.omg.org/spec/SysML#Feature",
+      "label": "owningFeature",
+      "comment": "<p>A <code>typedFeature</code> that is also the <code>owningRelatedElement</code> of this <code>FeatureTyping</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#FeatureTyping_typedFeature",
+        "https://www.omg.org/spec/SysML#Specialization_owningType"
+      ],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Feature_ownedFeatureChaining",
+      "name": "Feature_ownedFeatureChaining",
+      "domain": "https://www.omg.org/spec/SysML#Feature",
+      "range": "https://www.omg.org/spec/SysML#FeatureChaining",
+      "label": "ownedFeatureChaining",
+      "comment": "<p>The <code>ownedRelationships</code> of this <code>Feature</code> that are <code>FeatureChainings</code>, for which the <code>Feature</code> will be the <code>featureChained</code>.</p>",
+      "inverseOf": "https://www.omg.org/spec/SysML#FeatureChaining_featureChained",
+      "subPropertyOf": [],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Feature_ownedFeatureInverting",
+      "name": "Feature_ownedFeatureInverting",
+      "domain": "https://www.omg.org/spec/SysML#Feature",
+      "range": "https://www.omg.org/spec/SysML#FeatureInverting",
+      "label": "ownedFeatureInverting",
+      "comment": "<p>The <code>ownedRelationships</code> of this <code>Feature</code> that are <code>FeatureInvertings</code> and for which the <code>Feature</code> is the <code>featureInverted</code>.</p>",
+      "inverseOf": "https://www.omg.org/spec/SysML#FeatureInverting_owningFeature",
+      "subPropertyOf": [],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Feature_ownedRedefinition",
+      "name": "Feature_ownedRedefinition",
+      "domain": "https://www.omg.org/spec/SysML#Feature",
+      "range": "https://www.omg.org/spec/SysML#Redefinition",
+      "label": "ownedRedefinition",
+      "comment": "<p>The <code>ownedSubsettings</code> of this <code>Feature</code> that are <code>Redefinitions</code>, for which the <code>Feature</code> is the <code>redefiningFeature</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Feature_ownedSubsetting"
+      ],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Feature_ownedReferenceSubsetting",
+      "name": "Feature_ownedReferenceSubsetting",
+      "domain": "https://www.omg.org/spec/SysML#Feature",
+      "range": "https://www.omg.org/spec/SysML#ReferenceSubsetting",
+      "label": "ownedReferenceSubsetting",
+      "comment": "<p>The one <code>ownedSubsetting</code> of this <code>Feature</code>, if any, that is a <code>ReferenceSubsetting</code>, for which the <code>Feature</code> is the <code>referencingFeature</code>.</p>",
+      "inverseOf": "https://www.omg.org/spec/SysML#ReferenceSubsetting_referencingFeature",
+      "subPropertyOf": [],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Feature_ownedSubsetting",
+      "name": "Feature_ownedSubsetting",
+      "domain": "https://www.omg.org/spec/SysML#Feature",
+      "range": "https://www.omg.org/spec/SysML#Subsetting",
+      "label": "ownedSubsetting",
+      "comment": "<p>The <code>ownedSpecializations</code> of this <code>Feature</code> that are <code>Subsettings</code>, for which the <code>Feature</code> is the <code>subsettingFeature</code>.</p>",
+      "inverseOf": "https://www.omg.org/spec/SysML#Subsetting_owningFeature",
+      "subPropertyOf": [],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Feature_ownedTypeFeaturing",
+      "name": "Feature_ownedTypeFeaturing",
+      "domain": "https://www.omg.org/spec/SysML#Feature",
+      "range": "https://www.omg.org/spec/SysML#TypeFeaturing",
+      "label": "ownedTypeFeaturing",
+      "comment": "<p>The <code>ownedRelationships</code> of this <code>Feature</code> that are <code>TypeFeaturings</code> and for which the <code>Feature</code> is the <code>featureOfType</code>.</p>",
+      "inverseOf": "https://www.omg.org/spec/SysML#TypeFeaturing_owningFeatureOfType",
+      "subPropertyOf": [],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Feature_ownedTyping",
+      "name": "Feature_ownedTyping",
+      "domain": "https://www.omg.org/spec/SysML#Feature",
+      "range": "https://www.omg.org/spec/SysML#FeatureTyping",
+      "label": "ownedTyping",
+      "comment": "<p>The <code>ownedSpecializations</code> of this <code>Feature</code> that are <code>FeatureTypings</code>, for which the <code>Feature</code> is the <code>typedFeature</code>.</p>",
+      "inverseOf": "https://www.omg.org/spec/SysML#FeatureTyping_owningFeature",
+      "subPropertyOf": [],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Feature_owningFeatureMembership",
+      "name": "Feature_owningFeatureMembership",
+      "domain": "https://www.omg.org/spec/SysML#Feature",
+      "range": "https://www.omg.org/spec/SysML#FeatureMembership",
+      "label": "owningFeatureMembership",
+      "comment": "<p>The <code>FeatureMembership</code> that owns this <code>Feature</code> as an <code>ownedMemberFeature</code>, determining its <code>owningType</code>.</p>",
+      "inverseOf": "https://www.omg.org/spec/SysML#FeatureMembership_ownedMemberFeature",
+      "subPropertyOf": [],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Feature_owningType",
+      "name": "Feature_owningType",
+      "domain": "https://www.omg.org/spec/SysML#Feature",
+      "range": "https://www.omg.org/spec/SysML#Type",
+      "label": "owningType",
+      "comment": "<p>The <code>Type</code> that is the <code>owningType</code> of the <code>owningFeatureMembership</code> of this <code>Feature</code>.</p>",
+      "inverseOf": "https://www.omg.org/spec/SysML#Type_ownedFeature",
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Feature_featuringType"
+      ],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#FramedConcernMembership_ownedConcern",
+      "name": "FramedConcernMembership_ownedConcern",
+      "domain": "https://www.omg.org/spec/SysML#FramedConcernMembership",
+      "range": "https://www.omg.org/spec/SysML#ConcernUsage",
+      "label": "ownedConcern",
+      "comment": "<p>The <code>ConcernUsage</code> that is the <code>ownedConstraint</code> of this <code>FramedConcernMembership</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#RequirementConstraintMembership_ownedConstraint"
+      ],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Namespace_ownedImport",
+      "name": "Namespace_ownedImport",
+      "domain": "https://www.omg.org/spec/SysML#Namespace",
+      "range": "https://www.omg.org/spec/SysML#Import",
+      "label": "ownedImport",
+      "comment": "<p>The <code>ownedRelationships</code> of this <code>Namespace</code> that are <code>Imports</code>, for which the <code>Namespace</code> is the <code>importOwningNamespace</code>.</p>",
+      "inverseOf": "https://www.omg.org/spec/SysML#Import_importOwningNamespace",
+      "subPropertyOf": [],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Namespace_ownedMember",
+      "name": "Namespace_ownedMember",
+      "domain": "https://www.omg.org/spec/SysML#Namespace",
+      "range": "https://www.omg.org/spec/SysML#Element",
+      "label": "ownedMember",
+      "comment": "<p>The owned <code>members</code> of this <code>Namespace</code>, which are the <cpde><code>ownedMemberElements</code> of the <code>ownedMemberships</code> of the <code>Namespace</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Namespace_member"
+      ],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Namespace_ownedMembership",
+      "name": "Namespace_ownedMembership",
+      "domain": "https://www.omg.org/spec/SysML#Namespace",
+      "range": "https://www.omg.org/spec/SysML#Membership",
+      "label": "ownedMembership",
+      "comment": "<p>The <code>ownedRelationships</code> of this <code>Namespace</code> that are <code>Memberships</code>, for which the <code>Namespace</code> is the <code>membershipOwningNamespace</code>.</p>",
+      "inverseOf": "https://www.omg.org/spec/SysML#Membership_membershipOwningNamespace",
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Namespace_membership"
+      ],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#ObjectiveMembership_ownedObjectiveRequirement",
+      "name": "ObjectiveMembership_ownedObjectiveRequirement",
+      "domain": "https://www.omg.org/spec/SysML#ObjectiveMembership",
+      "range": "https://www.omg.org/spec/SysML#RequirementUsage",
+      "label": "ownedObjectiveRequirement",
+      "comment": "<p>The RequirementUsage that is the <code>ownedMemberFeature</code> of this RequirementUsage.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#FeatureMembership_ownedMemberFeature"
+      ],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#OwningMembership_ownedMemberElement",
+      "name": "OwningMembership_ownedMemberElement",
+      "domain": "https://www.omg.org/spec/SysML#OwningMembership",
+      "range": "https://www.omg.org/spec/SysML#Element",
+      "label": "ownedMemberElement",
+      "comment": "<p>The <code>Element</code> that becomes an <code>ownedMember</code> of the <code>membershipOwningNamespace</code> due to this <code>OwningMembership</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Membership_memberElement",
+        "https://www.omg.org/spec/SysML#Relationship_ownedRelatedElement"
+      ],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#ParameterMembership_ownedMemberParameter",
+      "name": "ParameterMembership_ownedMemberParameter",
+      "domain": "https://www.omg.org/spec/SysML#ParameterMembership",
+      "range": "https://www.omg.org/spec/SysML#Feature",
+      "label": "ownedMemberParameter",
+      "comment": "<p>The <code>Feature</code> that is identified as a <code>parameter</code> by this <code>ParameterMembership</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#FeatureMembership_ownedMemberFeature"
+      ],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Relationship_ownedRelatedElement",
+      "name": "Relationship_ownedRelatedElement",
+      "domain": "https://www.omg.org/spec/SysML#Relationship",
+      "range": "https://www.omg.org/spec/SysML#Element",
+      "label": "ownedRelatedElement",
+      "comment": "<p>The <tt>relatedElements</tt> of this Relationship that are owned by the Relationship.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Relationship_relatedElement"
+      ],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Relationship_owningRelatedElement",
+      "name": "Relationship_owningRelatedElement",
+      "domain": "https://www.omg.org/spec/SysML#Relationship",
+      "range": "https://www.omg.org/spec/SysML#Element",
+      "label": "owningRelatedElement",
+      "comment": "<p>The <tt>relatedElement</tt> of this Relationship that owns the Relationship, if any.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Relationship_relatedElement"
+      ],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#RequirementConstraintMembership_ownedConstraint",
+      "name": "RequirementConstraintMembership_ownedConstraint",
+      "domain": "https://www.omg.org/spec/SysML#RequirementConstraintMembership",
+      "range": "https://www.omg.org/spec/SysML#ConstraintUsage",
+      "label": "ownedConstraint",
+      "comment": "<p>The <code>ConstraintUsage</code> that is the <code>ownedMemberFeature</code> of this <code>RequirementConstraintMembership</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#FeatureMembership_ownedMemberFeature"
+      ],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#RequirementVerificationMembership_ownedRequirement",
+      "name": "RequirementVerificationMembership_ownedRequirement",
+      "domain": "https://www.omg.org/spec/SysML#RequirementVerificationMembership",
+      "range": "https://www.omg.org/spec/SysML#RequirementUsage",
+      "label": "ownedRequirement",
+      "comment": "<p>The owned <code>RequirementUsage</code> that acts as the <code>ownedConstraint</code> for this <code>RequirementVerificationMembership</code>. This will either be the <code>verifiedRequirement</code>, or it will subset the <code>verifiedRequirement</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#RequirementConstraintMembership_ownedConstraint"
+      ],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#ResultExpressionMembership_ownedResultExpression",
+      "name": "ResultExpressionMembership_ownedResultExpression",
+      "domain": "https://www.omg.org/spec/SysML#ResultExpressionMembership",
+      "range": "https://www.omg.org/spec/SysML#Expression",
+      "label": "ownedResultExpression",
+      "comment": "<p>The <code>Expression</code> that provides the result for the owner of the <code>ResultExpressionMembership</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#FeatureMembership_ownedMemberFeature"
+      ],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Specialization_owningType",
+      "name": "Specialization_owningType",
+      "domain": "https://www.omg.org/spec/SysML#Specialization",
+      "range": "https://www.omg.org/spec/SysML#Type",
+      "label": "owningType",
+      "comment": "<p>The <code>Type</code> that is the <code>specific</code> <code>Type</code> of this <code>Specialization</code> and owns it as its <code>owningRelatedElement</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Relationship_owningRelatedElement",
+        "https://www.omg.org/spec/SysML#Specialization_specific"
+      ],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#StakeholderMembership_ownedStakeholderParameter",
+      "name": "StakeholderMembership_ownedStakeholderParameter",
+      "domain": "https://www.omg.org/spec/SysML#StakeholderMembership",
+      "range": "https://www.omg.org/spec/SysML#PartUsage",
+      "label": "ownedStakeholderParameter",
+      "comment": "<p>The <code>PartUsage</code> specifying the stakeholder.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#ParameterMembership_ownedMemberParameter"
+      ],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Subclassification_owningClassifier",
+      "name": "Subclassification_owningClassifier",
+      "domain": "https://www.omg.org/spec/SysML#Subclassification",
+      "range": "https://www.omg.org/spec/SysML#Classifier",
+      "label": "owningClassifier",
+      "comment": "<p>The <code>Classifier</code> that owns this <code>Subclassification</code> relationship, which must also be its <code>subclassifier</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Specialization_owningType"
+      ],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#SubjectMembership_ownedSubjectParameter",
+      "name": "SubjectMembership_ownedSubjectParameter",
+      "domain": "https://www.omg.org/spec/SysML#SubjectMembership",
+      "range": "https://www.omg.org/spec/SysML#Usage",
+      "label": "ownedSubjectParameter",
+      "comment": "<p>The <code>Usage</code< that is the <code>ownedMemberParameter</code> of this <code>SubjectMembership</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#ParameterMembership_ownedMemberParameter"
+      ],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Subsetting_owningFeature",
+      "name": "Subsetting_owningFeature",
+      "domain": "https://www.omg.org/spec/SysML#Subsetting",
+      "range": "https://www.omg.org/spec/SysML#Feature",
+      "label": "owningFeature",
+      "comment": "<p>A <code>subsettingFeature</code> that is also the <code>owningRelatedElement</code> of this <code>Subsetting</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Specialization_owningType",
+        "https://www.omg.org/spec/SysML#Subsetting_subsettingFeature"
+      ],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#TypeFeaturing_owningFeatureOfType",
+      "name": "TypeFeaturing_owningFeatureOfType",
+      "domain": "https://www.omg.org/spec/SysML#TypeFeaturing",
+      "range": "https://www.omg.org/spec/SysML#Feature",
+      "label": "owningFeatureOfType",
+      "comment": "<p>A <code>featureOfType</code> that is also the <code>owningRelatedElement</code> of this <code>TypeFeaturing</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Relationship_owningRelatedElement",
+        "https://www.omg.org/spec/SysML#TypeFeaturing_featureOfType"
+      ],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Type_ownedConjugator",
+      "name": "Type_ownedConjugator",
+      "domain": "https://www.omg.org/spec/SysML#Type",
+      "range": "https://www.omg.org/spec/SysML#Conjugation",
+      "label": "ownedConjugator",
+      "comment": "<p>A <code>Conjugation</code> owned by this <code>Type</code> for which the <code>Type</code> is the <code>originalType</code>.</p>",
+      "inverseOf": "https://www.omg.org/spec/SysML#Conjugation_owningType",
+      "subPropertyOf": [],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Type_ownedDifferencing",
+      "name": "Type_ownedDifferencing",
+      "domain": "https://www.omg.org/spec/SysML#Type",
+      "range": "https://www.omg.org/spec/SysML#Differencing",
+      "label": "ownedDifferencing",
+      "comment": "<p>The <code>ownedRelationships</code> of this <code>Type</code> that are <code>Differencings</code>, having this <code>Type</code> as their <code>typeDifferenced</code>.</p>",
+      "inverseOf": "https://www.omg.org/spec/SysML#Differencing_typeDifferenced",
+      "subPropertyOf": [],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Type_ownedDisjoining",
+      "name": "Type_ownedDisjoining",
+      "domain": "https://www.omg.org/spec/SysML#Type",
+      "range": "https://www.omg.org/spec/SysML#Disjoining",
+      "label": "ownedDisjoining",
+      "comment": "<p>The <code>ownedRelationships</code> of this <code>Type</code> that are <code>Disjoinings</code>, for which the <code>Type</code> is the <code>typeDisjoined</code> <code>Type</code>.</p>",
+      "inverseOf": "https://www.omg.org/spec/SysML#Disjoining_owningType",
+      "subPropertyOf": [],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Type_ownedEndFeature",
+      "name": "Type_ownedEndFeature",
+      "domain": "https://www.omg.org/spec/SysML#Type",
+      "range": "https://www.omg.org/spec/SysML#Feature",
+      "label": "ownedEndFeature",
+      "comment": "<p>All <code>endFeatures</code> of this <code>Type</code> that are <code>ownedFeatures</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Type_endFeature",
+        "https://www.omg.org/spec/SysML#Type_ownedFeature"
+      ],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Type_ownedFeature",
+      "name": "Type_ownedFeature",
+      "domain": "https://www.omg.org/spec/SysML#Type",
+      "range": "https://www.omg.org/spec/SysML#Feature",
+      "label": "ownedFeature",
+      "comment": "<p>The <code>ownedMemberFeatures</code> of the <code>ownedFeatureMemberships</code> of this <code>Type</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Namespace_ownedMember"
+      ],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Type_ownedFeatureMembership",
+      "name": "Type_ownedFeatureMembership",
+      "domain": "https://www.omg.org/spec/SysML#Type",
+      "range": "https://www.omg.org/spec/SysML#FeatureMembership",
+      "label": "ownedFeatureMembership",
+      "comment": "<p>The <code>ownedMemberships</code> of this <code>Type</code> that are <code>FeatureMemberships</code>, for which the <code>Type</code> is the <code>owningType</code>. Each such <code>FeatureMembership</code> identifies an <code>ownedFeature</code> of the <code>Type</code>.</p>",
+      "inverseOf": "https://www.omg.org/spec/SysML#FeatureMembership_owningType",
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#Type_featureMembership"
+      ],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Type_ownedIntersecting",
+      "name": "Type_ownedIntersecting",
+      "domain": "https://www.omg.org/spec/SysML#Type",
+      "range": "https://www.omg.org/spec/SysML#Intersecting",
+      "label": "ownedIntersecting",
+      "comment": "<p>The <code>ownedRelationships</code> of this <code>Type</code> that are <code>Intersectings</code>, have the <code>Type</code> as their <code>typeIntersected</code>.</p>",
+      "inverseOf": "https://www.omg.org/spec/SysML#Intersecting_typeIntersected",
+      "subPropertyOf": [],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Type_ownedSpecialization",
+      "name": "Type_ownedSpecialization",
+      "domain": "https://www.omg.org/spec/SysML#Type",
+      "range": "https://www.omg.org/spec/SysML#Specialization",
+      "label": "ownedSpecialization",
+      "comment": "<p>The <code>ownedRelationships</code> of this <code>Type</code> that are <code>Specializations</code>, for which the <code>Type</code> is the <code>specific</code> <code>Type</code>.</p>",
+      "inverseOf": "https://www.omg.org/spec/SysML#Specialization_owningType",
+      "subPropertyOf": [],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Type_ownedUnioning",
+      "name": "Type_ownedUnioning",
+      "domain": "https://www.omg.org/spec/SysML#Type",
+      "range": "https://www.omg.org/spec/SysML#Unioning",
+      "label": "ownedUnioning",
+      "comment": "<p>The <code>ownedRelationships</code> of this <code>Type</code> that are <code>Unionings</code>, having the <code>Type</code> as their <code>typeUnioned</code>.</p>",
+      "inverseOf": "https://www.omg.org/spec/SysML#Unioning_typeUnioned",
+      "subPropertyOf": [],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Usage_owningDefinition",
+      "name": "Usage_owningDefinition",
+      "domain": "https://www.omg.org/spec/SysML#Usage",
+      "range": "https://www.omg.org/spec/SysML#Definition",
+      "label": "owningDefinition",
+      "comment": "<p>The <code>Definition</code> that owns this <code>Usage</code> (if any).</p>",
+      "inverseOf": "https://www.omg.org/spec/SysML#Definition_ownedUsage",
+      "subPropertyOf": [],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#Usage_owningUsage",
+      "name": "Usage_owningUsage",
+      "domain": "https://www.omg.org/spec/SysML#Usage",
+      "range": "https://www.omg.org/spec/SysML#Usage",
+      "label": "owningUsage",
+      "comment": "<p>The <code>Usage</code> in which this <code>Usage</code> is nested (if any).</p>",
+      "inverseOf": "https://www.omg.org/spec/SysML#Usage_nestedUsage",
+      "subPropertyOf": [],
+      "isFunctional": false,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#VariantMembership_ownedVariantUsage",
+      "name": "VariantMembership_ownedVariantUsage",
+      "domain": "https://www.omg.org/spec/SysML#VariantMembership",
+      "range": "https://www.omg.org/spec/SysML#Usage",
+      "label": "ownedVariantUsage",
+      "comment": "<p>The <code>Usage</code> that represents a variant in the context of the <code>owningVariationDefinition</code> or <code>owningVariationUsage</code>.</p>",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#OwningMembership_ownedMemberElement"
+      ],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    },
+    {
+      "uri": "https://www.omg.org/spec/SysML#ViewRenderingMembership_ownedRendering",
+      "name": "ViewRenderingMembership_ownedRendering",
+      "domain": "https://www.omg.org/spec/SysML#ViewRenderingMembership",
+      "range": "https://www.omg.org/spec/SysML#RenderingUsage",
+      "label": "ownedRendering",
+      "comment": "<p>The owned <code>RenderingUsage</code> that is either itself the <code>referencedRendering</code> or subsets the <code>referencedRendering</code>.",
+      "inverseOf": null,
+      "subPropertyOf": [
+        "https://www.omg.org/spec/SysML#FeatureMembership_ownedMemberFeature"
+      ],
+      "isFunctional": true,
+      "isInverseFunctional": false
+    }
+  ]
+}
