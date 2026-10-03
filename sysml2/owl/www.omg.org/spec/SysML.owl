@@ -418,7 +418,6 @@
 
 
     <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#AnnotatingElement_annotatedElement">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#AnnotatingElement"/>
         <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Element"/>
         <Ecore:isOrdered rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</Ecore:isOrdered>
@@ -436,7 +435,7 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#AnnotatingElement"/>
         <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Annotation"/>
-        <rdfs:comment>&lt;p&gt;The &lt;code&gt;Annotations&lt;/code&gt; that relate this &lt;code&gt;AnnotatingElement&lt;/code&gt; to its &lt;code&gt;annotatedElements&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
+        <rdfs:comment>&lt;p&gt;The &lt;code&gt;Annotations&lt;/code&gt; that relate this &lt;code&gt;AnnotatingElement&lt;/code&gt; to its &lt;code&gt;annotatedElements&lt;/code&gt;. This includes the &lt;code&gt;owningAnnotatingRelationship&lt;/code&gt; (if any) followed by all the &lt;code&gt;ownedAnnotatingRelationshps&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>annotation</rdfs:label>
     </owl:ObjectProperty>
     
@@ -452,6 +451,20 @@
         <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Annotation"/>
         <rdfs:comment>&lt;p&gt;The &lt;code&gt;ownedRelationships&lt;/code&gt; of this &lt;code&gt;AnnotatingElement&lt;/code&gt; that are &lt;code&gt;Annotations&lt;/code&gt;, for which this &lt;code&gt;AnnotatingElement&lt;/code&gt; is the &lt;code&gt;annotatingElement&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>ownedAnnotatingRelationship</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://www.omg.org/spec/SysML#AnnotatingElement_owningAnnotatingRelationship -->
+
+
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#AnnotatingElement_owningAnnotatingRelationship">
+        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#Annotation_ownedAnnotatingElement"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#AnnotatingElement"/>
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Annotation"/>
+        <rdfs:comment>&lt;p&gt;The &lt;code&gt;owningRelationship&lt;/code&gt; of this &lt;code&gt;AnnotatingRelationship&lt;/code&gt;, if it is an &lt;code&gt;Annotation&lt;/code&gt;&lt;/p&gt;</rdfs:comment>
+        <rdfs:label>owningAnnotatingRelationship</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -478,8 +491,23 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Annotation"/>
         <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#AnnotatingElement"/>
-        <rdfs:comment>&lt;p&gt;The &lt;code&gt;AnnotatingElement&lt;/code&gt; that annotates the &lt;code&gt;annotatedElement&lt;/code&gt; of this &lt;code&gt;Annotation&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
+        <rdfs:comment>&lt;p&gt;The &lt;code&gt;AnnotatingElement&lt;/code&gt; that annotates the &lt;code&gt;annotatedElement&lt;/code&gt; of this &lt;code&gt;Annotation&lt;/code&gt;. This is always either the &lt;code&gt;ownedAnnotatingElement&lt;/code&gt; or the &lt;code&gt;owningAnnotatingElement&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>annotatingElement</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://www.omg.org/spec/SysML#Annotation_ownedAnnotatingElement -->
+
+
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Annotation_ownedAnnotatingElement">
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Annotation_annotatingElement"/>
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Relationship_ownedRelatedElement"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Annotation"/>
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#AnnotatingElement"/>
+        <rdfs:comment>&lt;p&gt;The &lt;code&gt;annotatingElement&lt;/code&gt; of this &lt;code&gt;Annotation&lt;/code&gt;, when it is an &lt;code&gt;ownedRelatedElement&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
+        <rdfs:label>ownedAnnotatingElement</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -493,7 +521,7 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Annotation"/>
         <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Element"/>
-        <rdfs:comment>&lt;p&gt;The &lt;code&gt;annotatedElement&lt;/code&gt; of this &lt;code&gt;Annotation&lt;/code&gt;, when it is also its &lt;code&gt;owningRelatedElement&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
+        <rdfs:comment>&lt;p&gt;The &lt;code&gt;annotatedElement&lt;/code&gt; of this &lt;code&gt;Annotation&lt;/code&gt;, when it is also the &lt;code&gt;owningRelatedElement&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>owningAnnotatedElement</rdfs:label>
     </owl:ObjectProperty>
     
@@ -508,7 +536,7 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Annotation"/>
         <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#AnnotatingElement"/>
-        <rdfs:comment>&lt;p&gt;The &lt;code&gt;annotatingElement&lt;/code&gt; of this &lt;code&gt;Annotation&lt;/code&gt;, when it is also its &lt;code&gt;owningRelatedElement&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
+        <rdfs:comment>&lt;p&gt;The &lt;code&gt;annotatingElement&lt;/code&gt; of this &lt;code&gt;Annotation&lt;/code&gt;, when it is the &lt;code&gt;owningRelatedElement&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>owningAnnotatingElement</rdfs:label>
     </owl:ObjectProperty>
     
@@ -672,8 +700,9 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#BooleanExpression"/>
         <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Predicate"/>
-        <rdfs:comment>&lt;p&gt;The &lt;code&gt;Predicate&lt;/code&gt; that types this &lt;code&gt;BooleanExpression&lt;/code&gt;.&lt;/p&gt;
-	&lt;p&gt;The Predicate that types the Expression.&lt;/p&gt;</rdfs:comment>
+        <rdfs:comment>&lt;p&gt;The Predicate that types the Expression.&lt;/p&gt;
+	
+	&lt;p&gt;The &lt;code&gt;Predicate&lt;/code&gt; that types this &lt;code&gt;BooleanExpression&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>predicate</rdfs:label>
     </owl:ObjectProperty>
     
@@ -999,6 +1028,19 @@
     
 
 
+    <!-- https://www.omg.org/spec/SysML#Connector_defaultFeaturingType -->
+
+
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Connector_defaultFeaturingType">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Connector"/>
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Type"/>
+        <rdfs:comment>&lt;p&gt;The innermost &lt;code&gt;Type&lt;/code&gt; that is a common direct or indirect &lt;code&gt;featuringType&lt;/code&gt; of the &lt;code&gt;relatedFeatures&lt;/code&gt;, such that, if it exists and was the &lt;code&gt;featuringType&lt;/code&gt; of this &lt;code&gt;Connector&lt;/code&gt;, the &lt;code&gt;Connector&lt;/code&gt; would satisfy the &lt;code&gt;checkConnectorTypeFeaturing&lt;/code&gt; constraint.&lt;/p&gt;</rdfs:comment>
+        <rdfs:label>defaultFeaturingType</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://www.omg.org/spec/SysML#Connector_relatedFeature -->
 
 
@@ -1054,6 +1096,34 @@
         <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Predicate"/>
         <rdfs:comment>&lt;p&gt;The (single) &lt;code&gt;Predicate&lt;/code&gt; that is the type of this &lt;code&gt;ConstraintUsage&lt;/code&gt;. Nominally, this will be a &lt;code&gt;ConstraintDefinition&lt;/code&gt;, but other kinds of &lt;code&gt;Predicates&lt;/code&gt; are also allowed, to permit use of &lt;code&gt;Predicates&lt;/code&gt; from the Kernel Model Libraries.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>constraintDefinition</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://www.omg.org/spec/SysML#CrossSubsetting_crossedFeature -->
+
+
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#CrossSubsetting_crossedFeature">
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Subsetting_subsettedFeature"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#CrossSubsetting"/>
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Feature"/>
+        <rdfs:comment>&lt;p&gt;The chained &lt;code&gt;Feature&lt;/code&gt; that is cross subset by the &lt;code&gt;crossingFeature&lt;/code&gt; of this &lt;code&gt;CrossSubsetting&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
+        <rdfs:label>crossedFeature</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://www.omg.org/spec/SysML#CrossSubsetting_crossingFeature -->
+
+
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#CrossSubsetting_crossingFeature">
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Subsetting_owningFeature"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#CrossSubsetting"/>
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Feature"/>
+        <rdfs:comment>&lt;p&gt;The end &lt;code&gt;Feature&lt;/code&gt; that owns this &lt;code&gt;CrossSubsetting&lt;/code&gt; relationship and is also its &lt;/code&gt;subsettingFeature&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
+        <rdfs:label>crossingFeature</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -1174,11 +1244,11 @@
 
 
     <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Definition_ownedConnection">
-        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Definition_ownedPart"/>
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Definition_ownedUsage"/>
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Definition"/>
         <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#ConnectorAsUsage"/>
         <Ecore:isOrdered rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</Ecore:isOrdered>
-        <rdfs:comment>&lt;p&gt;The &lt;code&gt;ConnectorAsUsages&lt;/code&gt; that are &lt;code&gt;ownedUsages&lt;/code&gt; of this &lt;code&gt;Definition&lt;/code&gt;. Note that this list includes &lt;code&gt;BindingConnectorAsUsages&lt;/code&gt; and &lt;code&gt;SuccessionAsUsages&lt;/code&gt;, even though these are &lt;code&gt;ConnectorAsUsages&lt;/code&gt; but not &lt;code&gt;ConnectionUsages&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
+        <rdfs:comment>&lt;p&gt;The &lt;code&gt;ConnectorAsUsages&lt;/code&gt; that are &lt;code&gt;ownedUsages&lt;/code&gt; of this &lt;code&gt;Definition&lt;/code&gt;. Note that this list includes &lt;code&gt;BindingConnectorAsUsages&lt;/code&gt;, &lt;code&gt;SuccessionAsUsages&lt;/code&gt;, and &lt;code&gt;FlowUsages&lt;/code&gt; because these are &lt;code&gt;ConnectorAsUsages&lt;/code&gt; even though they are not &lt;code&gt;ConnectionUsages&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>ownedConnection</rdfs:label>
     </owl:ObjectProperty>
     
@@ -1218,8 +1288,8 @@
     <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Definition_ownedFlow">
         <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Definition_ownedConnection"/>
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Definition"/>
-        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#FlowConnectionUsage"/>
-        <rdfs:comment>&lt;p&gt;The &lt;code&gt;FlowConnectionUsages&lt;/code&gt; that are &lt;code&gt;ownedUsages&lt;/code&gt; of this &lt;code&gt;Definition&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#FlowUsage"/>
+        <rdfs:comment>&lt;p&gt;The &lt;code&gt;FlowUsages&lt;/code&gt; that are &lt;code&gt;ownedUsages&lt;/code&gt; of this &lt;code&gt;Definition&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>ownedFlow</rdfs:label>
     </owl:ObjectProperty>
     
@@ -1261,7 +1331,7 @@
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Definition"/>
         <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#MetadataUsage"/>
         <Ecore:isOrdered rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</Ecore:isOrdered>
-        <rdfs:comment>&lt;p&gt;The &lt;code&gt;MetadataUsages&lt;/code&gt; that are &lt;code&gt;ownedUsages&lt;/code&gt; of this &lt;code&gt;Definition&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
+        <rdfs:comment>&lt;p&gt;The &lt;code&gt;MetadataUsages&lt;/code&gt; that are &lt;code&gt;ownedMembers&lt;/code&gt; of this &lt;code&gt;Definition&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>ownedMetadata</rdfs:label>
     </owl:ObjectProperty>
     
@@ -1594,7 +1664,7 @@
 
     <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Documentation_documentedElement">
         <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#AnnotatingElement_annotatedElement"/>
-        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#Element_documentation"/>
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Element_owner"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Documentation"/>
         <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Element"/>
@@ -1622,11 +1692,10 @@
 
 
     <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Element_documentation">
-        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Element_ownedElement"/>
+        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#Documentation_documentedElement"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Element"/>
         <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Documentation"/>
-        <Ecore:isOrdered rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</Ecore:isOrdered>
         <rdfs:comment>&lt;p&gt;The Documentation owned by this Element.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>documentation</rdfs:label>
     </owl:ObjectProperty>
@@ -1651,9 +1720,10 @@
 
 
     <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Element_ownedElement">
+        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#Element_owner"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Element"/>
         <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Element"/>
-        <Ecore:isOrdered rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</Ecore:isOrdered>
         <rdfs:comment>&lt;p&gt;The Elements owned by this Element, derived as the &lt;tt&gt;ownedRelatedElements&lt;/tt&gt; of the &lt;tt&gt;ownedRelationships&lt;/tt&gt; of this Element.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>ownedElement</rdfs:label>
     </owl:ObjectProperty>
@@ -1678,7 +1748,7 @@
 
 
     <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Element_owner">
-        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#Element_ownedElement"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Element"/>
         <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Element"/>
         <rdfs:comment>&lt;p&gt;The owner of this Element, derived as the &lt;code&gt;owningRelatedElement&lt;/code&gt; of the &lt;code&gt;owningRelationship&lt;/code&gt; of this Element, if any.&lt;/p&gt;</rdfs:comment>
@@ -1731,11 +1801,10 @@
 
 
     <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Element_textualRepresentation">
-        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Element_ownedElement"/>
+        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#TextualRepresentation_representedElement"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Element"/>
         <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#TextualRepresentation"/>
-        <Ecore:isOrdered rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</Ecore:isOrdered>
         <rdfs:comment>&lt;p&gt;The &lt;code&gt;TextualRepresentations&lt;/code&gt; that annotate this &lt;code&gt;Element&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>textualRepresentation</rdfs:label>
     </owl:ObjectProperty>
@@ -1918,7 +1987,6 @@
 
 
     <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#FeatureMembership_ownedMemberFeature">
-        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Featuring_feature"/>
         <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#OwningMembership_ownedMemberElement"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#FeatureMembership"/>
@@ -1933,7 +2001,6 @@
 
 
     <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#FeatureMembership_owningType">
-        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Featuring_type"/>
         <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Membership_membershipOwningNamespace"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#FeatureMembership"/>
@@ -2009,9 +2076,8 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#FeatureValue"/>
         <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Feature"/>
-        <rdfs:comment>&lt;p&gt;The &lt;code&gt;Feature&lt;/code&gt; to be provided a value.&lt;/p&gt;
-	
-	&lt;p&gt;The Feature to be provided a value.&lt;/p&gt;</rdfs:comment>
+        <rdfs:comment>&lt;p&gt;The Feature to be provided a value.&lt;/p&gt;
+	&lt;p&gt;The &lt;code&gt;Feature&lt;/code&gt; to be provided a value.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>featureWithValue</rdfs:label>
     </owl:ObjectProperty>
     
@@ -2025,9 +2091,8 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#FeatureValue"/>
         <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Expression"/>
-        <rdfs:comment>&lt;p&gt;The &lt;code&gt;Expression&lt;/code&gt; that provides the value of the &lt;code&gt;featureWithValue&lt;/code&gt; as its &lt;code&gt;result&lt;/code&gt;.&lt;/p&gt;
-	
-	&lt;p&gt;The Expression that provides the value as a result.&lt;/p&gt;</rdfs:comment>
+        <rdfs:comment>&lt;p&gt;The Expression that provides the value as a result.&lt;/p&gt;
+	&lt;p&gt;The &lt;code&gt;Expression&lt;/code&gt; that provides the value of the &lt;code&gt;featureWithValue&lt;/code&gt; as its &lt;code&gt;result&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>value</rdfs:label>
     </owl:ObjectProperty>
     
@@ -2042,6 +2107,20 @@
         <Ecore:isOrdered rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</Ecore:isOrdered>
         <rdfs:comment>&lt;p&gt;The &lt;code&gt;Feature&lt;/code&gt; that are chained together to determine the values of this &lt;code&gt;Feature&lt;/code&gt;, derived from the &lt;code&gt;chainingFeatures&lt;/code&gt; of the &lt;code&gt;ownedFeatureChainings&lt;/code&gt; of this &lt;code&gt;Feature&lt;/code&gt;, in the same order. The values of a &lt;code&gt;Feature&lt;/code&gt; with &lt;code&gt;chainingFeatures&lt;/code&gt; are the same as values of the last &lt;code&gt;Feature&lt;/code&gt; in the chain, which can be found by starting with the values of the first &lt;code&gt;Feature&lt;/code&gt; (for each instance of the domain of the original &lt;code&gt;Feature&lt;/code&gt;), then using each of those as domain instances to find the values of the second &lt;code&gt;Feature&lt;/code&gt; in chainingFeatures, and so on, to values of the last &lt;code&gt;Feature&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>chainingFeature</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://www.omg.org/spec/SysML#Feature_crossFeature -->
+
+
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Feature_crossFeature">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Feature"/>
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Feature"/>
+        <rdfs:comment>&lt;p&gt;The second &lt;code&gt;chainingFeature&lt;/code&gt; of the &lt;code&gt;crossedFeature&lt;/code&gt; of the &lt;code&gt;ownedCrossSubsetting&lt;/code&gt; of this &lt;code&gt;Feature&lt;/code&gt;, if it has one. Semantically, the values of the &lt;code&gt;crossFeature&lt;/code&gt; of an end &lt;code&gt;Feature&lt;/code&gt; must include all values of the end &lt;code&gt;Feature&lt;/code&gt; obtained when navigating from values of the other end &lt;code&gt;Features&lt;/code&gt; of the same &lt;code&gt;owningType&lt;/code&gt;.
+	&lt;/p&gt;</rdfs:comment>
+        <rdfs:label>crossFeature</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -2081,6 +2160,20 @@
         <Ecore:isOrdered rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</Ecore:isOrdered>
         <rdfs:comment>&lt;p&gt;&lt;code&gt;Types&lt;/code&gt; that feature this &lt;code&gt;Feature&lt;/code&gt;, such that any instance in the domain of the &lt;code&gt;Feature&lt;/code&gt; must be classified by all of these &lt;code&gt;Types&lt;/code&gt;, including at least all the &lt;code&gt;featuringTypes&lt;/code&gt; of its &lt;code&gt;typeFeaturings&lt;/code&gt;.  If the &lt;code&gt;Feature&lt;/code&gt; is chained, then the &lt;code&gt;featuringTypes&lt;/code&gt; of the first &lt;code&gt;Feature&lt;/code&gt; in the chain are also &lt;code&gt;featuringTypes&lt;/code&gt; of the chained &lt;code&gt;Feature&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>featuringType</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://www.omg.org/spec/SysML#Feature_ownedCrossSubsetting -->
+
+
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Feature_ownedCrossSubsetting">
+        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#CrossSubsetting_crossingFeature"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Feature"/>
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#CrossSubsetting"/>
+        <rdfs:comment>&lt;p&gt;The one &lt;code&gt;ownedSubsetting&lt;/code&gt; of this &lt;code&gt;Feature&lt;/code&gt;, if any, that is a &lt;code&gt;CrossSubsetting}, for which the &lt;code&gt;Feature&lt;/code&gt; is the &lt;code&gt;crossingFeature&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
+        <rdfs:label>ownedCrossSubsetting</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -2223,46 +2316,114 @@
     
 
 
-    <!-- https://www.omg.org/spec/SysML#Featuring_feature -->
+    <!-- https://www.omg.org/spec/SysML#FlowDefinition_flowEnd -->
 
 
-    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Featuring_feature">
-        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Relationship_relatedElement"/>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Featuring"/>
-        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Feature"/>
-        <rdfs:comment>&lt;p&gt;The &lt;code&gt;Feature&lt;/code&gt; that is featured by the &lt;code&gt;featuringType&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
-        <rdfs:label>feature</rdfs:label>
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#FlowDefinition_flowEnd">
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Association_associationEnd"/>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#FlowDefinition"/>
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Usage"/>
+        <rdfs:comment>&lt;p&gt;The &lt;code&gt;Usages&lt;/code&gt; that define the things related by the &lt;code&gt;FlowDefinition&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
+        <rdfs:label>flowEnd</rdfs:label>
     </owl:ObjectProperty>
     
 
 
-    <!-- https://www.omg.org/spec/SysML#Featuring_type -->
+    <!-- https://www.omg.org/spec/SysML#FlowUsage_flowDefinition -->
 
 
-    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Featuring_type">
-        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Relationship_relatedElement"/>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Featuring"/>
-        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Type"/>
-        <rdfs:comment>&lt;p&gt;The &lt;code&gt;Type&lt;code&gt; that features the &lt;code&gt;featureOfType&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
-        <rdfs:label>type</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://www.omg.org/spec/SysML#FlowConnectionUsage_flowConnectionDefinition -->
-
-
-    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#FlowConnectionUsage_flowConnectionDefinition">
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#FlowUsage_flowDefinition">
         <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#ActionUsage_actionDefinition"/>
-        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#ConnectionUsage_connectionDefinition"/>
-        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#ItemFlow_interaction"/>
-        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#FlowConnectionUsage"/>
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Flow_interaction"/>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#FlowUsage"/>
         <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Interaction"/>
         <Ecore:isOrdered rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</Ecore:isOrdered>
-        <rdfs:comment>&lt;p&gt;The &lt;code&gt;Interactions&lt;/code&gt; that are the &lt;code&gt;types&lt;/code&gt; of this &lt;code&gt;FlowConnectionUsage&lt;/code&gt;. Nominally, these are &lt;code&gt;FlowConnectionDefinitions&lt;/code&gt;, but other kinds of Kernel &lt;code&gt;Interactions&lt;/code&gt; are also allowed, to permit use of Interactions from the Kernel Model Libraries.&lt;/p&gt;</rdfs:comment>
-        <rdfs:label>flowConnectionDefinition</rdfs:label>
+        <rdfs:comment>&lt;p&gt;The &lt;code&gt;Interactions&lt;/code&gt; that are the &lt;code&gt;types&lt;/code&gt; of this &lt;code&gt;FlowUsage&lt;/code&gt;. Nominally, these are &lt;code&gt;FlowDefinitions&lt;/code&gt;, but other kinds of Kernel &lt;code&gt;Interactions&lt;/code&gt; are also allowed, to permit use of Interactions from the Kernel Model Libraries.&lt;/p&gt;</rdfs:comment>
+        <rdfs:label>flowDefinition</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://www.omg.org/spec/SysML#Flow_flowEnd -->
+
+
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Flow_flowEnd">
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Connector_connectorEnd"/>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Flow"/>
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#FlowEnd"/>
+        <Ecore:isOrdered rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</Ecore:isOrdered>
+        <rdfs:comment>&lt;p&gt;The &lt;code&gt;connectorEnds&lt;/code&gt; of this &lt;code&gt;Flow&lt;/code&gt; that are &lt;code&gt;FlowEnds&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
+        <rdfs:label>flowEnd</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://www.omg.org/spec/SysML#Flow_interaction -->
+
+
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Flow_interaction">
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Connector_association"/>
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Step_behavior"/>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Flow"/>
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Interaction"/>
+        <Ecore:isOrdered rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</Ecore:isOrdered>
+        <rdfs:comment>&lt;p&gt;The &lt;code&gt;Interactions&lt;/code&gt; that type this &lt;code&gt;Flow&lt;/code&gt;. &lt;code&gt;Interactions&lt;/code&gt; are both &lt;code&gt;Associations&lt;/code&gt; and &lt;code&gt;Behaviors&lt;/code&gt;, which can type &lt;code&gt;Connectors&lt;/code&gt; and &lt;code&gt;Steps&lt;/code&gt;, respectively.&lt;/p&gt;</rdfs:comment>
+        <rdfs:label>interaction</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://www.omg.org/spec/SysML#Flow_payloadFeature -->
+
+
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Flow_payloadFeature">
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Type_ownedFeature"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Flow"/>
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#PayloadFeature"/>
+        <rdfs:comment>&lt;p&gt;The &lt;code&gt;ownedFeature&lt;/code&gt; of the &lt;code&gt;Flow&lt;/code&gt; that is a &lt;code&gt;PayloadFeature&lt;/code&gt; (if any).&lt;/p&gt;</rdfs:comment>
+        <rdfs:label>payloadFeature</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://www.omg.org/spec/SysML#Flow_payloadType -->
+
+
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Flow_payloadType">
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Flow"/>
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Classifier"/>
+        <Ecore:isOrdered rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</Ecore:isOrdered>
+        <rdfs:comment>&lt;p&gt;The type of values transferred, which is the &lt;code&gt;type&lt;/code&gt; of the &lt;code&gt;payloadFeature&lt;/code&gt; of the &lt;code&gt;Flow&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
+        <rdfs:label>payloadType</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://www.omg.org/spec/SysML#Flow_sourceOutputFeature -->
+
+
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Flow_sourceOutputFeature">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Flow"/>
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Feature"/>
+        <Ecore:isOrdered rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</Ecore:isOrdered>
+        <rdfs:comment>&lt;p&gt;The &lt;code&gt;Feature&lt;/code&gt; that provides the items carried by the &lt;code&gt;Flow&lt;/code&gt;. It must be a &lt;code&gt;feature&lt;/code&gt; of the &lt;code&gt;source&lt;/code&gt; of the &lt;code&gt;Flow&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
+        <rdfs:label>sourceOutputFeature</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://www.omg.org/spec/SysML#Flow_targetInputFeature -->
+
+
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Flow_targetInputFeature">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Flow"/>
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Feature"/>
+        <Ecore:isOrdered rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</Ecore:isOrdered>
+        <rdfs:comment>&lt;p&gt;The &lt;code&gt;Feature&lt;/code&gt; that receives the values carried by the &lt;code&gt;Flow&lt;/code&gt;. It must be a &lt;code&gt;feature&lt;/code&gt; of the &lt;code&gt;target&lt;/code&gt; of the &lt;code&gt;Flow&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
+        <rdfs:label>targetInputFeature</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -2345,9 +2506,8 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Function"/>
         <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Feature"/>
-        <rdfs:comment>&lt;p&gt;The &lt;code&gt;result&lt;/code&gt; &lt;code&gt;parameter&lt;/code&gt; of the &lt;code&gt;Function&lt;/code&gt;, which is owned by the &lt;code&gt;Function&lt;/code&gt; via a &lt;code&gt;ReturnParameterMembership&lt;/code&gt;.&lt;/p&gt;
-	
-	&lt;p&gt;The object or value that is the result of evaluating the Function.&lt;/p&gt;</rdfs:comment>
+        <rdfs:comment>&lt;p&gt;The object or value that is the result of evaluating the Function.&lt;/p&gt;
+	&lt;p&gt;The &lt;code&gt;result&lt;/code&gt; &lt;code&gt;parameter&lt;/code&gt; of the &lt;code&gt;Function&lt;/code&gt;, which is owned by the &lt;code&gt;Function&lt;/code&gt; via a &lt;code&gt;ReturnParameterMembership&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>result</rdfs:label>
     </owl:ObjectProperty>
     
@@ -2434,6 +2594,35 @@
     
 
 
+    <!-- https://www.omg.org/spec/SysML#InstantiationExpression_argument -->
+
+
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#InstantiationExpression_argument">
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#InstantiationExpression"/>
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Expression"/>
+        <Ecore:isOrdered rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</Ecore:isOrdered>
+        <rdfs:comment>&lt;p&gt;The &lt;code&gt;Expressions&lt;/code&gt; whose &lt;code&gt;results&lt;/code&gt; are bound to &lt;code&gt;features&lt;/code&gt; of the &lt;code&gt;instantiatedType&lt;/code&gt;. The &lt;code&gt;arguments&lt;/code&gt; are ordered consistent with the order of the &lt;code&gt;features&lt;/code&gt;, though they may not be one-to-one with all the &lt;code&gt;features&lt;/code&gt;.&lt;/p&gt;
+	
+	&lt;p&gt;&lt;strong&gt;Note.&lt;/strong&gt; The derivation of &lt;code&gt;argument&lt;/code&gt; is given in the concrete subclasses of &lt;code&gt;InstantiationExpression&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
+        <rdfs:label>argument</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://www.omg.org/spec/SysML#InstantiationExpression_instantiatedType -->
+
+
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#InstantiationExpression_instantiatedType">
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Namespace_member"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#InstantiationExpression"/>
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Type"/>
+        <rdfs:comment>&lt;p&gt;The &lt;code&gt;Type&lt;/code&gt; that is being instantiated.&lt;/p&gt;</rdfs:comment>
+        <rdfs:label>instantiatedType</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- https://www.omg.org/spec/SysML#InterfaceDefinition_interfaceEnd -->
 
 
@@ -2490,20 +2679,6 @@
     
 
 
-    <!-- https://www.omg.org/spec/SysML#InvocationExpression_argument -->
-
-
-    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#InvocationExpression_argument">
-        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Type_ownedFeature"/>
-        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#InvocationExpression"/>
-        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Expression"/>
-        <Ecore:isOrdered rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</Ecore:isOrdered>
-        <rdfs:comment>&lt;p&gt;The &lt;code&gt;value&lt;/code&gt; &lt;code&gt;Expressions&lt;/code&gt; of the &lt;code&gt;FeatureValues&lt;/code&gt; of the owned input &lt;code&gt;parameters&lt;/code&gt; of the &lt;code&gt;InvocationExpression&lt;/code&gt;.</rdfs:comment>
-        <rdfs:label>argument</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
     <!-- https://www.omg.org/spec/SysML#InvocationExpression_operand -->
 
 
@@ -2512,90 +2687,6 @@
         <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Expression"/>
         <Ecore:isOrdered rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</Ecore:isOrdered>
         <rdfs:label>operand</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://www.omg.org/spec/SysML#ItemFlow_interaction -->
-
-
-    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#ItemFlow_interaction">
-        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Connector_association"/>
-        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Step_behavior"/>
-        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#ItemFlow"/>
-        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Interaction"/>
-        <Ecore:isOrdered rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</Ecore:isOrdered>
-        <rdfs:comment>&lt;p&gt;The &lt;code&gt;Interactions&lt;/code&gt; that type this &lt;code&gt;ItemFlow&lt;/code&gt;. &lt;code&gt;Interactions&lt;/code&gt; are both &lt;code&gt;Associations&lt;/code&gt; and &lt;code&gt;Behaviors&lt;/code&gt;, which can type &lt;code&gt;Connectors&lt;/code&gt; and &lt;code&gt;Steps&lt;/code&gt;, respectively.&lt;/p&gt;</rdfs:comment>
-        <rdfs:label>interaction</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://www.omg.org/spec/SysML#ItemFlow_itemFeature -->
-
-
-    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#ItemFlow_itemFeature">
-        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Type_ownedFeature"/>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#ItemFlow"/>
-        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#ItemFeature"/>
-        <rdfs:comment>&lt;p&gt;The &lt;code&gt;ownedFeature&lt;/code&gt; of the &lt;code&gt;ItemFlow&lt;/code&gt; that is an &lt;code&gt;ItemFeature&lt;/code&gt; (if any).&lt;/p&gt;</rdfs:comment>
-        <rdfs:label>itemFeature</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://www.omg.org/spec/SysML#ItemFlow_itemFlowEnd -->
-
-
-    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#ItemFlow_itemFlowEnd">
-        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Connector_connectorEnd"/>
-        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#ItemFlow"/>
-        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#ItemFlowEnd"/>
-        <Ecore:isOrdered rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</Ecore:isOrdered>
-        <rdfs:comment>&lt;p&gt;The &lt;code&gt;connectorEnds&lt;/code&gt; of this &lt;code&gt;ItemFlow&lt;/code&gt; that are &lt;code&gt;ItemFlowEnds&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
-        <rdfs:label>itemFlowEnd</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://www.omg.org/spec/SysML#ItemFlow_itemType -->
-
-
-    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#ItemFlow_itemType">
-        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#ItemFlow"/>
-        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Classifier"/>
-        <Ecore:isOrdered rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</Ecore:isOrdered>
-        <rdfs:comment>&lt;p&gt;The type of values transferred, which is the &lt;code&gt;type&lt;/code&gt; of the &lt;code&gt;itemFeature&lt;/code&gt; of the &lt;code&gt;ItemFlow&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
-        <rdfs:label>itemType</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://www.omg.org/spec/SysML#ItemFlow_sourceOutputFeature -->
-
-
-    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#ItemFlow_sourceOutputFeature">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#ItemFlow"/>
-        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Feature"/>
-        <Ecore:isOrdered rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</Ecore:isOrdered>
-        <rdfs:comment>&lt;p&gt;The &lt;code&gt;Feature&lt;/code&gt; that provides the items carried by the &lt;code&gt;ItemFlow&lt;/code&gt;. It must be an owned &lt;code&gt;output&lt;/code&gt; of the &lt;code&gt;source&lt;/code&gt; of the &lt;code&gt;ItemFlow&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
-        <rdfs:label>sourceOutputFeature</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://www.omg.org/spec/SysML#ItemFlow_targetInputFeature -->
-
-
-    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#ItemFlow_targetInputFeature">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#ItemFlow"/>
-        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Feature"/>
-        <Ecore:isOrdered rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</Ecore:isOrdered>
-        <rdfs:comment>&lt;p&gt;The &lt;code&gt;Feature&lt;/code&gt; that receives the values carried by the &lt;code&gt;ItemFlow&lt;/code&gt;. It must be an owned &lt;code&gt;output&lt;/code&gt; of the target participant of the &lt;code&gt;ItemFlow&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
-        <rdfs:label>targetInputFeature</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -2674,10 +2765,11 @@
 
 
     <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#MetadataAccessExpression_referencedElement">
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Namespace_member"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#MetadataAccessExpression"/>
         <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Element"/>
-        <rdfs:comment>&lt;p&gt; The &lt;code&gt;Element&lt;/code&gt; whose metadata is being accessed.&lt;/p&gt;</rdfs:comment>
+        <rdfs:comment>&lt;p&gt;The &lt;code&gt;Element&lt;/code&gt; whose metadata is being accessed.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>referencedElement</rdfs:label>
     </owl:ObjectProperty>
     
@@ -2720,7 +2812,7 @@
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#MultiplicityRange"/>
         <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Expression"/>
         <Ecore:isOrdered rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</Ecore:isOrdered>
-        <rdfs:comment>&lt;p&gt;The owned &lt;code&gt;Expressions&lt;/code&gt; of the &lt;code&gt;MultiplicityRange&lt;/code&gt; whose results provide its bounds. These must be the only &lt;code&gt;ownedMembers&lt;/code&gt; of the &lt;code&gt;MultiplicityRange&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
+        <rdfs:comment>&lt;p&gt;The owned &lt;code&gt;Expressions&lt;/code&gt; of the &lt;code&gt;MultiplicityRange&lt;/code&gt; whose results provide its bounds. These must be the first &lt;code&gt;ownedMembers&lt;/code&gt; of the &lt;code&gt;MultiplicityRange&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>bound</rdfs:label>
     </owl:ObjectProperty>
     
@@ -2865,20 +2957,6 @@
     
 
 
-    <!-- https://www.omg.org/spec/SysML#OccurrenceDefinition_lifeClass -->
-
-
-    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#OccurrenceDefinition_lifeClass">
-        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Namespace_ownedMember"/>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#OccurrenceDefinition"/>
-        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#LifeClass"/>
-        <rdfs:comment>&lt;p&gt;If &lt;code&gt;isIndividual&lt;/code&gt; is true, a &lt;code&gt;LifeClass&lt;/code&gt; that specializes this &lt;code&gt;OccurrenceDefinition&lt;/code&gt;, restricting it to represent an individual.&lt;/p&gt;</rdfs:comment>
-        <rdfs:label>lifeClass</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
     <!-- https://www.omg.org/spec/SysML#OccurrenceUsage_individualDefinition -->
 
 
@@ -3016,7 +3094,7 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#PortDefinition"/>
         <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#ConjugatedPortDefinition"/>
-        <rdfs:comment>&lt;p&gt;The &lt;codeConjugatedPortDefinition&lt;/code&gt; that is conjugate to this &lt;code&gt;PortDefinition&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
+        <rdfs:comment>&lt;p&gt;The &lt;code&gt;ConjugatedPortDefinition&lt;/code&gt; that is conjugate to this &lt;code&gt;PortDefinition&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>conjugatedPortDefinition</rdfs:label>
     </owl:ObjectProperty>
     
@@ -3282,7 +3360,7 @@
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#RequirementDefinition"/>
         <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#PartUsage"/>
         <Ecore:isOrdered rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</Ecore:isOrdered>
-        <rdfs:comment>&lt;p&gt;The &lt;code&gt;parameters&lt;/code&gt; of this &lt;code&gt;RequirementDefinition&lt;/code&gt; that represent stakeholders for th requirement.&lt;/p&gt;</rdfs:comment>
+        <rdfs:comment>&lt;p&gt;The &lt;code&gt;parameters&lt;/code&gt; of this &lt;code&gt;RequirementDefinition&lt;/code&gt; that represent stakeholders for the requirement.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>stakeholderParameter</rdfs:label>
     </owl:ObjectProperty>
     
@@ -3816,51 +3894,15 @@
     
 
 
-    <!-- https://www.omg.org/spec/SysML#Succession_effectStep -->
+    <!-- https://www.omg.org/spec/SysML#TerminateActionUsage_terminatedOccurrenceArgument -->
 
 
-    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Succession_effectStep">
-        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Succession"/>
-        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Step"/>
-        <rdfs:comment>&lt;p&gt;&lt;code&gt;Steps&lt;/code&gt; that represent occurrences that are side effects of the &lt;code&gt;transitionStep&lt;/code&gt; occurring.&lt;/p&gt;</rdfs:comment>
-        <rdfs:label>effectStep</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://www.omg.org/spec/SysML#Succession_guardExpression -->
-
-
-    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Succession_guardExpression">
-        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Succession"/>
-        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Expression"/>
-        <rdfs:comment>&lt;p&gt;&lt;code&gt;Expressions&lt;/code&gt; that must evaluate to true before the &lt;code&gt;transitionStep&lt;/code&gt; can occur.&lt;/p&gt;</rdfs:comment>
-        <rdfs:label>guardExpression</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://www.omg.org/spec/SysML#Succession_transitionStep -->
-
-
-    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Succession_transitionStep">
+    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#TerminateActionUsage_terminatedOccurrenceArgument">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Succession"/>
-        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Step"/>
-        <rdfs:comment>&lt;p&gt;A &lt;code&gt;Step&lt;/code&gt; that is typed by the &lt;code&gt;Behavior&lt;/code&gt; &lt;code&gt;&lt;em&gt;TransitionPerformances::TransitionPerformance&lt;/em&gt;&lt;/code&gt; (from the Kernel Semantic Library) that has this &lt;code&gt;Succession&lt;/code&gt; as its &lt;em&gt;&lt;code&gt;transitionLink&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;</rdfs:comment>
-        <rdfs:label>transitionStep</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://www.omg.org/spec/SysML#Succession_triggerStep -->
-
-
-    <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Succession_triggerStep">
-        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Succession"/>
-        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Step"/>
-        <rdfs:comment>&lt;p&gt;&lt;code&gt;Steps&lt;/code&gt; that map incoming events to the timing of occurrences of the &lt;code&gt;transitionStep&lt;/code&gt;. The values of &lt;code&gt;triggerStep&lt;/code&gt; subset the list of acceptable events to be received by a &lt;code&gt;Behavior&lt;/code&gt; or the object that performs it.&lt;/p&gt;</rdfs:comment>
-        <rdfs:label>triggerStep</rdfs:label>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#TerminateActionUsage"/>
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Expression"/>
+        <rdfs:comment>&lt;p&gt;The &lt;code&gt;Expression&lt;/code&gt; that is the &lt;code&gt;featureValue&lt;/code&gt; of the &lt;em&gt;&lt;code&gt;terminateOccurrence&lt;/code&gt;&lt;/em&gt; &lt;code&gt;parameter&lt;/code&gt; of this &lt;code&gt;TerminateActionUsage&lt;/code&gt;.</rdfs:comment>
+        <rdfs:label>terminatedOccurrenceArgument</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -3870,7 +3912,7 @@
 
     <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#TextualRepresentation_representedElement">
         <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#AnnotatingElement_annotatedElement"/>
-        <owl:inverseOf rdf:resource="https://www.omg.org/spec/SysML#Element_textualRepresentation"/>
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Element_owner"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#TextualRepresentation"/>
         <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#Element"/>
@@ -3977,7 +4019,6 @@
 
 
     <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#TypeFeaturing_featureOfType">
-        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Featuring_feature"/>
         <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Relationship_source"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#TypeFeaturing"/>
@@ -3992,7 +4033,6 @@
 
 
     <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#TypeFeaturing_featuringType">
-        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Featuring_type"/>
         <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Relationship_target"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#TypeFeaturing"/>
@@ -4469,11 +4509,11 @@
 
 
     <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Usage_nestedConnection">
-        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Usage_nestedPart"/>
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Usage_nestedUsage"/>
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Usage"/>
         <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#ConnectorAsUsage"/>
         <Ecore:isOrdered rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</Ecore:isOrdered>
-        <rdfs:comment>&lt;p&gt;The &lt;code&gt;ConnectorAsUsages&lt;/code&gt; that are &lt;code&gt;nestedUsages&lt;/code&gt; of this &lt;code&gt;Usage&lt;/code&gt;. Note that this list includes &lt;code&gt;BindingConnectorAsUsages&lt;/code&gt; and &lt;code&gt;SuccessionAsUsages&lt;/code&gt;, even though these are &lt;code&gt;ConnectorAsUsages&lt;/code&gt; but not &lt;code&gt;ConnectionUsages&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
+        <rdfs:comment>&lt;p&gt;The &lt;code&gt;ConnectorAsUsages&lt;/code&gt; that are &lt;code&gt;nestedUsages&lt;/code&gt; of this &lt;code&gt;Usage&lt;/code&gt;. Note that this list includes &lt;code&gt;BindingConnectorAsUsages&lt;/code&gt;, &lt;code&gt;SuccessionAsUsages&lt;/code&gt;, and &lt;code&gt;FlowUsages&lt;/code&gt; because these are &lt;code&gt;ConnectorAsUsages&lt;/code&gt; even though they are not &lt;code&gt;ConnectionUsages&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>nestedConnection</rdfs:label>
     </owl:ObjectProperty>
     
@@ -4513,8 +4553,8 @@
     <owl:ObjectProperty rdf:about="https://www.omg.org/spec/SysML#Usage_nestedFlow">
         <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Usage_nestedConnection"/>
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Usage"/>
-        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#FlowConnectionUsage"/>
-        <rdfs:comment>&lt;p&gt;The code&gt;FlowConnectionUsages&lt;/code&gt; that are &lt;code&gt;nestedUsages&lt;/code&gt; of this &lt;code&gt;Usage&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
+        <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#FlowUsage"/>
+        <rdfs:comment>&lt;p&gt;The code&gt;FlowUsages&lt;/code&gt; that are &lt;code&gt;nestedUsages&lt;/code&gt; of this &lt;code&gt;Usage&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>nestedFlow</rdfs:label>
     </owl:ObjectProperty>
     
@@ -4556,7 +4596,7 @@
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Usage"/>
         <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#MetadataUsage"/>
         <Ecore:isOrdered rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</Ecore:isOrdered>
-        <rdfs:comment>&lt;p&gt;The &lt;code&gt;MetadataUsages&lt;/code&gt; that are &lt;code&gt;nestedUsages&lt;/code&gt; of this of this &lt;code&gt;Usage&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
+        <rdfs:comment>&lt;p&gt;The &lt;code&gt;MetadataUsages&lt;/code&gt; that are &lt;code&gt;ownedMembers&lt;/code&gt; of this of this &lt;code&gt;Usage&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>nestedMetadata</rdfs:label>
     </owl:ObjectProperty>
     
@@ -5270,7 +5310,7 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Element"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-        <rdfs:comment>&lt;p&gt;The full ownership-qualified name of this &lt;code&gt;Element&lt;/code&gt;, represented in a form that is valid according to the KerML textual concrete syntax for qualified names (including use of unrestricted name notation and escaped characters, as necessary). The &lt;code&gt;qualifiedName&lt;/code&gt; is null if this &lt;code&gt;Element&lt;/code&gt; has no &lt;code&gt;owningNamespace&lt;/code&gt; or if there is not a complete ownership chain of named &lt;code&gt;Namespaces&lt;/code&gt; from a root &lt;code&gt;Namespace&lt;/code&gt; to this &lt;code&gt;Element&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
+        <rdfs:comment>&lt;p&gt;The full ownership-qualified name of this &lt;code&gt;Element&lt;/code&gt;, represented in a form that is valid according to the KerML textual concrete syntax for qualified names (including use of unrestricted name notation and escaped characters, as necessary). The &lt;code&gt;qualifiedName&lt;/code&gt; is null if this &lt;code&gt;Element&lt;/code&gt; has no &lt;code&gt;owningNamespace&lt;/code&gt; or if there is not a complete ownership chain of named &lt;code&gt;Namespaces&lt;/code&gt; from a root &lt;code&gt;Namespace&lt;/code&gt; to this &lt;code&gt;Element&lt;/code&gt;. If the &lt;code&gt;owningNamespace&lt;/code&gt; has other &lt;code&gt;Elements&lt;/code&gt; with the same name as this one, then the &lt;code&gt;qualifiedName&lt;/code&gt; is null for all such &lt;code&gt;Elements&lt;/code&gt; other than the first.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>qualifiedName</rdfs:label>
     </owl:DatatypeProperty>
     
@@ -5348,8 +5388,21 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Feature"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
-        <rdfs:comment>&lt;p&gt;Whether the &lt;code&gt;Feature&lt;/code&gt; is a composite &lt;code&gt;feature&lt;/code&gt; of its &lt;code&gt;featuringType&lt;/code&gt;. If so, the values of the &lt;code&gt;Feature&lt;/code&gt; cannot exist after its featuring instance no longer does.&lt;/p&gt;</rdfs:comment>
+        <rdfs:comment>&lt;p&gt;Whether the &lt;code&gt;Feature&lt;/code&gt; is a composite &lt;code&gt;feature&lt;/code&gt; of its &lt;code&gt;featuringType&lt;/code&gt;. If so, the values of the &lt;code&gt;Feature&lt;/code&gt; cannot exist after its featuring instance no longer does and cannot be values of another composite feature that is not on the same featuring instance.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>isComposite</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://www.omg.org/spec/SysML#Feature_isConstant -->
+
+
+    <owl:DatatypeProperty rdf:about="https://www.omg.org/spec/SysML#Feature_isConstant">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Feature"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+        <rdfs:comment>&lt;p&gt;If &lt;code&gt;isVariable&lt;/code&gt; is true, then whether the value of this &lt;code&gt;Feature&lt;/code&gt; nevertheless does not change over all &lt;code&gt;&lt;em&gt;snapshots&lt;/em&gt;&lt;/code&gt; of its &lt;code&gt;owningType&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
+        <rdfs:label>isConstant</rdfs:label>
     </owl:DatatypeProperty>
     
 
@@ -5374,22 +5427,8 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Feature"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
-        <rdfs:comment>&lt;p&gt;Whether or not the this &lt;code&gt;Feature&lt;/code&gt; is an end &lt;code&gt;Feature&lt;/code&gt;, requiring a different interpretation of the &lt;code&gt;multiplicity&lt;/code&gt; of the &lt;code&gt;Feature&lt;/code&gt;.&lt;/p&gt;
-	
-	&lt;p&gt;An end &lt;code&gt;Feature&lt;/code&gt; is always considered to map each domain instance to a single co-domain instance, whether or not a &lt;code&gt;Multiplicity&lt;/code&gt; is given for it. If a &lt;code&gt;Multiplicity&lt;/code&gt; is given for an end &lt;code&gt;Feature&lt;/code&gt;, rather than giving the co-domain cardinality for the &lt;code&gt;Feature&lt;/code&gt; as usual, it specifies a cardinality constraint for &lt;em&gt;navigating&lt;/em&gt; across the &lt;code&gt;endFeatures&lt;/code&gt; of the &lt;code&gt;featuringType&lt;/code&gt; of the end &lt;code&gt;Feature&lt;/code&gt;. That is, if a &lt;code&gt;Type&lt;/code&gt; has &lt;em&gt;n&lt;/em&gt; &lt;code&gt;endFeatures&lt;/code&gt;, then the &lt;code&gt;Multiplicity&lt;/code&gt; of any one of those end &lt;code&gt;Features&lt;/code&gt; constrains the cardinality of the set of values of that &lt;code&gt;Feature&lt;/code&gt; when the values of the other &lt;em&gt;n-1&lt;/em&gt; end &lt;code&gt;Features&lt;/code&gt; are held fixed.&lt;/p&gt;</rdfs:comment>
+        <rdfs:comment>&lt;p&gt;Whether or not this &lt;code&gt;Feature&lt;/code&gt; is an end &lt;code&gt;Feature&lt;/code&gt;. An end &lt;code&gt;Feature&lt;/code&gt; always has multiplicity 1, mapping each of its domain instances to a single co-domain instance. However, it may have a &lt;code&gt;crossFeature&lt;/code&gt;, in which case values of the &lt;code&gt;crossFeature&lt;/code&gt; must be the same as those found by navigation across instances of the &lt;code&gt;owningType&lt;/code&gt; from values of other end &lt;code&gt;Features&lt;/code&gt; to values of this Feature. If the &lt;code&gt;owningType&lt;/code&gt; has &lt;em&gt;n&lt;/em&gt; end &lt;code&gt;Features&lt;/code&gt;, then the multiplicity, ordering, and uniqueness declared for the &lt;code&gt;crossFeature&lt;/code&gt; of any one of these end &lt;code&gt;Features&lt;/code&gt; constrains the cardinality, ordering, and uniqueness of the collection of values of that &lt;code&gt;Feature&lt;/code&gt; reached by navigation when the values of the other &lt;em&gt;n-1&lt;/em&gt; end &lt;code&gt;Features&lt;/code&gt; are held fixed.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>isEnd</rdfs:label>
-    </owl:DatatypeProperty>
-    
-
-
-    <!-- https://www.omg.org/spec/SysML#Feature_isNonunique -->
-
-
-    <owl:DatatypeProperty rdf:about="https://www.omg.org/spec/SysML#Feature_isNonunique">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Feature"/>
-        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
-        <rdfs:label>isNonunique</rdfs:label>
     </owl:DatatypeProperty>
     
 
@@ -5420,19 +5459,6 @@
     
 
 
-    <!-- https://www.omg.org/spec/SysML#Feature_isReadOnly -->
-
-
-    <owl:DatatypeProperty rdf:about="https://www.omg.org/spec/SysML#Feature_isReadOnly">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Feature"/>
-        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
-        <rdfs:comment>&lt;p&gt;Whether the values of this &lt;code&gt;Feature&lt;/code&gt; can change over the lifetime of an instance of the domain.&lt;/p&gt;</rdfs:comment>
-        <rdfs:label>isReadOnly</rdfs:label>
-    </owl:DatatypeProperty>
-    
-
-
     <!-- https://www.omg.org/spec/SysML#Feature_isUnique -->
 
 
@@ -5442,6 +5468,19 @@
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
         <rdfs:comment>&lt;p&gt;Whether or not values for this &lt;code&gt;Feature&lt;/code&gt; must have no duplicates or not.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>isUnique</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://www.omg.org/spec/SysML#Feature_isVariable -->
+
+
+    <owl:DatatypeProperty rdf:about="https://www.omg.org/spec/SysML#Feature_isVariable">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Feature"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+        <rdfs:comment>&lt;p&gt;Whether the value of this &lt;code&gt;Feature&lt;/code&gt; might vary over time. That is, whether the &lt;code&gt;Feature&lt;/code&gt; may have a different value for each &lt;em&gt;&lt;code&gt;snapshot&lt;/code&gt;&lt;/em&gt; of an &lt;code&gt;owningType&lt;/code&gt; that is an &lt;em&gt;&lt;code&gt;Occurrence&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;</rdfs:comment>
+        <rdfs:label>isVariable</rdfs:label>
     </owl:DatatypeProperty>
     
 
@@ -5576,9 +5615,8 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#LiteralString"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-        <rdfs:comment>&lt;p&gt;The &lt;code&gt;&lt;em&gt;String&lt;/em&gt;&lt;/code&gt; value that is the result of evaluating this &lt;code&gt;LiteralString&lt;/code&gt;.&lt;/p&gt;
-	
-	&lt;p&gt;The String value that is the result of evaluating this Expression.&lt;/p&gt;</rdfs:comment>
+        <rdfs:comment>&lt;p&gt;The String value that is the result of evaluating this Expression.&lt;/p&gt;
+	&lt;p&gt;The &lt;code&gt;&lt;em&gt;String&lt;/em&gt;&lt;/code&gt; value that is the result of evaluating this &lt;code&gt;LiteralString&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>value</rdfs:label>
     </owl:DatatypeProperty>
     
@@ -5643,7 +5681,7 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#OccurrenceDefinition"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
-        <rdfs:comment>&lt;p&gt;Whether this OccurrenceDefinition is constrained to represent single individual.&lt;/p&gt;</rdfs:comment>
+        <rdfs:comment>&lt;p&gt;Whether this &lt;code&gt;OccurrenceDefinition&lt;/code&gt; is constrained to represent at most one thing.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>isIndividual</rdfs:label>
     </owl:DatatypeProperty>
     
@@ -5656,7 +5694,7 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#OccurrenceUsage"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
-        <rdfs:comment>&lt;p&gt;Whether this &lt;code&gt;OccurrenceUsage&lt;/code&gt; represents the usage of the specific individual (or portion of it) represented by its &lt;code&gt;individualDefinition&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
+        <rdfs:comment>&lt;p&gt;Whether this &lt;code&gt;OccurrenceUsage&lt;/code&gt; represents the usage of the specific individual represented by its &lt;code&gt;individualDefinition&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>isIndividual</rdfs:label>
     </owl:DatatypeProperty>
     
@@ -5669,7 +5707,7 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#OccurrenceUsage"/>
         <rdfs:range rdf:resource="https://www.omg.org/spec/SysML#PortionKind"/>
-        <rdfs:comment>&lt;p&gt;The kind of (temporal) portion of the life of the &lt;code&gt;occurrenceDefinition&lt;/code&gt; represented by this &lt;code&gt;OccurrenceUsage&lt;/code&gt;, if it is so restricted.&lt;/p&gt;</rdfs:comment>
+        <rdfs:comment>&lt;p&gt;The kind of temporal portion (time slice or snapshot) is represented by this &lt;code&gt;OccurrenceUsage&lt;/code&gt;. If &lt;code&gt;portionKind&lt;/code&gt; is not null, then the &lt;code&gt;owningType&lt;/code&gt; of the &lt;code&gt;OccurrenceUsage&lt;/code&gt; must be non-null, and the &lt;code&gt;OccurrenceUsage&lt;/code&gt; represents portions of the featuring instance of the &lt;code&gt;owningType&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>portionKind</rdfs:label>
     </owl:DatatypeProperty>
     
@@ -5966,6 +6004,22 @@
     
 
 
+    <!-- https://www.omg.org/spec/SysML#Usage_mayTimeVary -->
+
+
+    <owl:DatatypeProperty rdf:about="https://www.omg.org/spec/SysML#Usage_mayTimeVary">
+        <rdfs:subPropertyOf rdf:resource="https://www.omg.org/spec/SysML#Feature_isVariable"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="https://www.omg.org/spec/SysML#Usage"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+        <rdfs:comment>&lt;p&gt;Whether this &lt;code&gt;Usage&lt;/code&gt; may be time varying (that is, whether it is featured by the snapshots of its &lt;code&gt;owningType&lt;/code&gt;, rather than being featured by the &lt;code&gt;owningType&lt;/code&gt; itself). However, if &lt;code&gt;isConstant&lt;/code&gt; is also true, then the value of the &lt;code&gt;Usage&lt;/code&gt; is nevertheless constant over the entire duration of an instance of its &lt;code&gt;owningType&lt;/code&gt; (that is, it has the same value on all snapshots).&lt;/p&gt;
+	
+	&lt;p&gt;The property &lt;code&gt;mayTimeVary&lt;/code&gt; redefines the KerML property &lt;code&gt;Feature::isVariable&lt;/code&gt;, making it derived. The property &lt;code&gt;isConstant&lt;/code&gt; is inherited from &lt;code&gt;Feature&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
+        <rdfs:label>mayTimeVary</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
@@ -5991,7 +6045,7 @@
         </rdfs:subClassOf>
         <rdfs:comment>&lt;p&gt;An &lt;code&gt;AcceptActionUsage&lt;/code&gt; is an &lt;code&gt;ActionUsage&lt;/code&gt; that specifies the acceptance of an &lt;em&gt;&lt;code&gt;incomingTransfer&lt;/code&gt;&lt;/em&gt; from the &lt;code&gt;&lt;em&gt;Occurrence&lt;/em&gt;&lt;/code&gt; given by the result of its &lt;code&gt;receiverArgument&lt;/code&gt; Expression. (If no &lt;code&gt;receiverArgument&lt;/code&gt; is provided, the default is the &lt;em&gt;&lt;code&gt;this&lt;/code&gt;&lt;/em&gt; context of the AcceptActionUsage.) The payload of the accepted &lt;em&gt;&lt;code&gt;Transfer&lt;/em&gt;&lt;/code&gt; is output on its &lt;code&gt;payloadParameter&lt;/code&gt;. Which &lt;em&gt;&lt;code&gt;Transfers&lt;/em&gt;&lt;/code&gt; may be accepted is determined by conformance to the typing and (potentially) binding of the &lt;code&gt;payloadParameter&lt;/code&gt;.&lt;/p&gt;
 	
-	inputParameters()-&gt;size() &gt;= 2
+	inputParameters()-&gt;notEmpty()
 	receiverArgument = argument(2)
 	payloadArgument = argument(1)
 	payloadParameter =
@@ -6155,6 +6209,12 @@
 
     <owl:Class rdf:about="https://www.omg.org/spec/SysML#AnnotatingElement">
         <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Element"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://www.omg.org/spec/SysML#AnnotatingElement_annotatedElement"/>
+                <owl:minCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:comment>&lt;p&gt;An &lt;code&gt;AnnotatingElement&lt;/code&gt; is an &lt;code&gt;Element&lt;/code&gt; that provides additional description of or metadata on some other &lt;code&gt;Element&lt;/code&gt;. An &lt;code&gt;AnnotatingElement&lt;/code&gt; is either attached to its &lt;code&gt;annotatedElements&lt;/code&gt; by &lt;code&gt;Annotation&lt;/code&gt; &lt;code&gt;Relationships&lt;/code&gt;, or it implicitly annotates its &lt;code&gt;owningNamespace&lt;/code&gt;.&lt;/p&gt;
 	
 	annotatedElement =
@@ -6162,7 +6222,11 @@
 	else Sequence{owningNamespace} endif
 	ownedAnnotatingRelationship = ownedRelationship-&gt;
 	selectByKind(Annotation)-&gt;
-	select(a | a.annotatingElement = self)</rdfs:comment>
+	select(a | a.annotatedElement &lt;&gt; self)
+	annotation =
+	if owningAnnotatingRelationship = null then ownedAnnotatingRelationship
+	else owningAnnotatingRelationship-&gt;prepend(owningAnnotatingRelationship)
+	endif</rdfs:comment>
         <rdfs:label>AnnotatingElement</rdfs:label>
     </owl:Class>
     
@@ -6185,7 +6249,20 @@
                 <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <rdfs:comment>&lt;p&gt;An &lt;code&gt;Annotation&lt;/code&gt; is a Relationship between an &lt;code&gt;AnnotatingElement&lt;/code&gt; and the &lt;code&gt;Element&lt;/code&gt; that is annotated by that &lt;code&gt;AnnotatingElement&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
+        <rdfs:comment>&lt;p&gt;An &lt;code&gt;Annotation&lt;/code&gt; is a Relationship between an &lt;code&gt;AnnotatingElement&lt;/code&gt; and the &lt;code&gt;Element&lt;/code&gt; that is annotated by that &lt;code&gt;AnnotatingElement&lt;/code&gt;.&lt;/p&gt;
+	
+	(owningAnnotatedElement &lt;&gt; null) = (ownedAnnotatingElement &lt;&gt; null)
+	ownedAnnotatingElement &lt;&gt; null xor owningAnnotatingElement &lt;&gt; null
+	ownedAnnotatingElement =
+	let ownedAnnotatingElements : Sequence(AnnotatingElement) =
+	ownedRelatedElement-&gt;selectByKind(AnnotatingElement) in
+	if ownedAnnotatingElements-&gt;isEmpty() then null
+	else ownedAnnotatingElements-&gt;first()
+	endif
+	annotatingElement =
+	if ownedAnnotatingElement &lt;&gt; null then ownedAnnotatingElement
+	else owningAnnotatingElement
+	endif</rdfs:comment>
         <rdfs:label>Annotation</rdfs:label>
     </owl:Class>
     
@@ -6205,16 +6282,18 @@
         </rdfs:subClassOf>
         <rdfs:comment>&lt;p&gt;An &lt;code&gt;AssertConstraintUsage&lt;/code&gt; is a &lt;code&gt;ConstraintUsage&lt;/code&gt; that is also an &lt;code&gt;Invariant&lt;/code&gt; and, so, is asserted to be true (by default). Unless it is the &lt;code&gt;AssertConstraintUsage&lt;/code&gt; itself, the asserted &lt;code&gt;ConstraintUsage&lt;/code&gt; is related to the &lt;code&gt;AssertConstraintUsage&lt;/code&gt; by a ReferenceSubsetting &lt;code&gt;Relationship&lt;/code&gt;.&lt;/p&gt;
 	assertedConstraint =
-	if ownedReferenceSubsetting = null then self
-	else ownedReferenceSubsetting.referencedFeature.oclAsType(ConstraintUsage)
-	endif
+	if referencedFeatureTarget() = null then self
+	else if referencedFeatureTarget().oclIsKindOf(ConstraintUsage) then
+	referencedFeatureTarget().oclAsType(ConstraintUsage)
+	else null
+	endif endif
 	if isNegated then
-	specializesFromLibrary(&apos;Constraints::negatedConstraints&apos;)
+	specializesFromLibrary(&apos;Constraints::negatedConstraintChecks&apos;)
 	else
-	specializesFromLibrary(&apos;Constraints::assertedConstraints&apos;)
+	specializesFromLibrary(&apos;Constraints::assertedConstraintChecks&apos;)
 	endif
-	ownedReferenceSubsetting &lt;&gt; null implies
-	ownedReferenceSubsetting.referencedFeature.oclIsKindOf(ConstraintUsage)</rdfs:comment>
+	referencedFeatureTarget() &lt;&gt; null implies
+	referencedFeatureTarget().oclIsKindOf(ConstraintUsage)</rdfs:comment>
         <rdfs:label>AssertConstraintUsage</rdfs:label>
     </owl:Class>
     
@@ -6238,7 +6317,7 @@
 	targetParameter &lt;&gt; null and
 	targetParameter.ownedFeature-&gt;notEmpty() and
 	targetParameter.ownedFeature-&gt;first().
-	redefines(&apos;AssignmentAction::target::startingAt&apos;)
+	redefinesFromLibrary(&apos;AssignmentAction::target::startingAt&apos;)
 	valueExpression = argument(2)
 	targetArgument = argument(1)
 	isSubactionUsage() implies
@@ -6246,24 +6325,27 @@
 	let targetParameter : Feature = inputParameter(1) in
 	targetParameter &lt;&gt; null and
 	targetParameter.ownedFeature-&gt;notEmpty() and
-	targetParameter-&gt;first().ownedFeature-&gt;notEmpty() and
-	targetParameter-&gt;first().ownedFeature-&gt;first().
-	redefines(&apos;AssigmentAction::target::startingAt::accessedFeature&apos;)
+	targetParameter.ownedFeature-&gt;first().ownedFeature-&gt;notEmpty() and
+	targetParameter.ownedFeature-&gt;first().ownedFeature-&gt;first().
+	redefinesFromLibrary(&apos;AssigmentAction::target::startingAt::accessedFeature&apos;)
 	let targetParameter : Feature = inputParameter(1) in
 	targetParameter &lt;&gt; null and
 	targetParameter.ownedFeature-&gt;notEmpty() and
-	targetParameter-&gt;first().ownedFeature-&gt;notEmpty() and
-	targetParameter-&gt;first().ownedFeature-&gt;first().redefines(referent)
+	targetParameter.ownedFeature-&gt;first().ownedFeature-&gt;notEmpty() and
+	targetParameter.ownedFeature-&gt;first().ownedFeature-&gt;first().redefines(referent)
 	referent =
 	let unownedFeatures : Sequence(Feature) = ownedMembership-&gt;
 	reject(oclIsKindOf(FeatureMembership)).memberElement-&gt;
-	selectByKind(Feature) in
+	select(oclIsKindOf(Feature) and
+	not oclIsKindOf(MetadataFeature)) in
 	if unownedFeatures-&gt;isEmpty() then null
 	else unownedFeatures-&gt;first().oclAsType(Feature)
 	endif
 	ownedMembership-&gt;exists(
 	not oclIsKindOf(OwningMembership) and
-	memberElement.oclIsKindOf(Feature))</rdfs:comment>
+	memberElement.oclIsKindOf(Feature) and
+	not memberElement.oclIsKindOf(MetadataFeature))
+	referent &lt;&gt; null implies referent.featureTarget.isVariable</rdfs:comment>
         <rdfs:label>AssignmentActionUsage</rdfs:label>
     </owl:Class>
     
@@ -6294,7 +6376,8 @@
 	relatedType-&gt;
 	subSequence(2, relatedType-&gt;size())-&gt;
 	asOrderedSet()
-	endif</rdfs:comment>
+	endif
+	ownedEndFeature-&gt;forAll(type-&gt;size() = 1)</rdfs:comment>
         <rdfs:label>Association</rdfs:label>
     </owl:Class>
     
@@ -6353,9 +6436,9 @@
         <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Class"/>
         <rdfs:comment>&lt;p&gt;A &lt;code&gt;Behavior &lt;/code&gt;coordinates occurrences of other &lt;code&gt;Behaviors&lt;/code&gt;, as well as changes in objects. &lt;code&gt;Behaviors&lt;/code&gt; can be decomposed into &lt;code&gt;Steps&lt;/code&gt; and be characterized by &lt;code&gt;parameters&lt;/code&gt;.&lt;/p&gt;
 	
+	ownedSpecialization.general-&gt;forAll(not oclIsKindOf(Structure))
 	specializesFromLibrary(&apos;Performances::Performance&apos;)
-	step = feature-&gt;selectByKind(Step)
-	ownedSpecialization.general-&gt;forAll(not oclIsKindOf(Structure))</rdfs:comment>
+	step = feature-&gt;selectByKind(Step)</rdfs:comment>
         <rdfs:label>Behavior</rdfs:label>
     </owl:Class>
     
@@ -6368,8 +6451,8 @@
         <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Connector"/>
         <rdfs:comment>&lt;p&gt;A &lt;code&gt;BindingConnector&lt;/code&gt; is a binary &lt;code&gt;Connector&lt;/code&gt; that requires its &lt;code&gt;relatedFeatures&lt;/code&gt; to identify the same things (have the same values).&lt;/p&gt;
 	
-	specializesFromLibrary(&apos;Links::selfLinks&apos;)
-	relatedFeature-&gt;size() = 2</rdfs:comment>
+	relatedFeature-&gt;size() = 2
+	specializesFromLibrary(&apos;Links::selfLinks&apos;)</rdfs:comment>
         <rdfs:label>BindingConnector</rdfs:label>
     </owl:Class>
     
@@ -6562,7 +6645,7 @@
     <owl:Class rdf:about="https://www.omg.org/spec/SysML#CollectExpression">
         <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#OperatorExpression"/>
         <rdfs:comment>&lt;p&gt;A &lt;code&gt;CollectExpression&lt;/code&gt; is an &lt;code&gt;OperatorExpression&lt;/code&gt; whose &lt;code&gt;operator&lt;/code&gt; is &lt;code&gt;&quot;collect&quot;&lt;/code&gt;, which resolves to the &lt;code&gt;Function&lt;/code&gt; &lt;em&gt;&lt;code&gt;ControlFunctions::collect&lt;/code&gt;&lt;/em&gt; from the Kernel Functions Library.&lt;/p&gt;
-	operator = &quot;collect&quot;</rdfs:comment>
+	operator = &apos;collect&apos;</rdfs:comment>
         <rdfs:label>CollectExpression</rdfs:label>
     </owl:Class>
     
@@ -6699,7 +6782,8 @@
         <rdfs:comment>&lt;p&gt;A &lt;code&gt;ConnectionDefinition&lt;/code&gt; is a &lt;code&gt;PartDefinition&lt;/code&gt; that is also an &lt;code&gt;AssociationStructure&lt;/code&gt;. The end &lt;code&gt;Features&lt;/code&gt; of a &lt;code&gt;ConnectionDefinition&lt;/code&gt; must be &lt;code&gt;Usages&lt;/code&gt;.&lt;/p&gt;
 	specializesFromLibrary(&apos;Connections::Connection&apos;)
 	ownedEndFeature-&gt;size() = 2 implies
-	specializesFromLibrary(&apos;Connections::BinaryConnections&apos;)</rdfs:comment>
+	specializesFromLibrary(&apos;Connections::BinaryConnection&apos;)
+	isSufficient</rdfs:comment>
         <rdfs:label>ConnectionDefinition</rdfs:label>
     </owl:Class>
     
@@ -6750,12 +6834,24 @@
 	association-&gt;exists(oclIsKindOf(AssociationStructure)) implies
 	specializesFromLibrary(&apos;Objects::linkObjects&apos;)
 	connectorEnds-&gt;size() = 2 and
-	association-&gt;exists(oclIsKindOf(AssocationStructure)) implies
+	association-&gt;exists(oclIsKindOf(AssociationStructure)) implies
 	specializesFromLibrary(&apos;Objects::binaryLinkObjects&apos;)
 	connectorEnd-&gt;size() = 2 implies
 	specializesFromLibrary(&apos;Links::binaryLinks&apos;)
 	connectorEnds-&gt;size() &gt; 2 implies
-	not specializesFromLibrary(&apos;Links::BinaryLink&apos;)</rdfs:comment>
+	not specializesFromLibrary(&apos;Links::BinaryLink&apos;)
+	let commonFeaturingTypes : OrderedSet(Type) =
+	relatedFeature-&gt;closure(featuringType)-&gt;select(t |
+	relatedFeature-&gt;forAll(f | f.isFeaturedWithin(t))
+	) in
+	let nearestCommonFeaturingTypes : OrderedSet(Type) =
+	commonFeaturingTypes-&gt;reject(t1 |
+	commonFeaturingTypes-&gt;exists(t2 |
+	t2 &lt;&gt; t1 and t2-&gt;closure(featuringType)-&gt;contains(t1)
+	)) in
+	if nearestCommonFeaturingTypes-&gt;isEmpty() then null
+	else nearestCommonFeaturingTypes-&gt;first()
+	endif</rdfs:comment>
         <rdfs:label>Connector</rdfs:label>
     </owl:Class>
     
@@ -6767,7 +6863,7 @@
     <owl:Class rdf:about="https://www.omg.org/spec/SysML#ConnectorAsUsage">
         <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Connector"/>
         <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Usage"/>
-        <rdfs:comment>&lt;p&gt;A &lt;code&gt;ConnectorAsUsage&lt;/code&gt; is both a &lt;code&gt;Connector&lt;/code&gt; and a &lt;code&gt;Usage&lt;/code&gt;. &lt;code&gt;ConnectorAsUsage&lt;/code&gt; cannot itself be instantiated in a SysML model, but it is the base class for the concrete classes &lt;code&gt;BindingConnectorAsUsage&lt;/code&gt;, &lt;code&gt;SuccessionAsUsage&lt;/code&gt; and &lt;code&gt;ConnectionUsage&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
+        <rdfs:comment>&lt;p&gt;A &lt;code&gt;ConnectorAsUsage&lt;/code&gt; is both a &lt;code&gt;Connector&lt;/code&gt; and a &lt;code&gt;Usage&lt;/code&gt;. &lt;code&gt;ConnectorAsUsage&lt;/code&gt; cannot itself be instantiated in a SysML model, but it is a base class for the concrete classes &lt;code&gt;BindingConnectorAsUsage&lt;/code&gt;, &lt;code&gt;SuccessionAsUsage&lt;/code&gt;, &lt;code&gt;ConnectionUsage&lt;/code&gt; and &lt;code&gt;FlowUsage&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>ConnectorAsUsage</rdfs:label>
     </owl:Class>
     
@@ -6795,6 +6891,7 @@
         <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#BooleanExpression"/>
         <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#OccurrenceUsage"/>
         <rdfs:comment>&lt;p&gt;A &lt;code&gt;ConstraintUsage&lt;/code&gt; is an &lt;code&gt;OccurrenceUsage&lt;/code&gt; that is also a &lt;code&gt;BooleanExpression&lt;/code&gt;, and, so, is typed by a &lt;code&gt;Predicate&lt;/code&gt;. Nominally, if the type is a &lt;code&gt;ConstraintDefinition&lt;/code&gt;, a &lt;code&gt;ConstraintUsage&lt;/code&gt; is a &lt;code&gt;Usage&lt;/code&gt; of that &lt;code&gt;ConstraintDefinition&lt;/code&gt;. However, other kinds of kernel &lt;code&gt;Predicates&lt;/code&gt; are also allowed, to permit use of &lt;code&gt;Predicates&lt;/code&gt; from the Kernel Model Libraries.&lt;/p&gt;
+	isComposite and
 	owningFeatureMembership &lt;&gt; null and
 	owningFeatureMembership.oclIsKindOf(RequirementConstraintMembership) implies
 	if owningFeatureMembership.oclAsType(RequirementConstraintMembership).kind =
@@ -6809,6 +6906,37 @@
 	owningType.oclIsKindOf(ItemUsage)) implies
 	specializesFromLibrary(&apos;Items::Item::checkedConstraints&apos;)</rdfs:comment>
         <rdfs:label>ConstraintUsage</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://www.omg.org/spec/SysML#ConstructorExpression -->
+
+
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#ConstructorExpression">
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#InstantiationExpression"/>
+        <rdfs:comment>&lt;p&gt;A &lt;code&gt;ConstructorExpression&lt;/code&gt; is an &lt;code&gt;InstantiationExpression&lt;/code&gt; whose &lt;code&gt;result&lt;/code&gt; specializes its &lt;code&gt;instantiatedType&lt;/code&gt;, binding some or all of the &lt;code&gt;features&lt;/code&gt; of the &lt;code&gt;instantiatedType&lt;/code&gt; to the &lt;code&gt;results&lt;/code&gt; of its &lt;code&gt;argument&lt;/code&gt; &lt;code&gt;Expressions&lt;/code&gt;.&lt;/p&gt;
+	instantiatedType.feature-&gt;collect(f |
+	result.ownedFeatures-&gt;select(redefines(f)).valuation-&gt;
+	select(v | v &lt;&gt; null).value
+	)
+	let features : OrderedSet(Feature) = instantiatedType.feature-&gt;
+	select(visibility = VisibilityKind::public) in
+	result.ownedFeature-&gt;forAll(f1 | result.ownedFeature-&gt;forAll(f2 |
+	f1 &lt;&gt; f2 implies
+	f1.ownedRedefinition.redefinedFeature-&gt;
+	intersection(f2.ownedRedefinition.redefinedFeature)-&gt;
+	intersection(features)-&gt;isEmpty()))
+	let features : OrderedSet(Feature) = instantiatedType.feature-&gt;
+	select(owningMembership.visibility = VisibilityKind::public) in
+	result.ownedFeature-&gt;forAll(f |
+	f.ownedRedefinition.redefinedFeature-&gt;
+	intersection(features)-&gt;size() = 1)
+	TBD
+	specializes(&apos;Performances::constructorEvaluations&apos;)
+	result.specializes(instantiatedType)
+	ownedFeatures-&gt;excluding(result)-&gt;isEmpty()</rdfs:comment>
+        <rdfs:label>ConstructorExpression</rdfs:label>
     </owl:Class>
     
 
@@ -6831,8 +6959,45 @@
 	collect(connectorEnd-&gt;at(2).multiplicity)-&gt;
 	forAll(targetMult |
 	multiplicityHasBounds(targetMult, 1, 1))
-	specializesFromLibrary(&apos;Action::Action::controls&apos;)</rdfs:comment>
+	specializesFromLibrary(&apos;Action::Action::controls&apos;)
+	isComposite</rdfs:comment>
         <rdfs:label>ControlNode</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://www.omg.org/spec/SysML#CrossSubsetting -->
+
+
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#CrossSubsetting">
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Subsetting"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://www.omg.org/spec/SysML#CrossSubsetting_crossedFeature"/>
+                <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://www.omg.org/spec/SysML#CrossSubsetting_crossingFeature"/>
+                <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment>&lt;p&gt;&lt;code&gt;CrossSubsetting&lt;/code&gt; is a kind of &lt;code&gt;Subsetting&lt;/code&gt; for end &lt;code&gt;Features&lt;/code&gt;, as identified by &lt;code&gt;crossingFeature&lt;/code&gt;, to subset a chained &lt;code&gt;Feature&lt;/code&gt;, identified by &lt;code&gt;crossedFeature.&lt;/code&gt; It navigates to instances of the end &lt;code&gt;Feature&lt;/code&gt;’s type from instances of other end &lt;code&gt;Feature&lt;/code&gt; types on the same &lt;code&gt;owningType&lt;/code&gt; (at least two end &lt;code&gt;Features&lt;/code&gt; are required for any of them to have a &lt;code&gt;CrossSubsetting&lt;/code&gt;).&lt;/p&gt;
+	
+	&lt;p&gt;The &lt;code&gt;crossedFeature&lt;/code&gt; of a &lt;code&gt;CrossSubsetting&lt;/code&gt; must have a feature chain of exactly two &lt;code&gt;Features&lt;/code&gt;. The second &lt;code&gt;Feature&lt;/code&gt; in the chain is the &lt;code&gt;crossFeature&lt;/code&gt; of the &lt;code&gt;crossingFeature&lt;/code&gt; (end &lt;code&gt;Feature&lt;/code&gt;), which has the same type as the &lt;code&gt;crossingFeature&lt;/code&gt;. When the &lt;code&gt;owningType&lt;/code&gt; of the &lt;code&gt;crossingFeature&lt;/code&gt; has exactly two end &lt;code&gt;Features&lt;/code&gt;, the first &lt;code&gt;Feature&lt;/code&gt; in the chain of the &lt;code&gt;crossedFeature&lt;/code&gt; is the other end &lt;code&gt;Feature&lt;/code&gt;. The &lt;code&gt;crossFeature&lt;/code&gt;’s &lt;code&gt;featuringType&lt;/code&gt; in this case is the other end &lt;code&gt;Feature&lt;/code&gt;. When the &lt;code&gt;owningType&lt;/code&gt; has more than two end &lt;code&gt;Features&lt;/code&gt;, the first &lt;code&gt;Feature&lt;/code&gt; in the chain is a &lt;code&gt;Feature&lt;/code&gt; that &lt;code&gt;CrossMultiplies&lt;/code&gt; all the other end &lt;code&gt;Features&lt;/code&gt;, which is also the &lt;code&gt;featuringType&lt;/code&gt; of the &lt;code&gt;crossFeature&lt;/code&gt;.&lt;/p&gt;
+	
+	&lt;p&gt;A &lt;code&gt;crossFeature&lt;/code&gt; must be owned by its &lt;code&gt;featureCrossing&lt;/code&gt; (end &lt;code&gt;Feature&lt;/code&gt;) when the &lt;code&gt;featureCrossing&lt;/code&gt; &lt;code&gt;owningType&lt;/code&gt; has more than two end &lt;code&gt;Features&lt;/code&gt;. Otherwise, for exactly two end &lt;code&gt;Features&lt;/code&gt;, the &lt;code&gt;crossFeatures&lt;/code&gt; of each the ends can instead optionally be inherited by the other end from one of its &lt;code&gt;types&lt;/code&gt; or a subsetted &lt;code&gt;Feature&lt;/code&gt;.&lt;/p&gt;
+	crossingFeature.isEnd and crossingFeature.owningType &lt;&gt; null implies
+	let endFeatures: Sequence(Feature) = crossingFeature.owningType.endFeature in
+	let chainingFeatures: Sequence(Feature) = crossedFeature.chainingFeature in
+	chainingFeatures-&gt;size() = 2 and
+	endFeatures-&gt;size() = 2 implies
+	chainingFeatures-&gt;at(1) = endFeatures-&gt;excluding(crossingFeature)-&gt;at(1)
+	crossingFeature.isEnd and
+	crossingFeature.owningType&lt;&gt;null and
+	crossingFeature.owningType.endFeature -&gt;size() &gt; 1</rdfs:comment>
+        <rdfs:label>CrossSubsetting</rdfs:label>
     </owl:Class>
     
 
@@ -6849,10 +7014,10 @@
 	&lt;li&gt;Can be distinguished when they are related to other things in different ways, even when they are intended to be about the same thing.&lt;/li&gt;
 	&lt;/ul&gt;
 	
-	specializesFromLibrary(&apos;Base::DataValue&apos;)
 	ownedSpecialization.general-&gt;
 	forAll(not oclIsKindOf(Class) and
-	not oclIsKindOf(Association))</rdfs:comment>
+	not oclIsKindOf(Association))
+	specializesFromLibrary(&apos;Base::DataValue&apos;)</rdfs:comment>
         <rdfs:label>DataType</rdfs:label>
     </owl:Class>
     
@@ -6872,7 +7037,7 @@
 	specializesFromLibrary(&apos;Actions::Action::decisions&apos;)
 	sourceConnector-&gt;selectByKind(Succession)-&gt;
 	forAll(subsetsChain(self,
-	resolveGlobal(&apos;ControlPerformances::MergePerformance::outgoingHBLink&apos;)))</rdfs:comment>
+	resolveGlobal(&apos;ControlPerformances::DecisionPerformance::outgoingHBLink&apos;)))</rdfs:comment>
         <rdfs:label>DecisionNode</rdfs:label>
     </owl:Class>
     
@@ -6913,7 +7078,7 @@
 	ownedPart = ownedUsage-&gt;selectByKind(PartUsage)
 	ownedPort = ownedUsage-&gt;selectByKind(PortUsage)
 	ownedConnection = ownedUsage-&gt;selectByKind(ConnectorAsUsage)
-	ownedFlow = ownedUsage-&gt;selectByKind(FlowConnectionUsage)
+	ownedFlow = ownedUsage-&gt;selectByKind(FlowUsage)
 	ownedInterface = ownedUsage-&gt;selectByKind(ReferenceUsage)
 	ownedAllocation = ownedUsage-&gt;selectByKind(AllocationUsage)
 	ownedAction = ownedUsage-&gt;selectByKind(ActionUsage)
@@ -6930,7 +7095,7 @@
 	ownedView = ownedUsage-&gt;selectByKind(ViewUsage)
 	ownedViewpoint = ownedUsage-&gt;selectByKind(ViewpointUsage)
 	ownedRendering = ownedUsage-&gt;selectByKind(RenderingUsage)
-	ownedMetadata = ownedUsage-&gt;selectByKind(MetadataUsage)
+	ownedMetadata = ownedMember-&gt;selectByKind(MetadataUsage)
 	isVariation implies isAbstract</rdfs:comment>
         <rdfs:label>Definition</rdfs:label>
     </owl:Class>
@@ -7053,11 +7218,14 @@
 	owner = owningRelationship.owningRelatedElement
 	qualifiedName =
 	if owningNamespace = null then null
+	else if name &lt;&gt; null and
+	owningNamespace.ownedMember-&gt;
+	select(m | m.name = name).indexOf(self) &lt;&gt; 1 then null
 	else if owningNamespace.owner = null then escapedName()
 	else if owningNamespace.qualifiedName = null or
 	escapedName() = null then null
 	else owningNamespace.qualifiedName + &apos;::&apos; + escapedName()
-	endif endif endif
+	endif endif endif endif
 	documentation = ownedElement-&gt;selectByKind(Documentation)
 	ownedAnnotation = ownedRelationship-&gt;
 	selectByKind(Annotation)-&gt;
@@ -7154,13 +7322,13 @@
 	
 	&lt;p&gt;If the &lt;code&gt;EventOccurrenceUsage&lt;/code&gt; is owned by an &lt;code&gt;OccurrenceDefinition&lt;/code&gt; or &lt;code&gt;OccurrenceUsage&lt;/code&gt;, then it also subsets the &lt;em&gt;&lt;code&gt;timeEnclosedOccurrences&lt;/code&gt;&lt;/em&gt; property of the &lt;code&gt;Class&lt;/code&gt; &lt;em&gt;&lt;code&gt;Occurrence&lt;/code&gt;&lt;/em&gt; from the Kernel Semantic Library model &lt;em&gt;&lt;code&gt;Occurrences&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
 	eventOccurrence =
-	if ownedReferenceSubsetting = null then self
-	else if ownedReferenceSubsetting.referencedFeature.oclIsKindOf(OccurrenceUsage) then
-	ownedReferenceSubsetting.referencedFeature.oclAsType(OccurrenceUsage)
+	if referencedFeatureTarget() = null then self
+	else if referencedFeatureTarget().oclIsKindOf(OccurrenceUsage) then
+	referencedFeatureTarget().oclAsType(OccurrenceUsage)
 	else null
 	endif endif
-	ownedReferenceSubsetting &lt;&gt; null implies
-	ownedReferenceSubsetting.referencedFeature.oclIsKindOf(OccurrenceUsage)
+	referencedFeatureTarget() &lt;&gt; null implies
+	referencedFeatureTarget().oclIsKindOf(OccurrenceUsage)
 	owningType &lt;&gt; null and
 	(owningType.oclIsKindOf(OccurrenceDefinition) or
 	owningType.oclIsKindOf(OccurrenceUsage)) implies
@@ -7189,8 +7357,8 @@
 	(owningType.oclIsKindOf(PartDefinition) or
 	owningType.oclIsKindOf(PartUsage)) implies
 	specializesFromLibrary(&apos;Parts::Part::exhibitedStates&apos;)
-	ownedReferenceSubsetting &lt;&gt; null implies
-	ownedReferenceSubsetting.referencedFeature.oclIsKindOf(StateUsage)</rdfs:comment>
+	referencedFeatureTarget() &lt;&gt; null implies
+	referencedFeatureTarget().oclIsKindOf(StateUsage)</rdfs:comment>
         <rdfs:label>ExhibitStateUsage</rdfs:label>
     </owl:Class>
     
@@ -7243,16 +7411,16 @@
 	binding.relatedFeature-&gt;includes(mem.ownedResultExpression.result)))
 	result =
 	let resultParams : Sequence(Feature) =
-	ownedFeatureMemberships-&gt;
+	featureMemberships-&gt;
 	selectByKind(ReturnParameterMembership).
-	ownedParameterMember in
+	ownedMemberParameter in
 	if resultParams-&gt;notEmpty() then resultParams-&gt;first()
-	else if function &lt;&gt; null then function.result
 	else null
-	endif endif
-	ownedFeatureMembership-&gt;
+	endif
+	
+	featureMembership-&gt;
 	selectByKind(ReturnParameterMembership)-&gt;
-	size() &lt;= 1
+	size() = 1
 	membership-&gt;selectByKind(ResultExpressionMembership)-&gt;size() &lt;= 1</rdfs:comment>
         <rdfs:label>Expression</rdfs:label>
     </owl:Class>
@@ -7278,6 +7446,12 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
+                <owl:onProperty rdf:resource="https://www.omg.org/spec/SysML#Feature_isConstant"/>
+                <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
                 <owl:onProperty rdf:resource="https://www.omg.org/spec/SysML#Feature_isDerived"/>
                 <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
             </owl:Restriction>
@@ -7285,12 +7459,6 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="https://www.omg.org/spec/SysML#Feature_isEnd"/>
-                <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="https://www.omg.org/spec/SysML#Feature_isNonunique"/>
                 <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -7308,13 +7476,13 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://www.omg.org/spec/SysML#Feature_isReadOnly"/>
+                <owl:onProperty rdf:resource="https://www.omg.org/spec/SysML#Feature_isUnique"/>
                 <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://www.omg.org/spec/SysML#Feature_isUnique"/>
+                <owl:onProperty rdf:resource="https://www.omg.org/spec/SysML#Feature_isVariable"/>
                 <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -7364,11 +7532,6 @@
 	(owningType.oclIsKindOf(Structure) or
 	owningType.type-&gt;includes(oclIsKindOf(Structure))) implies
 	specializesFromLibrary(&apos;Occurrence::Occurrence::suboccurrences&apos;)
-	owningType &lt;&gt; null and
-	owningType.oclIsKindOf(FeatureReferenceExpression) and
-	self = owningType.oclAsType(FeatureReferenceExpression).result implies
-	specializes(owningType.oclAsType(FeatureReferenceExpression).referent)
-	
 	ownedTyping.type-&gt;exists(selectByKind(Class)) implies
 	specializesFromLibrary(&apos;Occurrences::occurrences&apos;)
 	isComposite and
@@ -7382,7 +7545,7 @@
 	ownedTyping.type-&gt;exists(selectByKind(DataType)) implies
 	specializesFromLibrary(&apos;Base::dataValues&apos;)
 	owningType &lt;&gt; null and
-	owningType.oclIsKindOf(ItemFlowEnd) and
+	owningType.oclIsKindOf(FlowEnd) and
 	owningType.ownedFeature-&gt;at(1) = self implies
 	let flowType : Type = owningType.owningType in
 	flowType &lt;&gt; null implies
@@ -7391,21 +7554,33 @@
 	(i = 1 implies
 	redefinesFromLibrary(&apos;Transfers::Transfer::source::sourceOutput&apos;)) and
 	(i = 2 implies
-	redefinesFromLibrary(&apos;Transfers::Transfer::source::targetInput&apos;))
+	redefinesFromLibrary(&apos;Transfers::Transfer::target::targetInput&apos;))
 	
 	owningType &lt;&gt; null and
 	(owningType.oclIsKindOf(Behavior) or
-	owningType.oclIsKindOf(Step)) implies
-	let i : Integer =
-	owningType.ownedFeature-&gt;select(direction &lt;&gt; null) in
+	owningType.oclIsKindOf(Step) and
+	(owningType.oclIsKindOf(InvocationExpression) implies
+	not ownedRedefinition-&gt;exists(not isImplied)))
+	implies
+	let ownerParameters : Sequence(Feature) =
+	owningType.ownedFeature-&gt;select(direction &lt;&gt; null)-&gt;
+	reject(owningFeatureMembership.
+	oclIsKindOf(ReturnParameterMembership)) in
+	ownerParameters-&gt;includes(self) implies
+	let i : Integer = ownerParameters.indexof(self) in
 	owningType.ownedSpecialization.general-&gt;
 	forAll(supertype |
+	supertype.oclIsKindOf(Behavior) or
+	supertype.oclIsKindOf(Step)
+	implies
 	let ownedParameters : Sequence(Feature) =
-	supertype.ownedFeature-&gt;select(direction &lt;&gt; null) in
+	supertype.ownedFeature-&gt;select(direction &lt;&gt; null)-&gt;
+	reject(owningFeatureMembership.
+	oclIsKindOf(ReturnParameterMembership)) in
 	ownedParameters-&gt;size() &gt;= i implies
-	redefines(ownedParameters-&gt;at(i))
+	redefines(ownedParameters-&gt;at(i)))
 	ownedTyping.type-&gt;exists(selectByKind(Structure)) implies
-	specializesFromLibary(&apos;Objects::objects&apos;)
+	specializesFromLibrary(&apos;Objects::objects&apos;)
 	owningType &lt;&gt; null and
 	(owningType.oclIsKindOf(Function) and
 	self = owningType.oclAsType(Function).result or
@@ -7424,7 +7599,7 @@
 	select(fi | fi.featureInverted = self)
 	featuringType =
 	let featuringTypes : OrderedSet(Type) =
-	featuring.type-&gt;asOrderedSet() in
+	typeFeaturing.type-&gt;asOrderedSet() in
 	if chainingFeature-&gt;isEmpty() then featuringTypes
 	else
 	featuringTypes-&gt;
@@ -7437,9 +7612,8 @@
 	if referenceSubsettings-&gt;isEmpty() then null
 	else referenceSubsettings-&gt;first() endif
 	ownedSubsetting-&gt;selectByKind(ReferenceSubsetting)-&gt;size() &lt;= 1
-	Sequence{1..chainingFeature-&gt;size() - 1}-&gt;forAll(i |
-	chainingFeature-&gt;at(i + 1).featuringType-&gt;forAll(t |
-	chainingFeature-&gt;at(i).specializes(t)))
+	Sequence{2..chainingFeature-&gt;size()}-&gt;forAll(i |
+	chainingFeature-&gt;at(i).isFeaturedWithin(chainingFeature-&gt;at(i-1)))
 	
 	isPortion and
 	ownedTyping.type-&gt;includes(oclIsKindOf(Class)) and
@@ -7450,13 +7624,60 @@
 	exists(oclIsKindOf(Class))) implies
 	specializesFromLibrary(&apos;Occurrence::Occurrence::portions&apos;)
 	featureTarget = if chainingFeature-&gt;isEmpty() then self else chainingFeature-&gt;last() endif
+	ownedCrossSubsetting =
+	let crossSubsettings: Sequence(CrossSubsetting) =
+	ownedSubsetting-&gt;selectByKind(CrossSubsetting) in
+	if crossSubsettings-&gt;isEmpty() then null
+	else crossSubsettings-&gt;first()
+	endif
+	isEnd implies
+	multiplicities().allSuperTypes()-&gt;flatten()-&gt;
+	selectByKind(MultiplicityRange)-&gt;exists(hasBounds(1,1))
+	crossFeature &lt;&gt; null implies
+	crossFeature.type-&gt;asSet() = type-&gt;asSet()
+	ownedSubsetting-&gt;selectByKind(CrossSubsetting)-&gt;size() &lt;= 1
+	crossFeature =
+	if ownedCrossSubsetting = null then null
+	else
+	let chainingFeatures: Sequence(Feature) =
+	ownedCrossSubsetting.crossedFeature.chainingFeature in
+	if chainingFeatures-&gt;size() &lt; 2 then null
+	else chainingFeatures-&gt;at(2)
+	endif
+	isOwnedCrossFeature() implies
+	owner.oclAsType(Feature).type-&gt;forAll(t | self.specializes(t))
+	isOwnedCrossFeature() implies
+	ownedSubsetting.subsettedFeature-&gt;includesAll(
+	owner.oclAsType(Feature).ownedRedefinition.redefinedFeature-&gt;
+	select(crossFeature &lt;&gt; null).crossFeature)
+	crossFeature &lt;&gt; null implies
+	ownedRedefinition.redefinedFeature.crossFeature-&gt;
+	forAll(f | f &lt;&gt; null implies crossFeature.specializes(f))
+	ownedCrossFeature() &lt;&gt; null implies
+	crossFeature = ownedCrossFeature()
+	isOwnedCrossFeature() implies
+	let otherEnds : OrderedSet(Feature) =
+	owner.oclAsType(Feature).owningType.endFeature-&gt;excluding(self) in
+	if (otherEnds-&gt;size() = 1) then
+	featuringType = otherEnds-&gt;first().type
+	else
+	featuringType-&gt;size() = 1 and
+	featuringType-&gt;first().isCartesianProduct() and
+	featuringType-&gt;first().asCartesianProduct() = otherEnds.type and
+	featuringType-&gt;first().allSupertypes()-&gt;includesAll(
+	owner.oclAsType(Feature).ownedRedefinition.redefinedFeature-&gt;
+	select(crossFeature() &lt;&gt; null).crossFeature().featuringType)
+	endif
+	isPortion implies not isVariable
+	isEnd implied direction = null
+	owningFeatureMembership &lt;&gt; null implies
+	featuringTypes-&gt;exists(t | isFeaturingType(t))
+	isConstant implies isVariable
+	isVariable implies
 	owningType &lt;&gt; null and
-	owningType.oclIsKindOf(InvocationExpression) and
-	let owningInvocation: InvocationExpression = owningType.oclAsType(InvocationExpression) in
-	self = owningInvocation.result and
-	not owningInvocation.ownedTyping-&gt;exists(oclIsKindOf(Function)) and
-	not owningInvocation.ownedSubsetting-&gt;reject(isImplied).subsettedFeature.type-&gt;exists(oclIsKindOf(Function)) implies
-	owningInvocation.ownedTyping-&gt;forAll(type | self.specializes(type))</rdfs:comment>
+	owningType.specializes(&apos;Occurrences::Occurrence&apos;)
+	isEnd implies not (isDerived or isAbstract or isComposite or isPortion)
+	isEnd and isVariable implies isConstant</rdfs:comment>
         <rdfs:label>Feature</rdfs:label>
     </owl:Class>
     
@@ -7474,10 +7695,10 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:comment>&lt;p&gt;A &lt;code&gt;FeatureChainExpression&lt;/code&gt; is an &lt;code&gt;OperatorExpression&lt;/code&gt; whose operator is &lt;code&gt;&quot;.&quot;&lt;/code&gt;, which resolves to the &lt;code&gt;Function&lt;/code&gt; &lt;em&gt;&lt;code&gt;ControlFunctions::&apos;.&apos;&lt;/code&gt;&lt;/em&gt; from the Kernel Functions Library. It evaluates to the result of chaining the &lt;code&gt;result&lt;/code&gt; &lt;code&gt;Feature&lt;/code&gt; of its single &lt;code&gt;argument&lt;/code&gt; &lt;code&gt;Expression&lt;/code&gt; with its &lt;code&gt;targetFeature&lt;/code&gt;.&lt;/p&gt;
-	let sourceParameter : Feature = sourceTargetFeature() in
+	let sourceTargetFeature : Feature = sourceTargetFeature() in
 	sourceTargetFeature &lt;&gt; null and
 	sourceTargetFeature.redefinesFromLibrary(&apos;ControlFunctions::\&apos;.\&apos;::source::target&apos;)
-	let sourceParameter : Feature = sourceTargetFeature() in
+	let sourceTargetFeature : Feature = sourceTargetFeature() in
 	sourceTargetFeature &lt;&gt; null and
 	sourceTargetFeature.redefines(targetFeature)
 	targetFeature =
@@ -7489,8 +7710,15 @@
 	else nonParameterMemberships-&gt;first().memberElement.oclAsType(Feature)
 	endif
 	argument-&gt;notEmpty() implies
-	targetFeature.featuringType-&gt;forAll(t |
-	t.specializes(argument-&gt;at(1).result))</rdfs:comment>
+	targetFeature.isFeaturedWithin(argument-&gt;first().result)
+	operator = &apos;.&apos;
+	let inputParameters : Sequence(Feature) =
+	ownedFeatures-&gt;select(direction = _&apos;in&apos;) in
+	let sourceTargetFeature : Feature =
+	owningExpression.sourceTargetFeature() in
+	sourceTargetFeature &lt;&gt; null and
+	result.subsetsChain(inputParameters-&gt;first(), sourceTargetFeature) and
+	result.owningType = self</rdfs:comment>
         <rdfs:label>FeatureChainExpression</rdfs:label>
     </owl:Class>
     
@@ -7546,7 +7774,6 @@
 
 
     <owl:Class rdf:about="https://www.omg.org/spec/SysML#FeatureMembership">
-        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Featuring"/>
         <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#OwningMembership"/>
         <rdfs:subClassOf>
             <owl:Restriction>
@@ -7560,7 +7787,7 @@
                 <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <rdfs:comment>&lt;p&gt;A &lt;code&gt;FeatureMembership&lt;/code&gt; is an &lt;code&gt;OwningMembership&lt;/code&gt; between a &lt;code&gt;Feature&lt;/code&gt; in an &lt;code&gt;owningType&lt;/code&gt; that is also a &lt;code&gt;Featuring&lt;/code&gt; &lt;code&gt;Relationship&lt;/code&gt; between the &lt;code&gt;Feature&lt;/code&gt; and the &lt;code&gt;Type&lt;/code&gt;, in which the &lt;code&gt;featuringType&lt;/code&gt; is the &lt;code&gt;source&lt;/code&gt; and the &lt;code&gt;featureOfType&lt;/code&gt; is the &lt;code&gt;target&lt;/code&gt;. A &lt;code&gt;FeatureMembership&lt;/code&gt; is always owned by its &lt;code&gt;owningType&lt;/code&gt;, which is the &lt;code&gt;featuringType&lt;/code&gt; for the &lt;code&gt;FeatureMembership&lt;/code&gt; considered as a &lt;code&gt;Featuring&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
+        <rdfs:comment>&lt;p&gt;A &lt;code&gt;FeatureMembership&lt;/code&gt; is an &lt;code&gt;OwningMembership&lt;/code&gt; between an &lt;code&gt;ownedMemberFeature&lt;/code&gt; and an &lt;code&gt;owningType&lt;/code&gt;. If the &lt;code&gt;ownedMemberFeature&lt;/code&gt; has &lt;code&gt;isVariable = false&lt;/code&gt;, then the &lt;code&gt;FeatureMembership&lt;/code&gt; implies that the &lt;code&gt;owningType&lt;/code&gt; is also a &lt;code&gt;featuringType&lt;/code&gt; of the &lt;code&gt;ownedMemberFeature&lt;/code&gt;. If the &lt;code&gt;ownedMemberFeature&lt;/code&gt; has &lt;code&gt;isVariable = true&lt;/code&gt;, then the &lt;code&gt;FeatureMembership&lt;/code&gt; implies that the &lt;code&gt;ownedMemberFeature&lt;/code&gt; is featured by the &lt;em&gt;&lt;code&gt;snapshots&lt;/code&gt;&lt;/em&gt; of the &lt;code&gt;owningType&lt;/code&gt;, which must specialize the Kernel Semantic Library base class &lt;em&gt;&lt;code&gt;Occurrence&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>FeatureMembership</rdfs:label>
     </owl:Class>
     
@@ -7592,7 +7819,9 @@
 	let membership : Membership =
 	ownedMembership-&gt;reject(m | m.oclIsKindOf(ParameterMembership)) in
 	membership-&gt;notEmpty() and
-	membership-&gt;at(1).memberElement.oclIsKindOf(Feature)</rdfs:comment>
+	membership-&gt;at(1).memberElement.oclIsKindOf(Feature)
+	result.owningType() = self and result.specializes(referent)
+	result.owningType = self</rdfs:comment>
         <rdfs:label>FeatureReferenceExpression</rdfs:label>
     </owl:Class>
     
@@ -7660,7 +7889,8 @@
 	featureWithValue.ownedMember-&gt;
 	selectByKind(BindingConnector)-&gt;exists(b |
 	b.relatedFeature-&gt;includes(featureWithValue) and
-	b.relatedFeature-&gt;includes(value.result) and
+	b.relatedFeature-&gt;exists(f |
+	f.chainingFeature = Sequence{value, value.result}) and
 	if not isInitial then
 	b.featuringType = featureWithValue.featuringType
 	else
@@ -7677,65 +7907,101 @@
 	endif)
 	featureWithValue.redefinition.redefinedFeature-&gt;
 	closure(redefinition.redefinedFeature).valuation-&gt;
-	forAll(isDefault)</rdfs:comment>
+	forAll(isDefault)
+	isInitial implies featureWithValue.isVariable</rdfs:comment>
         <rdfs:label>FeatureValue</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- https://www.omg.org/spec/SysML#Featuring -->
+    <!-- https://www.omg.org/spec/SysML#Flow -->
 
 
-    <owl:Class rdf:about="https://www.omg.org/spec/SysML#Featuring">
-        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Relationship"/>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#Flow">
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Connector"/>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Step"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="https://www.omg.org/spec/SysML#Featuring_feature"/>
-                <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+                <owl:onProperty rdf:resource="https://www.omg.org/spec/SysML#Flow_flowEnd"/>
+                <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">2</owl:maxCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="https://www.omg.org/spec/SysML#Featuring_type"/>
-                <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:comment>&lt;p&gt;&lt;code&gt;Featuring&lt;/code&gt; is a &lt;code&gt;Relationship&lt;/code&gt; between a &lt;code&gt;Type&lt;/code&gt; and a &lt;code&gt;Feature&lt;/code&gt; that is featured by that &lt;code&gt;Type&lt;/code&gt;. It asserts that every instance in the domain of the &lt;code&gt;feature&lt;/code&gt; must be classified by the &lt;code&gt;type&lt;/code&gt;.&lt;/p&gt;
+        <rdfs:comment>&lt;p&gt;An &lt;code&gt;Flow&lt;/code&gt; is a &lt;code&gt;Step&lt;/code&gt; that represents the transfer of values from one &lt;code&gt;Feature&lt;/code&gt; to another. &lt;code&gt;Flows&lt;/code&gt; can take non-zero time to complete.&lt;/p&gt;
 	
-	&lt;p&gt;&lt;code&gt;Featuring&lt;/code&gt; is abstract and does not commit to which of &lt;code&gt;feature&lt;/code&gt; or &lt;code&gt;type&lt;/code&gt; are the &lt;code&gt;source&lt;/code&gt; or &lt;code&gt;target&lt;/code&gt; of the &lt;code&gt;Relationship&lt;/code&gt;. This commitment is made in the subclasses of &lt;code&gt;Featuring&lt;/code&gt;, &lt;code&gt;TypeFeaturing&lt;/code&gt; and &lt;code&gt;FeatureMembership&lt;/code&gt;, which have opposite directions.&lt;/p&gt;</rdfs:comment>
-        <rdfs:label>Featuring</rdfs:label>
+	specializesFromLibrary(&apos;Transfers::transfers&apos;)
+	payloadType =
+	if payloadFeature = null then Sequence{}
+	else payloadFeature.type
+	endif
+	sourceOutputFeature =
+	if connectorEnd-&gt;isEmpty() or
+	connectorEnd.ownedFeature-&gt;isEmpty()
+	then null
+	else connectorEnd.ownedFeature-&gt;first()
+	endif
+	targetInputFeature =
+	if connectorEnd-&gt;size() &lt; 2 or
+	connectorEnd-&gt;at(2).ownedFeature-&gt;isEmpty()
+	then null
+	else connectorEnd-&gt;at(2).ownedFeature-&gt;first()
+	endif
+	flowEnd = connectorEnd-&gt;selectByKind(FlowEnd)
+	payloadFeature =
+	let payloadFeatures : Sequence(PayloadFeature) =
+	ownedFeature-&gt;selectByKind(PayloadFeature) in
+	if payloadFeatures-&gt;isEmpty() then null
+	else payloadFeatures-&gt;first()
+	endif
+	ownedFeature-&gt;selectByKind(PayloadFeature)-&gt;size() &lt;= 1
+	ownedEndFeatures-&gt;notEmpty() implies
+	specializesFromLibrary(&apos;Transfers::flowTransfers&apos;)</rdfs:comment>
+        <rdfs:label>Flow</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- https://www.omg.org/spec/SysML#FlowConnectionDefinition -->
+    <!-- https://www.omg.org/spec/SysML#FlowDefinition -->
 
 
-    <owl:Class rdf:about="https://www.omg.org/spec/SysML#FlowConnectionDefinition">
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#FlowDefinition">
         <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#ActionDefinition"/>
-        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#ConnectionDefinition"/>
         <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Interaction"/>
-        <rdfs:comment>&lt;p&gt;A &lt;code&gt;FlowConnectionDefinition&lt;/code&gt; is a &lt;code&gt;ConnectionDefinition&lt;/code&gt; and &lt;code&gt;ActionDefinition&lt;/code&gt; that is also an &lt;code&gt;Interaction&lt;/code&gt; representing flows between &lt;code&gt;Usages&lt;/code&gt;.&lt;/p&gt;
-	specializesFromLibrary(&apos;Connections::MessageConnection&apos;)</rdfs:comment>
-        <rdfs:label>FlowConnectionDefinition</rdfs:label>
+        <rdfs:comment>&lt;p&gt;A &lt;code&gt;FlowDefinition&lt;/code&gt; is an &lt;code&gt;ActionDefinition&lt;/code&gt; that is also an &lt;code&gt;Interaction&lt;/code&gt; (which is both a KerML &lt;code&gt;Behavior&lt;/code&gt; and &lt;code&gt;Association&lt;/code&gt;), representing flows between &lt;code&gt;Usages&lt;/code&gt;.&lt;/p&gt;
+	specializesFromLibrary(&apos;Flows::MessageAction&apos;)
+	flowEnd-&gt;size() = 2 implies
+	specializesFromLibrary(&apos;Flows::Message&apos;)
+	flowEnd-&gt;size() &lt;= 2</rdfs:comment>
+        <rdfs:label>FlowDefinition</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- https://www.omg.org/spec/SysML#FlowConnectionUsage -->
+    <!-- https://www.omg.org/spec/SysML#FlowEnd -->
 
 
-    <owl:Class rdf:about="https://www.omg.org/spec/SysML#FlowConnectionUsage">
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#FlowEnd">
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Feature"/>
+        <rdfs:comment>&lt;p&gt;A &lt;code&gt;FlowEnd&lt;/code&gt; is a &lt;code&gt;Feature&lt;/code&gt; that is one of the &lt;code&gt;connectorEnds&lt;/code&gt; giving the &lt;code&gt;&lt;em&gt;source&lt;/em&gt;&lt;/code&gt; or &lt;code&gt;&lt;em&gt;target&lt;/em&gt;&lt;/code&gt; of a &lt;code&gt;Flow&lt;/code&gt;. For &lt;code&gt;Flows&lt;/code&gt; typed by &lt;code&gt;&lt;em&gt;FlowTransfer&lt;/em&gt;&lt;/code&gt; or its specializations, &lt;code&gt;FlowEnds&lt;/code&gt; must have exactly one &lt;code&gt;ownedFeature&lt;/code&gt;, which redefines &lt;code&gt;&lt;em&gt;Transfer::source::sourceOutput&lt;/em&gt;&lt;/code&gt; or &lt;code&gt;&lt;em&gt;Transfer::target::targetInput&lt;/em&gt;&lt;/code&gt; and redefines the corresponding feature of the &lt;code&gt;relatedElement&lt;/code&gt; for its end.&lt;/p&gt;
+	isEnd
+	ownedFeature-&gt;size() = 1
+	owningType &lt;&gt; null and owningType.oclIsKindOf(Flow)</rdfs:comment>
+        <rdfs:label>FlowEnd</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://www.omg.org/spec/SysML#FlowUsage -->
+
+
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#FlowUsage">
         <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#ActionUsage"/>
-        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#ConnectionUsage"/>
-        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#ItemFlow"/>
-        <rdfs:comment>&lt;p&gt;A &lt;code&gt;FlowConnectionUsage&lt;/code&gt; is a &lt;code&gt;ConnectionUsage&lt;/code&gt; that is also an &lt;code&gt;ItemFlow&lt;/code&gt;.&lt;/p&gt;
-	if ownedEndFeatures-&gt;isEmpty() then
-	specializesFromLibrary(&apos;Connections::messageConnections&apos;)
-	else
-	specializesFromLibrary(&apos;Connections::flowConnections&apos;)
-	endif</rdfs:comment>
-        <rdfs:label>FlowConnectionUsage</rdfs:label>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#ConnectorAsUsage"/>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Flow"/>
+        <rdfs:comment>&lt;p&gt;A &lt;code&gt;FlowUsage&lt;/code&gt; is an &lt;code&gt;ActionUsage&lt;/code&gt; that is also a &lt;code&gt;ConnectorAsUsage&lt;/code&gt; and a KerML &lt;code&gt;Flow&lt;/code&gt;.&lt;/p&gt;
+	specializesFromLibrary(&apos;Flows::messages&apos;)
+	ownedEndFeatures-&gt;notEmpty() implies
+	specializesFromLibrary(&apos;Flows::flows&apos;)</rdfs:comment>
+        <rdfs:label>FlowUsage</rdfs:label>
     </owl:Class>
     
 
@@ -7837,23 +8103,23 @@
         </rdfs:subClassOf>
         <rdfs:comment>&lt;p&gt;A &lt;code&gt;Function&lt;/code&gt; is a &lt;code&gt;Behavior&lt;/code&gt; that has an &lt;code&gt;out&lt;/code&gt; &lt;code&gt;parameter&lt;/code&gt; that is identified as its &lt;code&gt;result&lt;/code&gt;. A &lt;code&gt;Function&lt;/code&gt; represents the performance of a calculation that produces the values of its &lt;code&gt;result&lt;/code&gt; &lt;code&gt;parameter&lt;/code&gt;. This calculation may be decomposed into &lt;code&gt;Expressions&lt;/code&gt; that are &lt;code&gt;steps&lt;/code&gt; of the &lt;code&gt;Function&lt;/code&gt;.&lt;/p&gt;
 	
+	featureMembership-&gt;
+	selectByKind(ReturnParameterMembership)-&gt;
+	size() = 1
+	specializesFromLibrary(&apos;Performances::Evaluation&apos;)
 	ownedMembership.selectByKind(ResultExpressionMembership)-&gt;
 	forAll(mem | ownedFeature.selectByKind(BindingConnector)-&gt;
 	exists(binding |
 	binding.relatedFeature-&gt;includes(result) and
 	binding.relatedFeature-&gt;includes(mem.ownedResultExpression.result)))
-	specializesFromLibrary(&apos;Performances::Evaluation&apos;)
 	result =
 	let resultParams : Sequence(Feature) =
-	ownedFeatureMemberships-&gt;
+	featureMemberships-&gt;
 	selectByKind(ReturnParameterMembership).
-	ownedParameterMember in
+	ownedMemberParameter in
 	if resultParams-&gt;notEmpty() then resultParams-&gt;first()
 	else null
 	endif
-	ownedFeatureMembership-&gt;
-	selectByKind(ReturnParameterMembership)-&gt;
-	size() &lt;= 1
 	membership-&gt;selectByKind(ResultExpressionMembership)-&gt;size() &lt;= 1</rdfs:comment>
         <rdfs:label>Function</rdfs:label>
     </owl:Class>
@@ -7950,7 +8216,7 @@
         <rdfs:comment>&lt;p&gt;An &lt;code&gt;Import&lt;/code&gt; is an &lt;code&gt;Relationship&lt;/code&gt; between its &lt;code&gt;importOwningNamespace&lt;/code&gt; and either a &lt;code&gt;Membership&lt;/code&gt; (for a &lt;code&gt;MembershipImport&lt;/code&gt;) or another &lt;code&gt;Namespace&lt;/code&gt; (for a &lt;code&gt;NamespaceImport&lt;/code&gt;), which determines a set of &lt;code&gt;Memberships&lt;/code&gt; that become &lt;code&gt;importedMemberships&lt;/code&gt; of the &lt;code&gt;importOwningNamespace&lt;/code&gt;. If &lt;code&gt;isImportAll = false&lt;/code&gt; (the default), then only public &lt;code&gt;Memberships&lt;/code&gt; are considered &amp;quot;visible&amp;quot;. If &lt;code&gt;isImportAll = true&lt;/code&gt;, then all &lt;code&gt;Memberships&lt;/code&gt; are considered &amp;quot;visible&amp;quot;, regardless of their declared &lt;code&gt;visibility&lt;/code&gt;. If &lt;code&gt;isRecursive = true&lt;/code&gt;, then visible &lt;code&gt;Memberships&lt;/code&gt; are also recursively imported from owned sub-&lt;code&gt;Namespaces&lt;/code&gt;.&lt;/p&gt;
 	
 	
-	importOwningNamespace.owningNamespace = null implies
+	importOwningNamespace.owner = null implies
 	visibility = VisibilityKind::private</rdfs:comment>
         <rdfs:label>Import</rdfs:label>
     </owl:Class>
@@ -7975,9 +8241,46 @@
 	(owningType.oclIsKindOf(UseCaseDefinition) or
 	owningType.oclIsKindOf(UseCaseUsage) implies
 	specializesFromLibrary(&apos;UseCases::UseCase::includedUseCases&apos;)
-	ownedReferenceSubsetting &lt;&gt; null implies
-	ownedReferenceSubsetting.referencedFeature.oclIsKindOf(UseCaseUsage)</rdfs:comment>
+	referencedFeatureTarget() &lt;&gt; null implies
+	referencedFeatureTarget().oclIsKindOf(UseCaseUsage)</rdfs:comment>
         <rdfs:label>IncludeUseCaseUsage</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://www.omg.org/spec/SysML#IndexExpression -->
+
+
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#IndexExpression">
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#OperatorExpression"/>
+        <rdfs:comment>&lt;p&gt;An &lt;code&gt;IndexExpression&lt;/code&gt; is an &lt;code&gt;OperatorExpression&lt;/code&gt; whose operator is &lt;code&gt;&quot;#&quot;&lt;/code&gt;, which resolves to the &lt;code&gt;Function&lt;/code&gt; &lt;em&gt;&lt;code&gt;BasicFunctions::&apos;#&apos;&lt;/code&gt;&lt;/em&gt; from the Kernel Functions Library.&lt;/p&gt;
+	arguments-&gt;notEmpty() and
+	not arguments-&gt;first().result.specializesFromLibrary(&apos;Collections::Collection&apos;) implies
+	result.specializes(arguments-&gt;first().result)
+	operator = &apos;#&apos;</rdfs:comment>
+        <rdfs:label>IndexExpression</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://www.omg.org/spec/SysML#InstantiationExpression -->
+
+
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#InstantiationExpression">
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Expression"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://www.omg.org/spec/SysML#InstantiationExpression_instantiatedType"/>
+                <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment>&lt;p&gt;An &lt;code&gt;InstantiationExpression&lt;/code&gt; is an &lt;code&gt;Expression&lt;/code&gt; that instantiates its &lt;code&gt;instantiatedType&lt;/code&gt;, binding some or all of the &lt;code&gt;features&lt;/code&gt; of that &lt;code&gt;Type&lt;/code&gt; to the &lt;code&gt;results&lt;/code&gt; of its &lt;code&gt;arguments&lt;/code&gt;.&lt;/p&gt;
+	
+	&lt;p&gt;&lt;code&gt;InstantiationExpression&lt;/code&gt; is abstract, with concrete subclasses &lt;code&gt;InvocationExpression&lt;/code&gt; and &lt;code&gt;ConstructorExpression&lt;/code&gt;.&lt;/p&gt;
+	result.owningType = self
+	instantiatedType = instantiatedType()
+	instantiatedType() &lt;&gt; null</rdfs:comment>
+        <rdfs:label>InstantiationExpression</rdfs:label>
     </owl:Class>
     
 
@@ -8072,30 +8375,42 @@
 
 
     <owl:Class rdf:about="https://www.omg.org/spec/SysML#InvocationExpression">
-        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Expression"/>
-        <rdfs:comment>&lt;p&gt;An &lt;code&gt;InvocationExpression&lt;/code&gt; is an &lt;code&gt;Expression&lt;/code&gt; each of whose input &lt;code&gt;parameters&lt;/code&gt; are bound to the &lt;code&gt;result&lt;/code&gt; of an &lt;code&gt;argument&lt;/code&gt; Expression.&lt;/p&gt;
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#InstantiationExpression"/>
+        <rdfs:comment>&lt;p&gt;An &lt;code&gt;InvocationExpression&lt;/code&gt; is an &lt;code&gt;InstantiationExpression&lt;/code&gt; whose &lt;code&gt;instantiatedType&lt;/code&gt; must be a &lt;code&gt;Behavior&lt;/code&gt; or a &lt;code&gt;Feature&lt;/code&gt; typed by a single &lt;code&gt;Behavior&lt;/code&gt; (such as a &lt;code&gt;Step&lt;/code&gt;). Each of the input &lt;code&gt;parameters&lt;/code&gt; of the &lt;code&gt;instantiatedType&lt;/code&gt; are bound to the &lt;code&gt;result&lt;/code&gt; of an &lt;code&gt;argument&lt;/code&gt; &lt;code&gt;Expression&lt;/code&gt;. If the &lt;code&gt;instantiatedType&lt;/code&gt; is a &lt;code&gt;Function&lt;/code&gt; or a &lt;code&gt;Feature&lt;/code&gt; typed by a &lt;code&gt;Function&lt;/code&gt;, then the &lt;code&gt;result&lt;/code&gt; of the &lt;code&gt;InvocationExpression&lt;/code&gt; is the &lt;code&gt;result&lt;/code&gt; of the invoked &lt;code&gt;Function&lt;/code&gt;. Otherwise, the &lt;code&gt;result&lt;/code&gt; is an instance of the &lt;code&gt;instantiatedType&lt;/code&gt; (essentially like a behavioral &lt;code&gt;ConstructorExpression&lt;/code&gt;).&lt;/p&gt;
 	
-	not ownedTyping-&gt;exists(oclIsKindOf(Function)) and
-	not ownedSubsetting-&gt;reject(isImplied).subsettedFeature.type-&gt;
-	exists(oclIsKindOf(Function)) implies
+	not instantiatedType.oclIsKindOf(Function) and
+	not (instantiatedType.oclIsKindOf(Feature) and
+	instantiatedType.oclAsType(Feature).type-&gt;exists(oclIsKindOf(Function))) implies
 	ownedFeature.selectByKind(BindingConnector)-&gt;exists(
 	relatedFeature-&gt;includes(self) and
 	relatedFeature-&gt;includes(result))
-	
 	TBD
-	ownedFeature-&gt;
-	select(direction = _&apos;in&apos;).valuation-&gt;
+	instantiatedType.input-&gt;collect(inp |
+	ownedFeatures-&gt;select(redefines(inp)).valuation-&gt;
 	select(v | v &lt;&gt; null).value
-	let features : Set(Feature) = type.feature-&gt;asSet() in
+	)
+	let parameters : OrderedSet(Feature) = instantiatedType.input in
 	input-&gt;forAll(inp |
 	inp.ownedRedefinition.redefinedFeature-&gt;
-	intersection(features)-&gt;size() = 1)
-	let features : Set(Feature) = type.feature-&gt;asSet() in
+	intersection(parameters)-&gt;size() = 1)
+	let features : OrderedSet(Feature) = instantiatedType.feature in
 	input-&gt;forAll(inp1 | input-&gt;forAll(inp2 |
 	inp1 &lt;&gt; inp2 implies
 	inp1.ownedRedefinition.redefinedFeature-&gt;
 	intersection(inp2.ownedRedefinition.redefinedFeature)-&gt;
-	intersection(features)-&gt;isEmpty()))</rdfs:comment>
+	intersection(features)-&gt;isEmpty()))
+	not instantiatedType.oclIsKindOf(Function) and
+	not (instantiatedType.oclIsKindOf(Feature) and
+	instantiatedType.oclAsType(Feature).type-&gt;exists(oclIsKindOf(Function))) implies
+	result.specializes(instantiatedType)
+	specializes(instantiatedType)
+	instantiatedType.oclIsKindOf(Behavior) or
+	instantiatedType.oclIsKindOf(Feature) and
+	instantiatedType.type-&gt;exists(oclIsKindOf(Behavior)) and
+	instantiatedType.type-&gt;size(1)
+	ownedFeature-&gt;forAll(f |
+	f &lt;&gt; result implies
+	f.direction = FeatureDirectionKind::_&apos;in&apos;)</rdfs:comment>
         <rdfs:label>InvocationExpression</rdfs:label>
     </owl:Class>
     
@@ -8115,88 +8430,13 @@
     
 
 
-    <!-- https://www.omg.org/spec/SysML#ItemFeature -->
-
-
-    <owl:Class rdf:about="https://www.omg.org/spec/SysML#ItemFeature">
-        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Feature"/>
-        <rdfs:comment>&lt;p&gt;An &lt;code&gt;ItemFeature&lt;/code&gt; is the &lt;code&gt;ownedFeature&lt;/code&gt; of an &lt;code&gt;ItemFlow&lt;/code&gt; that identifies the things carried by the kinds of transfers that are instances of the &lt;code&gt;ItemFlow&lt;/code&gt;.&lt;/p&gt;
-	ownedRedefinition.redefinedFeature-&gt;
-	redefinesFromLibrary(&apos;Transfers::Transfer::item&apos;)</rdfs:comment>
-        <rdfs:label>ItemFeature</rdfs:label>
-    </owl:Class>
-    
-
-
-    <!-- https://www.omg.org/spec/SysML#ItemFlow -->
-
-
-    <owl:Class rdf:about="https://www.omg.org/spec/SysML#ItemFlow">
-        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Connector"/>
-        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Step"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="https://www.omg.org/spec/SysML#ItemFlow_itemFlowEnd"/>
-                <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">2</owl:maxCardinality>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:comment>&lt;p&gt;An &lt;code&gt;ItemFlow&lt;/code&gt; is a &lt;code&gt;Step&lt;/code&gt; that represents the transfer of objects or data values from one &lt;code&gt;Feature&lt;/code&gt; to another. &lt;code&gt;ItemFlows&lt;/code&gt; can take non-zero time to complete.&lt;/p&gt;
-	
-	if itemFlowEnds-&gt;isEmpty() then
-	specializesFromLibrary(&apos;Transfers::transfers&apos;)
-	else
-	specializesFromLibrary(&apos;Transfers::flowTransfers&apos;)
-	endif
-	itemType =
-	if itemFeature = null then Sequence{}
-	else itemFeature.type
-	endif
-	sourceOutputFeature =
-	if connectorEnd-&gt;isEmpty() or
-	connectorEnd.ownedFeature-&gt;isEmpty()
-	then null
-	else connectorEnd.ownedFeature-&gt;first()
-	endif
-	targetInputFeature =
-	if connectorEnd-&gt;size() &lt; 2 or
-	connectorEnd-&gt;at(2).ownedFeature-&gt;isEmpty()
-	then null
-	else connectorEnd-&gt;at(2).ownedFeature-&gt;first()
-	endif
-	itemFlowEnd = connectorEnd-&gt;selectByKind(ItemFlowEnd)
-	itemFeature =
-	let itemFeatures : Sequence(ItemFeature) =
-	ownedFeature-&gt;selectByKind(ItemFeature) in
-	if itemFeatures-&gt;isEmpty() then null
-	else itemFeatures-&gt;first()
-	endif
-	ownedFeature-&gt;selectByKind(ItemFeature)-&gt;size() &lt;= 1</rdfs:comment>
-        <rdfs:label>ItemFlow</rdfs:label>
-    </owl:Class>
-    
-
-
-    <!-- https://www.omg.org/spec/SysML#ItemFlowEnd -->
-
-
-    <owl:Class rdf:about="https://www.omg.org/spec/SysML#ItemFlowEnd">
-        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Feature"/>
-        <rdfs:comment>&lt;p&gt;An &lt;code&gt;ItemFlowEnd&lt;/code&gt; is a &lt;code&gt;Feature&lt;/code&gt; that is one of the &lt;code&gt;connectorEnds&lt;/code&gt; giving the &lt;code&gt;&lt;em&gt;source&lt;/em&gt;&lt;/code&gt; or &lt;code&gt;&lt;em&gt;target&lt;/em&gt;&lt;/code&gt; of an &lt;code&gt;ItemFlow&lt;/code&gt;. For &lt;code&gt;ItemFlows&lt;/code&gt; typed by &lt;code&gt;&lt;em&gt;FlowTransfer&lt;/em&gt;&lt;/code&gt; or its specializations, &lt;code&gt;ItemFlowEnds&lt;/code&gt; must have exactly one &lt;code&gt;ownedFeature&lt;/code&gt;, which redefines &lt;code&gt;&lt;em&gt;Transfer::source::sourceOutput&lt;/em&gt;&lt;/code&gt; or &lt;code&gt;&lt;em&gt;Transfer::target::targetInput&lt;/em&gt;&lt;/code&gt; and redefines the corresponding feature of the &lt;code&gt;relatedElement&lt;/code&gt; for its end.&lt;/p&gt;
-	isEnd
-	ownedFeature-&gt;size() = 1
-	owningType &lt;&gt; null and owningType.oclIsKindOf(ItemFlow)</rdfs:comment>
-        <rdfs:label>ItemFlowEnd</rdfs:label>
-    </owl:Class>
-    
-
-
     <!-- https://www.omg.org/spec/SysML#ItemUsage -->
 
 
     <owl:Class rdf:about="https://www.omg.org/spec/SysML#ItemUsage">
         <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#OccurrenceUsage"/>
-        <rdfs:comment>&lt;p&gt;An &lt;code&gt;ItemUsage&lt;/code&gt; is a &lt;code&gt;ItemUsage&lt;/code&gt; whose &lt;code&gt;definition&lt;/code&gt; is a &lt;code&gt;Structure&lt;/code&gt;. Nominally, if the &lt;code&gt;definition&lt;/code&gt; is an &lt;code&gt;ItemDefinition&lt;/code&gt;, an &lt;code&gt;ItemUsage&lt;/code&gt; is a &lt;code&gt;ItemUsage&lt;/code&gt; of that &lt;code&gt;ItemDefinition&lt;/code&gt; within a system. However, other kinds of Kernel &lt;code&gt;Structures&lt;/code&gt; are also allowed, to permit use of &lt;code&gt;Structures&lt;/code&gt; from the Kernel Model Libraries.&lt;/p&gt;
-	itemDefinition = occurrenceDefinition-&gt;selectByKind(ItemDefinition)
+        <rdfs:comment>&lt;p&gt;An &lt;code&gt;ItemUsage&lt;/code&gt; is an &lt;code&gt;OccurrenceUsage&lt;/code&gt; whose &lt;code&gt;definition&lt;/code&gt; is a &lt;code&gt;Structure&lt;/code&gt;. Nominally, if the &lt;code&gt;definition&lt;/code&gt; is an &lt;code&gt;ItemDefinition&lt;/code&gt;, an &lt;code&gt;ItemUsage&lt;/code&gt; is a &lt;code&gt;ItemUsage&lt;/code&gt; of that &lt;code&gt;ItemDefinition&lt;/code&gt; within a system. However, other kinds of Kernel &lt;code&gt;Structures&lt;/code&gt; are also allowed, to permit use of &lt;code&gt;Structures&lt;/code&gt; from the Kernel Model Libraries.&lt;/p&gt;
+	itemDefinition = occurrenceDefinition-&gt;selectByKind(Structure)
 	specializesFromLibrary(&apos;Items::items&apos;)
 	isComposite and owningType &lt;&gt; null and
 	(owningType.oclIsKindOf(ItemDefinition) or
@@ -8233,23 +8473,6 @@
         </rdfs:subClassOf>
         <rdfs:comment>&lt;p&gt;A &lt;code&gt;LibraryPackage&lt;/code&gt; is a &lt;code&gt;Package&lt;/code&gt; that is the container for a model library. A &lt;code&gt;LibraryPackage&lt;/code&gt; is itself a library &lt;code&gt;Element&lt;/code&gt; as are all &lt;code&gt;Elements&lt;/code&gt; that are directly or indirectly contained in it.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>LibraryPackage</rdfs:label>
-    </owl:Class>
-    
-
-
-    <!-- https://www.omg.org/spec/SysML#LifeClass -->
-
-
-    <owl:Class rdf:about="https://www.omg.org/spec/SysML#LifeClass">
-        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Class"/>
-        <rdfs:comment>&lt;p&gt;A &lt;code&gt;LifeClass&lt;/code&gt; is a &lt;code&gt;Class&lt;/code&gt; that specializes both the &lt;code&gt;Class&lt;/code&gt; &lt;code&gt;&lt;em&gt;Occurrences::Life&lt;/em&gt;&lt;/code&gt; from the Kernel Semantic Library and a single &lt;code&gt;OccurrenceDefinition&lt;/code&gt;, and has a multiplicity of 0..1. This constrains the &lt;code&gt;OccurrenceDefinition&lt;/code&gt; being specialized to have at most one instance that is a complete &lt;code&gt;Life&lt;/code&gt;.&lt;/p&gt;
-	
-	specializesFromLibrary(&apos;Occurrences::Life&apos;)
-	multiplicity &lt;&gt; null and
-	multiplicity.specializesFromLibrary(&apos;Base::zeroOrOne&apos;)
-	specializes(individualDefinition)
-	isSufficient</rdfs:comment>
-        <rdfs:label>LifeClass</rdfs:label>
     </owl:Class>
     
 
@@ -8497,7 +8720,14 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:comment>&lt;p&gt;A &lt;code&gt;MetadataAccessExpression&lt;/code&gt; is an &lt;code&gt;Expression&lt;/code&gt; whose &lt;code&gt;result&lt;/code&gt; is a sequence of instances of &lt;code&gt;Metaclasses&lt;/code&gt; representing all the &lt;code&gt;MetadataFeature&lt;/code&gt; annotations of the &lt;code&gt;referencedElement&lt;/code&gt;. In addition, the sequence includes an instance of the reflective &lt;code&gt;Metaclass&lt;/code&gt; corresponding to the MOF class of the &lt;code&gt;referencedElement&lt;/code&gt;, with values for all the abstract syntax properties of the &lt;code&gt;referencedElement&lt;/code&gt;.&lt;/p&gt;
-	specializesFromLibrary(&apos;Performances::metadataAccessEvaluations&apos;)</rdfs:comment>
+	specializesFromLibrary(&apos;Performances::metadataAccessEvaluations&apos;)
+	ownedMembership-&gt;exists(not oclIsKindOf(FeatureMembership))
+	referencedElement =
+	let elements : Sequence(Element) = ownedMembership-&gt;
+	reject(oclIsKindOf(FeatureMembership)).memberElement in
+	if elements-&gt;isEmpty() then null
+	else elements-&gt;first()
+	endif</rdfs:comment>
         <rdfs:label>MetadataAccessExpression</rdfs:label>
     </owl:Class>
     
@@ -8525,7 +8755,31 @@
         <rdfs:comment>&lt;p&gt;A &lt;code&gt;MetadataFeature&lt;/code&gt; is a &lt;code&gt;Feature&lt;/code&gt; that is an &lt;code&gt;AnnotatingElement&lt;/code&gt; used to annotate another &lt;code&gt;Element&lt;/code&gt; with metadata. It is typed by a &lt;code&gt;Metaclass&lt;/code&gt;. All its &lt;code&gt;ownedFeatures&lt;/code&gt; must redefine &lt;code&gt;features&lt;/code&gt; of its &lt;code&gt;metaclass&lt;/code&gt; and any feature bindings must be model-level evaluable.&lt;/p&gt;
 	
 	
+	type-&gt;selectByKind(Metaclass).size() = 1
+	not metaclass.isAbstract
 	specializesFromLibrary(&apos;Metaobjects::metaobjects&apos;)
+	ownedFeature-&gt;closure(ownedFeature)-&gt;forAll(f |
+	f.declaredName = null and f.declaredShortName = null and
+	f.valuation &lt;&gt; null implies f.valuation.value.isModelLevelEvaluable and
+	f.redefinition.redefinedFeature-&gt;size() = 1)
+	metaclass =
+	let metaclassTypes : Sequence(Type) = type-&gt;selectByKind(Metaclass) in
+	if metaclassTypes-&gt;isEmpty() then null
+	else metaClassTypes-&gt;first()
+	endif
+	let baseAnnotatedElementFeature : Feature =
+	resolveGlobal(&apos;Metaobjects::Metaobject::annotatedElement&apos;).memberElement.
+	oclAsType(Feature) in
+	let annotatedElementFeatures : OrderedSet(Feature) = feature-&gt;
+	select(specializes(baseAnnotatedElementFeature))-&gt;
+	excluding(baseAnnotatedElementFeature) in
+	annotatedElementFeatures-&gt;notEmpty() implies
+	let annotatedElementTypes : Set(Feature) =
+	annotatedElementFeatures.typing.type-&gt;asSet() in
+	let metaclasses : Set(Metaclass) =
+	annotatedElement.oclType().qualifiedName-&gt;collect(qn |
+	resolveGlobal(qn).memberElement.oclAsType(Metaclass)) in
+	metaclasses-&gt;forAll(m | annotatedElementTypes-&gt;exists(t | m.specializes(t)))
 	isSemantic() implies
 	let annotatedTypes : Sequence(Type) =
 	annotatedElement-&gt;selectAsKind(Type) in
@@ -8548,31 +8802,7 @@
 	annotatedType.specializes(baseType.oclAsType(Type))
 	else
 	true
-	endif
-	not metaclass.isAbstract
-	let baseAnnotatedElementFeature : Feature =
-	resolveGlobal(&apos;Metaobjects::Metaobject::annotatedElement&apos;).memberElement.
-	oclAsType(Feature) in
-	let annotatedElementFeatures : OrderedSet(Feature) = feature-&gt;
-	select(specializes(baseAnnotatedElementFeature))-&gt;
-	excluding(baseAnnotatedElementFeature) in
-	annotatedElementFeatures-&gt;notEmpty() implies
-	let annotatedElementTypes : Set(Feature) =
-	annotatedElementFeatures.typing.type-&gt;asSet() in
-	let metaclasses : Set(Metaclass) =
-	annotatedElement.oclType().qualifiedName-&gt;collect(qn |
-	resolveGlobal(qn).memberElement.oclAsType(Metaclass)) in
-	metaclasses-&gt;forAll(m | annotatedElementTypes-&gt;exists(t | m.specializes(t)))
-	ownedFeature-&gt;closure(ownedFeature)-&gt;forAll(f |
-	f.declaredName = null and f.declaredShortName = null and
-	f.valuation &lt;&gt; null implies f.valuation.value.isModelLevelEvaluable and
-	f.redefinition.redefinedFeature-&gt;size() = 1)
-	metaclass =
-	let metaclassTypes : Sequence(Type) = type-&gt;selectByKind(Metaclass) in
-	if metaclassTypes-&gt;isEmpty() then null
-	else metaClassTypes-&gt;first()
-	endif
-	type-&gt;selectByKind(Metaclass).size() = 1</rdfs:comment>
+	endif</rdfs:comment>
         <rdfs:label>MetadataFeature</rdfs:label>
     </owl:Class>
     
@@ -8604,9 +8834,9 @@
 	
 	&lt;p&gt;&lt;code&gt;Multiplicity&lt;/code&gt; co-domains (in models) can be specified by &lt;code&gt;Expression&lt;/code&gt; that might vary in their results. If the &lt;code&gt;typeWithMultiplicity&lt;/code&gt; is a &lt;code&gt;Classifier&lt;/code&gt;, the domain of the &lt;code&gt;Multiplicity&lt;/code&gt; shall be &lt;em&gt;&lt;code&gt;Base::Anything&lt;/code&gt;&lt;/em&gt;.  If the &lt;code&gt;typeWithMultiplicity&lt;/code&gt; is a &lt;code&gt;Feature&lt;/code&gt;,  the &lt;code&gt;Multiplicity&lt;/code&gt; shall have the same domain as the &lt;code&gt;typeWithMultiplicity&lt;/code&gt;.&lt;/p&gt;
 	
-	if owningType &lt;&gt; null and owningType.oclIsKindOf(Feature) then
+	if owningNamespace &lt;&gt; null and owningNamespace.oclIsKindOf(Feature) then
 	featuringType =
-	owningType.oclAsType(Feature).featuringType
+	owningNamespace.oclAsType(Feature).featuringType
 	else
 	featuringType-&gt;isEmpty()
 	endif
@@ -8641,26 +8871,45 @@
         </rdfs:subClassOf>
         <rdfs:comment>&lt;p&gt;A &lt;code&gt;MultiplicityRange&lt;/code&gt; is a &lt;code&gt;Multiplicity&lt;/code&gt; whose value is defined to be the (inclusive) range of natural numbers given by the result of a &lt;code&gt;lowerBound&lt;/code&gt; &lt;code&gt;Expression&lt;/code&gt; and the result of an &lt;code&gt;upperBound&lt;/code&gt; &lt;code&gt;Expression&lt;/code&gt;. The result of these &lt;code&gt;Expressions&lt;/code&gt; shall be of type &lt;code&gt;&lt;em&gt;Natural&lt;/em&gt;&lt;/code&gt;. If the result of the &lt;code&gt;upperBound&lt;/code&gt; &lt;code&gt;Expression&lt;/code&gt; is the unbounded value &lt;code&gt;*&lt;/code&gt;, then the specified range includes all natural numbers greater than or equal to the &lt;code&gt;lowerBound&lt;/code&gt; value. If no &lt;code&gt;lowerBound&lt;/code&gt; &lt;code&gt;Expression&lt;/code&gt;, then the default is that the lower bound has the same value as the upper bound, except if the &lt;code&gt;upperBound&lt;/code&gt; evaluates to &lt;code&gt;*&lt;/code&gt;, in which case the default for the lower bound is 0.&lt;/p&gt;
 	
-	bound-&gt;forAll(b | b.featuringType = self.featuringType)
+	let boundsFeaturingType : OrderedSet(Type) =
+	if owningNamespace &lt;&gt; null and owningNamespace.oclIsKindOf(Feature) and
+	owningNamespace.oclAsType(Feature).isOwnedCrossFeature() then
+	owningNamespace.oclAsType(Feature).owningNamespace.oclAsType(Feature).featuringType
+	else
+	featuringType
+	endif in
+	bound-&gt;forAll(b | b.featuringType = boundsFeaturingType)
+	
 	bound-&gt;forAll(b |
 	b.result.specializesFromLibrary(&apos;ScalarValues::Integer&apos;) and
 	let value : UnlimitedNatural = valueOf(b) in
 	value &lt;&gt; null implies value &gt;= 0
 	)
 	lowerBound =
-	let ownedMembers : Sequence(Element) =
-	ownedMembership-&gt;selectByKind(OwningMembership).ownedMember in
-	if ownedMembers-&gt;size() &lt; 2 or
-	not ownedMembers-&gt;first().oclIsKindOf(Expression) then null
-	else ownedMembers-&gt;first().oclAsType(Expression)
+	let ownedExpressions : Sequence(Expression) =
+	ownedMember-&gt;selectByKind(Expression) in
+	if ownedExpressions-&gt;size() &lt; 2 then null
+	else ownedExpressions-&gt;first()
 	endif
 	upperBound =
-	let ownedMembers : Sequence(Element) =
-	ownedMembership-&gt;selectByKind(OwningMembership).ownedMember in
-	if ownedMembers-&gt;isEmpty() or
-	not ownedMembers-&gt;last().oclIsKindOf(Expression)
-	then null
-	else ownedMembers-&gt;last().oclAsType(Expression)
+	let ownedExpressions : Sequence(Expression) =
+	ownedMember-&gt;selectByKind(Expression) in
+	if ownedExpressions-&gt;isEmpty() then null
+	else if ownedExpressions-&gt;size() = 1 then ownedExpressions-&gt;at(1)
+	else ownedExpressions-&gt;at(2)
+	endif endif
+	bound =
+	if upperBound = null then Sequence{}
+	else if lowerBound = null then Sequence{upperBound}
+	else Sequence{lowerBound, upperBound}
+	endif endif
+	if lowerBound = null then
+	ownedMember-&gt;notEmpty() and
+	ownedMember-&gt;at(1) = upperBound
+	else
+	ownedMember-&gt;size() &gt; 1 and
+	ownedMember-&gt;at(1) = lowerBound and
+	ownedMember-&gt;at(2) = upperBound
 	endif</rdfs:comment>
         <rdfs:label>MultiplicityRange</rdfs:label>
     </owl:Class>
@@ -8674,7 +8923,7 @@
         <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Element"/>
         <rdfs:comment>&lt;p&gt;A &lt;code&gt;Namespace&lt;/code&gt; is an &lt;code&gt;Element&lt;/code&gt; that contains other &lt;code&gt;Elements&lt;/code&gt;, known as its &lt;code&gt;members&lt;/code&gt;, via &lt;code&gt;Membership&lt;/code&gt; &lt;code&gt;Relationships&lt;/code&gt; with those &lt;code&gt;Elements&lt;/code&gt;. The &lt;code&gt;members&lt;/code&gt; of a &lt;code&gt;Namespace&lt;/code&gt; may be owned by the &lt;code&gt;Namespace&lt;/code&gt;, aliased in the &lt;code&gt;Namespace&lt;/code&gt;, or imported into the &lt;code&gt;Namespace&lt;/code&gt; via &lt;code&gt;Import&lt;/code&gt; &lt;code&gt;Relationships&lt;/code&gt;.&lt;/p&gt;
 	
-	&lt;p&gt;A &lt;code&gt;Namespace&lt;/code&gt; can provide names for its &lt;code&gt;members&lt;/code&gt; via the &lt;code&gt;memberNames&lt;/code&gt; and &lt;code&gt;memberShortNames&lt;/code&gt; specified by the &lt;code&gt;Memberships&lt;/code&gt; in the &lt;code&gt;Namespace&lt;/code&gt;. If a &lt;code&gt;Membership&lt;/code&gt; specifies a &lt;code&gt;memberName&lt;/code&gt; and/or &lt;code&gt;memberShortName&lt;/code&gt;, then those are names of the corresponding &lt;code&gt;memberElement&lt;/code&gt; relative to the &lt;code&gt;Namespace&lt;/code&gt;. For an &lt;code&gt;OwningMembership&lt;/code&gt;, the &lt;code&gt;owningMemberName&lt;/code&gt; and &lt;code&gt;owningMemberShortName&lt;/code&gt; are given by the &lt;code&gt;Element&lt;/code&gt; &lt;code&gt;name&lt;/code&gt; and &lt;code&gt;shortName&lt;/code&gt;. Note that the same &lt;code&gt;Element&lt;/code&gt; may be the &lt;code&gt;memberElement&lt;/code&gt; of multiple &lt;code&gt;Memberships&lt;/code&gt; in a &lt;code&gt;Namespace&lt;/code&gt; (though it may be owned at most once), each of which may define a separate alias for the &lt;code&gt;Element&lt;/code&gt; relative to the &lt;code&gt;Namespace&lt;/code&gt;.&lt;/p&gt;
+	&lt;p&gt;A &lt;code&gt;Namespace&lt;/code&gt; can provide names for its &lt;code&gt;members&lt;/code&gt; via the &lt;code&gt;memberNames&lt;/code&gt; and &lt;code&gt;memberShortNames&lt;/code&gt; specified by the &lt;code&gt;Memberships&lt;/code&gt; in the &lt;code&gt;Namespace&lt;/code&gt;. If a &lt;code&gt;Membership&lt;/code&gt; specifies a &lt;code&gt;memberName&lt;/code&gt; and/or &lt;code&gt;memberShortName&lt;/code&gt;, then those are names of the corresponding &lt;code&gt;memberElement&lt;/code&gt; relative to the &lt;code&gt;Namespace&lt;/code&gt;. For an &lt;code&gt;OwningMembership&lt;/code&gt;, the &lt;code&gt;ownedMemberName&lt;/code&gt; and &lt;code&gt;ownedMemberShortName&lt;/code&gt; are given by the &lt;code&gt;Element&lt;/code&gt; &lt;code&gt;name&lt;/code&gt; and &lt;code&gt;shortName&lt;/code&gt;. Note that the same &lt;code&gt;Element&lt;/code&gt; may be the &lt;code&gt;memberElement&lt;/code&gt; of multiple &lt;code&gt;Memberships&lt;/code&gt; in a &lt;code&gt;Namespace&lt;/code&gt; (though it may be owned at most once), each of which may define a separate alias for the &lt;code&gt;Element&lt;/code&gt; relative to the &lt;code&gt;Namespace&lt;/code&gt;.&lt;/p&gt;
 	
 	membership-&gt;forAll(m1 |
 	membership-&gt;forAll(m2 |
@@ -8766,20 +9015,11 @@
                 <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <rdfs:comment>&lt;p&gt;An &lt;code&gt;OccurrenceDefinition&lt;/code&gt; is a &lt;code&gt;Definition&lt;/code&gt; of a &lt;code&gt;Class&lt;/code&gt; of individuals that have an independent life over time and potentially an extent over space. This includes both structural things and behaviors that act on such structures.&lt;/p&gt;
-	
-	&lt;p&gt;If &lt;code&gt;isIndividual&lt;/code&gt; is true, then the &lt;code&gt;OccurrenceDefinition&lt;/code&gt; is constrained to represent an individual thing. The instances of such an &lt;code&gt;OccurrenceDefinition&lt;/code&gt; include all spatial and temporal portions of the individual being represented, but only one of these can be the complete &lt;code&gt;Life&lt;/code&gt; of the individual. All other instances must be portions of the &amp;quot;maximal portion&amp;quot; that is single &lt;code&gt;Life&lt;/code&gt; instance, capturing the conception that all of the instances represent one individual with a single &amp;quot;identity&amp;quot;.&lt;/p&gt;
-	
-	&lt;p&gt;An &lt;code&gt;OccurrenceDefinition&lt;/code&gt; must specialize, directly or indirectly, the base &lt;code&gt;Class&lt;/code&gt; &lt;code&gt;&lt;em&gt;Occurrence&lt;/em&gt;&lt;/code&gt; from the Kernel Semantic Library.&lt;/p&gt;
-	
-	let n : Integer = ownedMember-&gt;selectByKind(LifeClass) in
-	if isIndividual then n = 1 else n = 0 endif
-	lifeClass =
-	let lifeClasses: OrderedSet(LifeClass) =
-	ownedMember-&gt;selectByKind(LifeClass) in
-	if lifeClasses-&gt;isEmpty() then null
-	else lifeClasses-&gt;first()
-	endif</rdfs:comment>
+        <rdfs:comment>&lt;p&gt;An &lt;code&gt;OccurrenceDefinition&lt;/code&gt; is a &lt;code&gt;Definition&lt;/code&gt; of a &lt;code&gt;Class&lt;/code&gt; of individuals that have an independent life over time and potentially an extent over space. This includes both structural things and behaviors that act on such structures. If &lt;code&gt;isIndividual&lt;/code&gt; is true, then the &lt;code&gt;OccurrenceDefinition&lt;/code&gt; is constrained to have (at most) a single instance that is the entire life of a single individual.&lt;/p&gt;
+	isIndividual implies specializesFromLibrary(&apos;Occurrences::Life&apos;)
+	isIndividual implies
+	multiplicity &lt;&gt; null and
+	multiplicity.specializesFromLibrary(&apos;Base::zeroOrOne&apos;)</rdfs:comment>
         <rdfs:label>OccurrenceDefinition</rdfs:label>
     </owl:Class>
     
@@ -8818,9 +9058,15 @@
 	occurrenceDefinition-&gt;
 	selectByKind(OccurrenceDefinition)-&gt;
 	select(isIndividual).size() &lt;= 1
+	portionKind = PortionKind::snapshot implies
+	specializesFromLibrary(&apos;Occurrences::Occurrence::snapshots&apos;)
+	portionKind = PortionKind::timeslice implies
+	specializesFromLibrary(&apos;Occurrences::Occurrence::timeSlices&apos;)
 	portionKind &lt;&gt; null implies
-	occurrenceDefinition-&gt;forAll(occ |
-	featuringType-&gt;exists(specializes(occ)))</rdfs:comment>
+	owningType &lt;&gt; null and
+	(owningType.oclIsKindOf(OccurrenceDefinition) or
+	owningType.oclIsKindOf(OccurrenceUsage))
+	portionKind &lt;&gt; null implies isPortion</rdfs:comment>
         <rdfs:label>OccurrenceUsage</rdfs:label>
     </owl:Class>
     
@@ -8837,12 +9083,7 @@
                 <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <rdfs:comment>&lt;p&gt;An &lt;code&gt;OperatorExpression&lt;/code&gt; is an &lt;code&gt;InvocationExpression&lt;/code&gt; whose &lt;code&gt;function&lt;/code&gt; is determined by resolving its &lt;code&gt;operator&lt;/code&gt; in the context of one of the standard packages from the Kernel Function Library.&lt;/p&gt;
-	let libFunctions : Sequence(Element) =
-	Sequence{&apos;BaseFunctions&apos;, &apos;DataFunctions&apos;, &apos;ControlFunctions&apos;}-&gt;
-	collect(ns | resolveGlobal(ns + &quot;::&apos;&quot; + operator + &quot;&apos;&quot;).
-	memberElement) in
-	libFunctions-&gt;includes(function)</rdfs:comment>
+        <rdfs:comment>&lt;p&gt;An &lt;code&gt;OperatorExpression&lt;/code&gt; is an &lt;code&gt;InvocationExpression&lt;/code&gt; whose &lt;code&gt;function&lt;/code&gt; is determined by resolving its &lt;code&gt;operator&lt;/code&gt; in the context of one of the standard packages from the Kernel Function Library.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>OperatorExpression</rdfs:label>
     </owl:Class>
     
@@ -8898,9 +9139,11 @@
                 <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <rdfs:comment>&lt;p&gt;A &lt;code&gt;ParameterMembership&lt;/code&gt; is a &lt;code&gt;FeatureMembership&lt;/code&gt; that identifies its &lt;code&gt;memberFeature&lt;/code&gt; as a parameter, which is always owned, and must have a &lt;code&gt;direction&lt;/code&gt;. A &lt;code&gt;ParameterMembership&lt;/code&gt; must be owned by a &lt;code&gt;Behavior&lt;/code&gt; or a &lt;code&gt;Step&lt;/code&gt;.&lt;/p&gt;
+        <rdfs:comment>&lt;p&gt;A &lt;code&gt;ParameterMembership&lt;/code&gt; is a &lt;code&gt;FeatureMembership&lt;/code&gt; that identifies its &lt;code&gt;memberFeature&lt;/code&gt; as a parameter, which is always owned, and must have a &lt;code&gt;direction&lt;/code&gt;. A &lt;code&gt;ParameterMembership&lt;/code&gt; must be owned by a &lt;code&gt;Behavior&lt;/code&gt;, a &lt;code&gt;Step&lt;/code&gt;, or the &lt;code&gt;result&lt;/code&gt; parameter of a &lt;code&gt;ConstructorExpression&lt;/code&gt;.&lt;/p&gt;
 	ownedMemberParameter.direction = parameterDirection()
-	owningType.oclIsKindOf(Behavior) or owningType.oclIsKindOf(Step)</rdfs:comment>
+	owningType.oclIsKindOf(Behavior) or owningType.oclIsKindOf(Step) or
+	owningType.owningMembership.oclIsKindOf(ReturnParameterMembership) and
+	owningType.owningNamespace.oclIsKindOf(ConstructorExpression)</rdfs:comment>
         <rdfs:label>ParameterMembership</rdfs:label>
     </owl:Class>
     
@@ -8948,6 +9191,18 @@
     
 
 
+    <!-- https://www.omg.org/spec/SysML#PayloadFeature -->
+
+
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#PayloadFeature">
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Feature"/>
+        <rdfs:comment>&lt;p&gt;A &lt;code&gt;PayloadFeature&lt;/code&gt; is the &lt;code&gt;ownedFeature&lt;/code&gt; of a &lt;code&gt;Flow&lt;/code&gt; that identifies the things carried by the kinds of transfers that are instances of the &lt;code&gt;Flow&lt;/code&gt;.&lt;/p&gt;
+	redefinesFromLibrary(&apos;Transfers::Transfer::payload&apos;)</rdfs:comment>
+        <rdfs:label>PayloadFeature</rdfs:label>
+    </owl:Class>
+    
+
+
     <!-- https://www.omg.org/spec/SysML#PerformActionUsage -->
 
 
@@ -8961,8 +9216,8 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:comment>&lt;p&gt;A &lt;code&gt;PerformActionUsage&lt;/code&gt; is an &lt;code&gt;ActionUsage&lt;/code&gt; that represents the performance of an &lt;code&gt;ActionUsage&lt;/code&gt;. Unless it is the &lt;code&gt;PerformActionUsage&lt;/code&gt; itself, the &lt;code&gt;ActionUsage&lt;/code&gt; to be performed is related to the &lt;code&gt;PerformActionUsage&lt;/code&gt; by a &lt;code&gt;ReferenceSubsetting&lt;/code&gt; relationship. A &lt;code&gt;PerformActionUsage&lt;/code&gt; is also an &lt;code&gt;EventOccurrenceUsage&lt;/code&gt;, with its &lt;code&gt;performedAction&lt;/code&gt; as the &lt;code&gt;eventOccurrence&lt;/code&gt;.&lt;/p&gt;
-	ownedReferenceSubsetting &lt;&gt; null implies
-	ownedReferenceSubsetting.referencedFeature.oclIsKindOf(ActionUsage)
+	referencedFeatureTarget() &lt;&gt; null implies
+	referencedFeatureTarget().oclIsKindOf(ActionUsage)
 	owningType &lt;&gt; null and
 	(owningType.oclIsKindOf(PartDefinition) or
 	owningType.oclIsKindOf(PartUsage)) implies
@@ -9041,7 +9296,11 @@
 	owningType = null or
 	not owningType.oclIsKindOf(PortDefinition) and
 	not owningType.oclIsKindOf(PortUsage) implies
-	isReference</rdfs:comment>
+	isReference
+	owningType &lt;&gt; null and
+	(owningType.oclIsKindOf(PartDefinition) or
+	owningType.oclIsKindOf(PartUsage)) implies
+	specializesFromLibrary(&apos;Parts::Part::ownedPorts&apos;)</rdfs:comment>
         <rdfs:label>PortUsage</rdfs:label>
     </owl:Class>
     
@@ -9084,18 +9343,31 @@
 	-- Including &quot;Anything&quot; accounts for implicit featuringType of Features
 	-- with no explicit featuringType.
 	let redefiningFeaturingTypes: Set(Type) =
-	redefiningFeature.featuringTypes-&gt;asSet()-&gt;including(anythingType) in
+	if redefiningFeature.isVariable then Set{redefiningFeature.owningType}
+	else redefiningFeature.featuringTypes-&gt;asSet()-&gt;including(anythingType)
+	endif in
 	let redefinedFeaturingTypes: Set(Type) =
-	redefinedFeature.featuringTypes-&gt;asSet()-&gt;including(anythingType) in
+	if redefinedFeature.isVariable then Set{redefinedFeature.owningType}
+	else redefinedFeature.featuringTypes-&gt;asSet()-&gt;including(anythingType)
+	endif in
 	redefiningFeaturingTypes &lt;&gt; redefinedFeaturingType
-	featuringType-&gt;forAll(t |
+	let featuringTypes : Sequence(Type) =
+	if redefiningFeature.isVariable then Sequence{redefiningFeature.owningType}
+	else redefiningFeature.featuringType
+	endif in
+	featuringTypes-&gt;forAll(t |
 	let direction : FeatureDirectionKind = t.directionOf(redefinedFeature) in
 	((direction = FeatureDirectionKind::_&apos;in&apos; or
 	direction = FeatureDirectionKind::out) implies
 	redefiningFeature.direction = direction)
 	and
 	(direction = FeatureDirectionKind::inout implies
-	redefiningFeature.direction &lt;&gt; null))</rdfs:comment>
+	redefiningFeature.direction &lt;&gt; null))
+	redefinedFeature.isEnd and
+	redefiningFeature.owningType &lt;&gt; null and
+	(redefiningFeature.owningType.oclIsKindOf(Association) or
+	redefiningFeature.owningType.oclIsKindOf(Connector)) implies
+	redefiningFeature.isEnd</rdfs:comment>
         <rdfs:label>Redefinition</rdfs:label>
     </owl:Class>
     
@@ -9118,7 +9390,7 @@
                 <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <rdfs:comment>&lt;p&gt;&lt;code&gt;ReferenceSubsetting&lt;/code&gt; is a kind of &lt;code&gt;Subsetting&lt;/code&gt; in which the &lt;code&gt;referencedFeature&lt;/code&gt; is syntactically distinguished from other &lt;code&gt;Features&lt;/code&gt; subsetted by the &lt;code&gt;referencingFeature&lt;/code&gt;. &lt;code&gt;ReferenceSubsetting&lt;/code&gt; has the same semantics as &lt;code&gt;Subsetting&lt;/code&gt;, but the &lt;code&gt;referenceFeature&lt;/code&gt; may have a special purpose relative to the &lt;code&gt;referencingFeature&lt;/code&gt;. For instance, &lt;code&gt;ReferenceSubsetting&lt;/code&gt; is used to identify the &lt;code&gt;relatedFeatures&lt;/code&gt; of a &lt;code&gt;Connector&lt;/code&gt;.&lt;/p&gt;
+        <rdfs:comment>&lt;p&gt;&lt;code&gt;ReferenceSubsetting&lt;/code&gt; is a kind of &lt;code&gt;Subsetting&lt;/code&gt; in which the &lt;code&gt;referencedFeature&lt;/code&gt; is syntactically distinguished from other &lt;code&gt;Features&lt;/code&gt; subsetted by the &lt;code&gt;referencingFeature&lt;/code&gt;. &lt;code&gt;ReferenceSubsetting&lt;/code&gt; has the same semantics as &lt;code&gt;Subsetting&lt;/code&gt;, but the &lt;code&gt;referencedFeature&lt;/code&gt; may have a special purpose relative to the &lt;code&gt;referencingFeature&lt;/code&gt;. For instance, &lt;code&gt;ReferenceSubsetting&lt;/code&gt; is used to identify the &lt;code&gt;relatedFeatures&lt;/code&gt; of a &lt;code&gt;Connector&lt;/code&gt;.&lt;/p&gt;
 	
 	&lt;p&gt;&lt;code&gt;ReferenceSubsetting&lt;/code&gt; is always an &lt;code&gt;ownedRelationship&lt;/code&gt; of its &lt;code&gt;referencingFeature&lt;/code&gt;. A &lt;code&gt;Feature&lt;/code&gt; can have at most one &lt;code&gt;ownedReferenceSubsetting&lt;/code&gt;.&lt;/p&gt;</rdfs:comment>
         <rdfs:label>ReferenceSubsetting</rdfs:label>
@@ -9220,11 +9492,12 @@
         </rdfs:subClassOf>
         <rdfs:comment>&lt;p&gt;A &lt;code&gt;RequirementConstraintMembership&lt;/code&gt; is a &lt;code&gt;FeatureMembership&lt;/code&gt; for an assumed or required &lt;code&gt;ConstraintUsage&lt;/code&gt; of a &lt;code&gt;RequirementDefinition&lt;/code&gt; or &lt;code&gt;RequirementUsage&lt;code&gt;.&lt;/p&gt;
 	referencedConstraint =
-	let reference : ReferenceSubsetting =
-	ownedConstraint.ownedReferenceSubsetting in
-	if reference = null then ownedConstraint
-	else if not reference.referencedFeature.oclIsKindOf(ConstraintUsage) then null
-	else reference.referencedFeature.oclAsType(ConstraintUsage)
+	let referencedFeature : Feature =
+	ownedConstraint.referencedFeatureTarget() in
+	if referencedFeature = null then ownedConstraint
+	else if referencedFeature.oclIsKindOf(ConstraintUsage) then
+	refrencedFeature.oclAsType(ConstraintUsage)
+	else null
 	endif endif
 	owningType.oclIsKindOf(RequirementDefinition) or
 	owningType.oclIsKindOf(RequirementUsage)
@@ -9323,15 +9596,18 @@
 	specializesFromLibrary(&apos;Requirements::requirementChecks&apos;)
 	isComposite and owningType &lt;&gt; null and
 	(owningType.oclIsKindOf(RequirementDefinition) or
-	owningType.oclIsKindOf(RequirementUsage)) implies
+	owningType.oclIsKindOf(RequirementUsage)) and
+	not owningFeatureMembership.oclIsKindOf(RequirementConstraintMembership) implies
 	specializesFromLibrary(&apos;Requirements::RequirementCheck::subrequirements&apos;)
 	owningfeatureMembership &lt;&gt; null and
 	owningfeatureMembership.oclIsKindOf(ObjectiveMembership) implies
 	owningType.ownedSpecialization.general-&gt;forAll(gen |
 	(gen.oclIsKindOf(CaseDefinition) implies
 	redefines(gen.oclAsType(CaseDefinition).objectiveRequirement)) and
-	(gen.oclIsKindOf(CaseUsage) implies
-	redefines(gen.oclAsType(CaseUsage).objectiveRequirement))
+	(gen.oclIsKindOf(Feature) and
+	gen.oclAsType(Feature).featureTarget.oclIsKindOf(CaseUsage) implies
+	redefines(gen.oclAsType(Feature).featureTarget.
+	oclAsType(CaseUsage).objectiveRequirement))
 	owningFeatureMembership &lt;&gt; null and
 	owningFeatureMembership.oclIsKindOf(RequirementVerificationMembership) implies
 	specializesFromLibrary(&apos;VerificationCases::VerificationCase::obj::requirementVerifications&apos;)</rdfs:comment>
@@ -9423,7 +9699,7 @@
 	selectByKind(BindingConnector)-&gt;
 	select(b | b.relatedElement-&gt;includes(subjectParameter)) in
 	if bindings-&gt;isEmpty() or
-	bindings-&gt;first().relatedElement-&gt;exits(r | r &lt;&gt; subjectParameter)
+	not bindings-&gt;first().relatedElement-&gt;exits(r | r &lt;&gt; subjectParameter)
 	then null
 	else bindings-&gt;first().relatedElement-&gt;any(r | r &lt;&gt; subjectParameter)
 	endif
@@ -9432,8 +9708,13 @@
 	b.relatedElement-&gt;includes(subjectParameter) and
 	b.relatedElement-&gt;exists(r | r &lt;&gt; subjectParameter))-&gt;
 	size() = 1
-	ownedReferenceSubsetting &lt;&gt; null implies
-	ownedReferenceSubsetting.referencedFeature.oclIsKindOf(RequirementUsage)</rdfs:comment>
+	referencedFeatureTarget() &lt;&gt; null implies
+	referencedFeatureTarget().oclIsKindOf(RequirementUsage)
+	if isNegated then
+	specializesFromLibrary(&apos;Requirements::notSatisfiedRequirementChecks&apos;)
+	else
+	specializesFromLibrary(&apos;Requirements::satisfiedRequirementChecks&apos;)
+	endif</rdfs:comment>
         <rdfs:label>SatisfyRequirementUsage</rdfs:label>
     </owl:Class>
     
@@ -9445,7 +9726,9 @@
     <owl:Class rdf:about="https://www.omg.org/spec/SysML#SelectExpression">
         <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#OperatorExpression"/>
         <rdfs:comment>&lt;p&gt;A &lt;code&gt;SelectExpression&lt;/code&gt; is an &lt;code&gt;OperatorExpression&lt;/code&gt; whose operator is &lt;code&gt;&quot;select&quot;&lt;/code&gt;, which resolves to the &lt;code&gt;Function&lt;/code&gt; &lt;em&gt;&lt;code&gt;ControlFunctions::select&lt;/code&gt;&lt;/em&gt; from the Kernel Functions Library.&lt;/p&gt;
-	operator = &apos;select&apos;</rdfs:comment>
+	operator = &apos;select&apos;
+	arguments-&gt;notEmpty() implies
+	result.specializes(arguments-&gt;first().result)</rdfs:comment>
         <rdfs:label>SelectExpression</rdfs:label>
     </owl:Class>
     
@@ -9456,20 +9739,17 @@
 
     <owl:Class rdf:about="https://www.omg.org/spec/SysML#SendActionUsage">
         <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#ActionUsage"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="https://www.omg.org/spec/SysML#SendActionUsage_payloadArgument"/>
-                <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
-            </owl:Restriction>
-        </rdfs:subClassOf>
         <rdfs:comment>&lt;p&gt;A &lt;code&gt;SendActionUsage&lt;/code&gt; is an &lt;code&gt;ActionUsage&lt;/code&gt; that specifies the sending of a payload given by the result of its &lt;code&gt;payloadArgument&lt;/code&gt; &lt;code&gt;Expression&lt;/code&gt; via a &lt;em&gt;&lt;code&gt;MessageTransfer&lt;/code&gt;&lt;/em&gt; whose &lt;em&gt;&lt;code&gt;source&lt;/code&gt;&lt;/em&gt; is given by the result of the &lt;code&gt;senderArgument&lt;/code&gt; &lt;code&gt;Expression&lt;/code&gt; and whose &lt;code&gt;target&lt;/code&gt; is given by the result of the &lt;code&gt;receiverArgument&lt;/code&gt; &lt;code&gt;Expression&lt;/code&gt;. If no &lt;code&gt;senderArgument&lt;/code&gt; is provided, the default is the &lt;em&gt;&lt;code&gt;this&lt;/code&gt;&lt;/em&gt; context for the action. If no &lt;code&gt;receiverArgument&lt;/code&gt; is given, then the receiver is to be determined by, e.g., outgoing &lt;em&gt;&lt;code&gt;Connections&lt;/code&gt;&lt;/em&gt; from the sender.&lt;/p&gt; 
 	
 	senderArgument = argument(2)
 	payloadArgument = argument(1)
-	inputParameters()-&gt;size() &gt;= 3
+	owningFeatureMembership &lt;&gt; null and
+	(owningFeatureMembership.oclIsKindOf(StateSubactionMembership) or
+	owningFeatureMembership.oclIsKindOf(TransitionFeatureMembership)) implies
+	payloadArgument &lt;&gt; null
 	receiverArgument = argument(3)
 	isSubactionUsage() implies
-	specializesFromLibrary(&apos;Actions::Action::acceptSubactions&apos;)
+	specializesFromLibrary(&apos;Actions::Action::sendSubactions&apos;)
 	specializesFromLibrary(&apos;Actions::sendActions&apos;)</rdfs:comment>
         <rdfs:label>SendActionUsage</rdfs:label>
     </owl:Class>
@@ -9645,7 +9925,11 @@
 	selectByKind(StateSubactionMembership)-&gt;
 	isUnique(kind)
 	isSubstateUsage(true) implies
-	specializesFromLibrary(&apos;States::StateAction::substates&apos;)</rdfs:comment>
+	specializesFromLibrary(&apos;States::StateAction::substates&apos;)
+	isComposite and owningType &lt;&gt; null and
+	(owningType.oclIsKindOf(PartDefinition) or
+	owningType.oclIsKindOf(PartUsage)) implies
+	specializesFromLibrary(&apos;Parts::Part::ownedStates&apos;)</rdfs:comment>
         <rdfs:label>StateUsage</rdfs:label>
     </owl:Class>
     
@@ -9656,7 +9940,7 @@
 
     <owl:Class rdf:about="https://www.omg.org/spec/SysML#Step">
         <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Feature"/>
-        <rdfs:comment>&lt;p&gt;A &lt;code&gt;Step&lt;/code&gt; is a &lt;code&gt;Feature&lt;/code&gt; that is typed by one or more &lt;code&gt;Behaviors&lt;/code&gt;. &lt;code&gt;Steps&lt;/code&gt; may be used by one &lt;code&gt;Behavior&lt;/code&gt; to coordinate the performance of other &lt;code&gt;Behaviors&lt;/code&gt;, supporting a steady refinement of behavioral descriptions. &lt;code&gt;Steps&lt;/code&gt; can be ordered in time and can be connected using &lt;code&gt;ItemFlows&lt;/code&gt; to specify things flowing between their &lt;code&gt;parameters&lt;/code&gt;.&lt;/p&gt;
+        <rdfs:comment>&lt;p&gt;A &lt;code&gt;Step&lt;/code&gt; is a &lt;code&gt;Feature&lt;/code&gt; that is typed by one or more &lt;code&gt;Behaviors&lt;/code&gt;. &lt;code&gt;Steps&lt;/code&gt; may be used by one &lt;code&gt;Behavior&lt;/code&gt; to coordinate the performance of other &lt;code&gt;Behaviors&lt;/code&gt;, supporting a steady refinement of behavioral descriptions. &lt;code&gt;Steps&lt;/code&gt; can be ordered in time and can be connected using &lt;code&gt;Flows&lt;/code&gt; to specify things flowing between their &lt;code&gt;parameters&lt;/code&gt;.&lt;/p&gt;
 	
 	specializesFromLibrary(&apos;Performances::performances&apos;)
 	owningType &lt;&gt; null and
@@ -9757,16 +10041,10 @@
         </rdfs:subClassOf>
         <rdfs:comment>&lt;p&gt;&lt;code&gt;Subsetting&lt;/code&gt; is &lt;code&gt;Specialization&lt;/code&gt; in which the &lt;code&gt;specific&lt;/code&gt; and &lt;code&gt;general&lt;/code&gt; &lt;code&gt;Types&lt;/code&gt; are &lt;code&gt;Features&lt;/code&gt;. This means all values of the &lt;code&gt;subsettingFeature&lt;/code&gt; (on instances of its domain, i.e., the intersection of its &lt;code&gt;featuringTypes&lt;/code&gt;) are values of the &lt;code&gt;subsettedFeature&lt;/code&gt; on instances of its domain. To support this the domain of the &lt;code&gt;subsettingFeature&lt;/code&gt; must be the same or specialize (at least indirectly) the domain of the &lt;code&gt;subsettedFeature&lt;/code&gt; (via &lt;code&gt;Specialization&lt;/code&gt;), and the co-domain (intersection of the &lt;code&gt;types&lt;/code&gt;) of the &lt;code&gt;subsettingFeature&lt;/code&gt; must specialize the co-domain of the &lt;code&gt;subsettedFeature&lt;/code&gt;.&lt;/p&gt;
 	
-	let subsettingFeaturingTypes: OrderedSet(Type) =
-	subsettingFeature.featuringTypes in
-	let subsettedFeaturingTypes: OrderedSet(Type) =
-	subsettedFeature.featuringTypes in
-	let anythingType: Element =
-	subsettingFeature.resolveGlobal(&apos;Base::Anything&apos;).memberElement in
-	subsettedFeaturingTypes-&gt;forAll(t |
-	subsettingFeaturingTypes-&gt;isEmpty() and t = anythingType or
-	subsettingFeaturingTypes-&gt;exists(specializes(t))
-	subsettedFeature.isUnique implies subsettingFeature.isUnique</rdfs:comment>
+	subsettingFeature.canAccess(subsettedFeature)
+	subsettedFeature.isUnique implies subsettingFeature.isUnique
+	subsettedFeature.isConstant and subsettingFeature.isVariable implies
+	subsettingFeature.isConstant</rdfs:comment>
         <rdfs:label>Subsetting</rdfs:label>
     </owl:Class>
     
@@ -9779,35 +10057,7 @@
         <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Connector"/>
         <rdfs:comment>&lt;p&gt;A &lt;code&gt;Succession&lt;/code&gt; is a binary &lt;code&gt;Connector&lt;/code&gt; that requires its &lt;code&gt;relatedFeatures&lt;/code&gt; to happen separately in time.&lt;/p&gt;
 	
-	specializesFromLibrary(&apos;Occurences::happensBeforeLinks&apos;)
-	transitionStep =
-	if owningNamespace.oclIsKindOf(Step) and
-	owningNamespace.oclAsType(Step).
-	specializesFromLibrary(&apos;TransitionPerformances::TransitionPerformance&apos;) then
-	owningNamespace.oclAsType(Step)
-	else null
-	endif
-	triggerStep =
-	if transitionStep = null or
-	transitionStep.ownedFeature.size() &lt; 2 or
-	not transitionStep.ownedFeature-&gt;at(2).oclIsKindOf(Step)
-	then Set{}
-	else Set{transitionStep.ownedFeature-&gt;at(2).oclAsType(Step)}
-	endif
-	effectStep =
-	if transitionStep = null or
-	transitionStep.ownedFeature.size() &lt; 4 or
-	not transitionStep.ownedFeature-&gt;at(4).oclIsKindOf(Step)
-	then Set{}
-	else Set{transitionStep.ownedFeature-&gt;at(4).oclAsType(Step)}
-	endif
-	guardExpression =
-	if transitionStep = null or
-	transitionStep.ownedFeature.size() &lt; 3 or
-	not transitionStep.ownedFeature-&gt;at(3).oclIsKindOf(Expression)
-	then Set{}
-	else Set{transitionStep.ownedFeature-&gt;at(3).oclAsType(Expression)}
-	endif</rdfs:comment>
+	specializesFromLibrary(&apos;Occurrences::happensBeforeLinks&apos;)</rdfs:comment>
         <rdfs:label>Succession</rdfs:label>
     </owl:Class>
     
@@ -9825,28 +10075,43 @@
     
 
 
-    <!-- https://www.omg.org/spec/SysML#SuccessionFlowConnectionUsage -->
+    <!-- https://www.omg.org/spec/SysML#SuccessionFlow -->
 
 
-    <owl:Class rdf:about="https://www.omg.org/spec/SysML#SuccessionFlowConnectionUsage">
-        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#FlowConnectionUsage"/>
-        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#SuccessionItemFlow"/>
-        <rdfs:comment>&lt;p&gt;A &lt;code&gt;SuccessionFlowConnectionUsage&lt;/code&gt; is a &lt;code&gt;FlowConnectionUsage&lt;/code&gt; that is also a &lt;code&gt;SuccessionItemFlow&lt;/code&gt;.&lt;/p&gt;
-	specializesFromLibrary(&apos;Connections::successionFlowConnections&apos;)</rdfs:comment>
-        <rdfs:label>SuccessionFlowConnectionUsage</rdfs:label>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#SuccessionFlow">
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Flow"/>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Succession"/>
+        <rdfs:comment>&lt;p&gt;A &lt;code&gt;SuccessionFlow&lt;/code&gt; is a &lt;code&gt;Flow&lt;/code&gt; that also provides temporal ordering. It classifies &lt;code&gt;&lt;em&gt;Transfers&lt;/em&gt;&lt;/code&gt; that cannot start until the source &lt;code&gt;&lt;em&gt;Occurrence&lt;/em&gt;&lt;/code&gt; has completed and that must complete before the target &lt;code&gt;&lt;em&gt;Occurrence&lt;/em&gt;&lt;/code&gt; can start.&lt;/p&gt;
+	specializesFromLibrary(&apos;Transfers::flowTransfersBefore&apos;)</rdfs:comment>
+        <rdfs:label>SuccessionFlow</rdfs:label>
     </owl:Class>
     
 
 
-    <!-- https://www.omg.org/spec/SysML#SuccessionItemFlow -->
+    <!-- https://www.omg.org/spec/SysML#SuccessionFlowUsage -->
 
 
-    <owl:Class rdf:about="https://www.omg.org/spec/SysML#SuccessionItemFlow">
-        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#ItemFlow"/>
-        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Succession"/>
-        <rdfs:comment>&lt;p&gt;A &lt;code&gt;SuccessionItemFlow&lt;/code&gt; is an &lt;code&gt;ItemFlow&lt;/code&gt; that also provides temporal ordering. It classifies &lt;code&gt;&lt;em&gt;Transfers&lt;/em&gt;&lt;/code&gt; that cannot start until the source &lt;code&gt;&lt;em&gt;Occurrence&lt;/em&gt;&lt;/code&gt; has completed and that must complete before the target &lt;code&gt;&lt;em&gt;Occurrence&lt;/em&gt;&lt;/code&gt; can start.&lt;/p&gt;
-	specializesFromLibrary(&apos;Transfers::flowTransfersBefore&apos;)</rdfs:comment>
-        <rdfs:label>SuccessionItemFlow</rdfs:label>
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#SuccessionFlowUsage">
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#FlowUsage"/>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#SuccessionFlow"/>
+        <rdfs:comment>&lt;p&gt;A &lt;code&gt;SuccessionFlowUsage&lt;/code&gt; is a &lt;code&gt;FlowUsage&lt;/code&gt; that is also a KerML &lt;code&gt;SuccessionFlow&lt;/code&gt;.&lt;/p&gt;
+	specializesFromLibrary(&apos;Flows::successionFlows&apos;)</rdfs:comment>
+        <rdfs:label>SuccessionFlowUsage</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://www.omg.org/spec/SysML#TerminateActionUsage -->
+
+
+    <owl:Class rdf:about="https://www.omg.org/spec/SysML#TerminateActionUsage">
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#ActionUsage"/>
+        <rdfs:comment>&lt;p&gt;A &lt;code&gt;TerminateActionUsage&lt;/code&gt; is an &lt;code&gt;ActionUsage&lt;/code&gt; that directly or indirectly specializes the &lt;code&gt;ActionDefinition&lt;/code&gt; &lt;em&gt;&lt;code&gt;TerminateAction&lt;/code&gt;&lt;/em&gt; from the Systems Model Library, which causes a given &lt;em&gt;&lt;code&gt;terminatedOccurrence&lt;/code&gt;&lt;/em&gt; to end during its performance. By default, the &lt;code&gt;terminatedOccurrence&lt;/code&gt; is the featuring instance (&lt;em&gt;&lt;code&gt;that&lt;/code&gt;&lt;/em&gt;) of the performance of the &lt;code&gt;TerminateActionUsage&lt;/code&gt;, generally the performance of its immediately containing &lt;code&gt;ActionDefinition&lt;/code&gt; or &lt;code&gt;ActionUsage&lt;/code&gt;.&lt;/p&gt;
+	specializesFromLibrary(&apos;Actions::terminateActions&apos;)
+	terminatedOccurrenceArgument = argument(1)
+	isSubactionUsage() implies
+	specializesFromLibrary(&apos;Actions::Action::terminateSubactions&apos;)</rdfs:comment>
+        <rdfs:label>TerminateActionUsage</rdfs:label>
     </owl:Class>
     
 
@@ -9970,32 +10235,29 @@
 	isComposite and owningType &lt;&gt; null and
 	(owningType.oclIsKindOf(ActionDefinition) or
 	owningType.oclIsKindOf(ActionUsage)) and
-	not (owningType.oclIsKindOf(StateDefinition) or
-	owningType.oclIsKindOf(StateUsage)) implies
+	source &lt;&gt; null and not source.oclIsKindOf(StateUsage) implies
 	specializesFromLibrary(&apos;Actions::Action::decisionTransitions&apos;)
 	isComposite and owningType &lt;&gt; null and
 	(owningType.oclIsKindOf(StateDefinition) or
-	owningType.oclIsKindOf(StateUsage)) implies
-	specializesFromLibrary(&apos;States::State::stateTransitions&apos;)
+	owningType.oclIsKindOf(StateUsage)) and
+	source &lt;&gt; null and source.oclIsKindOf(StateUsage) implies
+	specializesFromLibrary(&apos;States::StateAction::stateTransitions&apos;)
+	
 	specializesFromLibrary(&apos;Actions::transitionActions&apos;)
 	source =
-	if ownedMembership-&gt;isEmpty() then null
-	else
-	let member : Element =
-	ownedMembership-&gt;at(1).memberElement in
-	if not member.oclIsKindOf(ActionUsage) then null
-	else member.oclAsKindOf(ActionUsage)
-	endif
-	endif
+	let sourceFeature : Feature = sourceFeature() in
+	if sourceFeature = null then null
+	else sourceFeature.featureTarget.oclAsType(ActionUsage)
 	target =
 	if succession.targetFeature-&gt;isEmpty() then null
 	else
 	let targetFeature : Feature =
-	succession.targetFeature-&gt;at(1) in
+	succession.targetFeature-&gt;first().featureTarget in
 	if not targetFeature.oclIsKindOf(ActionUsage) then null
 	else targetFeature.oclAsType(ActionUsage)
 	endif
 	endif
+	
 	triggerAction = ownedFeatureMembership-&gt;
 	selectByKind(TransitionFeatureMembership)-&gt;
 	select(kind = TransitionFeatureKind::trigger).transitionFeature-&gt;
@@ -10003,7 +10265,7 @@
 	let successions : Sequence(Successions) =
 	ownedMember-&gt;selectByKind(Succession) in
 	successions-&gt;notEmpty() and
-	successions-&gt;at(1).targetFeature-&gt;
+	successions-&gt;at(1).targetFeature.featureTarget-&gt;
 	forAll(oclIsKindOf(ActionUsage))
 	guardExpression = ownedFeatureMembership-&gt;
 	selectByKind(TransitionFeatureMembership)-&gt;
@@ -10034,7 +10296,9 @@
 	inputParameters()-&gt;size() &gt;= 2
 	endif
 	
-	succession = ownedMember-&gt;selectByKind(Succession)-&gt;at(1)</rdfs:comment>
+	succession = ownedMember-&gt;selectByKind(Succession)-&gt;at(1)
+	source &lt;&gt; null and not source.oclIsKindOf(StateUsage) implies
+	triggerAction-&gt;isEmpty()</rdfs:comment>
         <rdfs:label>TransitionUsage</rdfs:label>
     </owl:Class>
     
@@ -10052,15 +10316,6 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:comment>&lt;p&gt;A &lt;code&gt;TriggerInvocationExpression&lt;/code&gt; is an &lt;code&gt;InvocationExpression&lt;/code&gt; that invokes one of the trigger &lt;code&gt;Functions&lt;/code&gt; from the Kernel Semantic Library &lt;code&gt;&lt;em&gt;Triggers&lt;em&gt;&lt;/code&gt; package, as indicated by its &lt;code&gt;kind&lt;/code&gt;.&lt;/p&gt;
-	specializesFromLibrary(
-	if kind = TriggerKind::when then
-	&apos;Triggers::TriggerWhen&apos;
-	else if kind = TriggerKind::at then
-	&apos;Triggers::TriggerAt&apos;
-	else
-	&apos;Triggers::TriggerAfter&apos;
-	endif endif
-	)
 	kind = TriggerKind::after implies
 	argument-&gt;notEmpty() and
 	argument-&gt;at(1).result.specializesFromLibrary(&apos;Quantities::ScalarQuantityValue&apos;) and
@@ -10134,12 +10389,14 @@
 	let direction: FeatureDirectionKind = directionOf(f) in
 	direction = FeatureDirectionKind::_&apos;in&apos; or
 	direction = FeatureDirectionKind::inout)
-	inheritedMembership = inheritedMemberships(Set{}, false)
+	inheritedMembership = inheritedMemberships(Set{}, Set{}, false)
 	specializesFromLibrary(&apos;Base::Anything&apos;)
 	directedFeature = feature-&gt;select(f | directionOf(f) &lt;&gt; null)
 	feature = featureMembership.ownedMemberFeature
-	featureMembership = ownedFeatureMembership-&gt;union(
-	inheritedMembership-&gt;selectByKind(FeatureMembership))
+	featureMembership = ownedFeatureMembership-&gt;
+	union(inheritedMembership-&gt;
+	selectByKind(FeatureMembership)-&gt;
+	select(mem | self.specializes(mem.owningType)))
 	ownedFeature = ownedFeatureMembership.ownedMemberFeature
 	differencingType = ownedDifferencing.differencingType
 	intersectingType-&gt;excludes(self)
@@ -10172,7 +10429,7 @@
 
 
     <owl:Class rdf:about="https://www.omg.org/spec/SysML#TypeFeaturing">
-        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Featuring"/>
+        <rdfs:subClassOf rdf:resource="https://www.omg.org/spec/SysML#Relationship"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="https://www.omg.org/spec/SysML#TypeFeaturing_featureOfType"/>
@@ -10231,7 +10488,13 @@
                 <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <rdfs:comment>&lt;p&gt;A &lt;code&gt;Usage&lt;/code&gt; is a usage of a &lt;code&gt;Definition&lt;/code&gt;. A &lt;code&gt;Usage&lt;/code&gt; may only be an &lt;code&gt;ownedFeature&lt;/code&gt; of a &lt;code&gt;Definition&lt;/code&gt; or another &lt;code&gt;Usage&lt;/code&gt;.&lt;/p&gt;
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://www.omg.org/spec/SysML#Usage_mayTimeVary"/>
+                <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment>&lt;p&gt;A &lt;code&gt;Usage&lt;/code&gt; is a usage of a &lt;code&gt;Definition&lt;/code&gt;.&lt;/p&gt;
 	
 	&lt;p&gt;A &lt;code&gt;Usage&lt;/code&gt; may have &lt;code&gt;nestedUsages&lt;/code&gt; that model &lt;code&gt;features&lt;/code&gt; that apply in the context of the &lt;code&gt;owningUsage&lt;/code&gt;. A &lt;code&gt;Usage&lt;/code&gt; may also have &lt;code&gt;Definitions&lt;/code&gt; nested in it, but this has no semantic significance, other than the nested scoping resulting from the &lt;code&gt;Usage&lt;/code&gt; being considered as a &lt;code&gt;Namespace&lt;/code&gt; for any nested &lt;code&gt;Definitions&lt;/code&gt;.&lt;/p&gt;
 	
@@ -10261,10 +10524,10 @@
 	nestedConnection = nestedUsage-&gt;selectByKind(ConnectorAsUsage)
 	nestedConstraint = nestedUsage-&gt;selectByKind(ConstraintUsage)
 	ownedNested = nestedUsage-&gt;selectByKind(EnumerationUsage)
-	nestedFlow = nestedUsage-&gt;selectByKind(FlowConnectionUsage)
+	nestedFlow = nestedUsage-&gt;selectByKind(FlowUsage)
 	nestedInterface = nestedUsage-&gt;selectByKind(ReferenceUsage)
 	nestedItem = nestedUsage-&gt;selectByKind(ItemUsage)
-	nestedMetadata = nestedUsage-&gt;selectByKind(MetadataUsage)
+	nestedMetadata = ownedMember-&gt;selectByKind(MetadataUsage)
 	nestedOccurrence = nestedUsage-&gt;selectByKind(OccurrenceUsage)
 	nestedPart = nestedUsage-&gt;selectByKind(PartUsage)
 	nestedPort = nestedUsage-&gt;selectByKind(PortUsage)
@@ -10281,7 +10544,18 @@
 	usage = feature-&gt;selectByKind(Usage)
 	direction &lt;&gt; null or isEnd or featuringType-&gt;isEmpty() implies
 	isReference
-	isVariation implies isAbstract</rdfs:comment>
+	isVariation implies isAbstract
+	mayTimeVary =
+	owningType &lt;&gt; null and
+	owningType.specializesFromLibrary(&apos;Occurrences::Occurrence&apos;) and
+	not (
+	isPortion or
+	specializesFromLibrary(&apos;Links::SelfLink&apos;) or
+	specializesFromLibrary(&apos;Occurrences::HappensLink&apos;) or
+	isComposite and specializesFromLibrary(&apos;Actions::Action&apos;)
+	)
+	owningVariationUsage &lt;&gt; null implies
+	featuringType-&gt;asSet() = owningVariationUsage.featuringType-&gt;asSet()</rdfs:comment>
         <rdfs:label>Usage</rdfs:label>
     </owl:Class>
     
@@ -10432,12 +10706,13 @@
         </rdfs:subClassOf>
         <rdfs:comment>&lt;p&gt;A &lt;code&gt;ViewRenderingMembership&lt;/code&gt; is a &lt;coed&gt;FeatureMembership&lt;/code&gt; that identifies the &lt;code&gt;viewRendering&lt;/code&gt; of a &lt;code&gt;ViewDefinition&lt;/code&gt; or &lt;code&gt;ViewUsage&lt;/code&gt;.&lt;/p&gt;
 	referencedRendering =
-	let reference: ReferenceSubsetting =
-	ownedRendering.ownedReferenceSubsetting in
-	if reference = null then ownedRendering
-	else if not reference.referencedFeature.oclIsKindOf(RenderingUsage) then null
-	else reference.referencedFeature.oclAsType(RenderingUsage)
-	endif
+	let referencedFeature : Feature =
+	ownedRendering.referencedFeatureTarget() in
+	if referencedFeature = null then ownedRendering
+	else if referencedFeature.oclIsKindOf(RenderingUsage) then
+	refrencedFeature.oclAsType(RenderingUsage)
+	else null
+	endif endif
 	owningType.oclIsKindOf(ViewDefinition) or
 	owningType.oclIsKindOf(ViewUsage)</rdfs:comment>
         <rdfs:label>ViewRenderingMembership</rdfs:label>
@@ -10489,7 +10764,7 @@
 	viewpointStakeholder = framedConcern.featureMemberhsip-&gt;
 	selectByKind(StakeholderMembership).
 	ownedStakeholderParameter
-	specializesFromLibrary(&apos;Views::Viewpoint&apos;)</rdfs:comment>
+	specializesFromLibrary(&apos;Views::ViewpointCheck&apos;)</rdfs:comment>
         <rdfs:label>ViewpointDefinition</rdfs:label>
     </owl:Class>
     
@@ -10506,7 +10781,7 @@
 	viewpointStakeholder = framedConcern.featureMemberhsip-&gt;
 	selectByKind(StakeholderMembership).
 	ownedStakeholderParameter
-	specializesFromLibrary(&apos;Views::viewpoints&apos;)
+	specializesFromLibrary(&apos;Views::viewpointChecks&apos;)
 	isComposite and owningType &lt;&gt; null and
 	(owningType.oclIsKindOf(ViewDefinition) or
 	owningType.oclIsKindOf(ViewUsage)) implies
